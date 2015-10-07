@@ -1,6 +1,7 @@
 package com.example.mantvydas.volumr;
 
 import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -40,8 +41,12 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onOneFingerDown() {
-                ObjectAnimator.ofFloat(volumeController, "scaleX", scaleStart, scaleFinish).start();
-                ObjectAnimator.ofFloat(volumeController, "scaleY", scaleStart, scaleFinish).start();
+                objectAnimator.ofFloat(volumeController, "scaleX", scaleStart, scaleFinish).start();
+                objectAnimator.ofFloat(volumeController, "scaleY", scaleStart, scaleFinish).start();
+//
+//                ObjectAnimator objectAnimator1 = new ObjectAnimator();
+//                objectAnimator.ofFloat(volumeController, "rotate", 0, 360).start();
+//                objectAnimator1.start();
             }
         });
 
