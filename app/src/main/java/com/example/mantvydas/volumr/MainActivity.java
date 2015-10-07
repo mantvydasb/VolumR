@@ -1,5 +1,6 @@
 package com.example.mantvydas.volumr;
 
+import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.app.Activity;
@@ -28,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        final ObjectAnimator objectAnimator = new ObjectAnimator();
         volumeController = (ImageButton) findViewById(R.id.volume_controller);
 
         dragHandler = new DragHandler(volumeController, this, new DragHandler.OnDragListener() {
@@ -40,8 +42,8 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onOneFingerUp() {
-                ObjectAnimator.ofFloat(volumeController, "scaleY", scaleFinish, scaleGone).start();
-                ObjectAnimator.ofFloat(volumeController, "scaleX", scaleFinish, scaleGone).start();
+                objectAnimator.ofFloat(volumeController, "scaleY", scaleFinish, scaleGone).start();
+                objectAnimator.ofFloat(volumeController, "scaleX", scaleFinish, scaleGone).start();
             }
 
             @Override

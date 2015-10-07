@@ -31,7 +31,6 @@ public class DragHandler implements View.OnTouchListener {
                 y1View = viewToTranslate.getY();
                 y1 = event.getRawY();
                 viewToTranslate.setX(event.getRawX() - viewToTranslate.getWidth()/2);
-//                viewToTranslate.setY(event.getRawY() - viewToTranslate.getHeight()/2);
                 onDragListener.onOneFingerDown();
                 break;
             }
