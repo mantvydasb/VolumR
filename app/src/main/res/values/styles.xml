@@ -1,5 +1,6 @@
 <resources>
 
+    <color name="background">#343442</color>
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
