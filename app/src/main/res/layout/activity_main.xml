@@ -12,6 +12,7 @@
         android:id="@+id/volume_controller"
         android:src="@drawable/volume_controller"
         android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
         android:layout_alignParentRight="true" />
 
 </RelativeLayout>

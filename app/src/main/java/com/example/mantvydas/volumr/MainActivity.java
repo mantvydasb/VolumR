@@ -16,18 +16,18 @@ import com.example.mantvydas.volumr.EventHandlers.DragHandler;
 public class MainActivity extends AppCompatActivity {
     ImageButton volumeController;
     DragHandler dragHandler;
+    ObjectAnimator objectAnimator = new ObjectAnimator();
+    float scaleStart = 0.3f, scaleFinish = 1, scaleGone = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final ObjectAnimator objectAnimator = new ObjectAnimator();
         volumeController = (ImageButton) findViewById(R.id.volume_controller);
+//        collapseVolumeController();
 
         dragHandler = new DragHandler(volumeController, this, new DragHandler.OnDragListener() {
-            float scaleStart = 0.3f, scaleFinish = 1, scaleGone = 0;
-
             @Override
             public void onYChanged(float y) {
                 Log.e("vykst", Float.toString(y));
@@ -35,8 +35,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onOneFingerUp() {
-                objectAnimator.ofFloat(volumeController, "scaleY", scaleFinish, scaleGone).start();
-                objectAnimator.ofFloat(volumeController, "scaleX", scaleFinish, scaleGone).start();
+                collapseVolumeController();
             }
 
             @Override
@@ -47,6 +46,11 @@ public class MainActivity extends AppCompatActivity {
         });
 
         findViewById(R.id.mainActivity).setOnTouchListener(dragHandler);
+    }
+
+    private void collapseVolumeController() {
+        objectAnimator.ofFloat(volumeController, "scaleY", scaleFinish, scaleGone).start();
+        objectAnimator.ofFloat(volumeController, "scaleX", scaleFinish, scaleGone).start();
     }
 
     @Override

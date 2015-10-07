@@ -28,9 +28,13 @@ public class DragHandler implements View.OnTouchListener {
     public boolean onTouch(View view, MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN: {
-                y1View = viewToTranslate.getY();
+                //move vol controller to where the finger is touching the screen;
                 y1 = event.getRawY();
-                viewToTranslate.setX(event.getRawX() - viewToTranslate.getWidth()/2);
+                x1 = event.getRawX();
+                viewToTranslate.setX(x1 - viewToTranslate.getWidth()/2);
+                viewToTranslate.setY(y1 - viewToTranslate.getHeight()/2);
+                y1View = viewToTranslate.getY();
+
                 onDragListener.onOneFingerDown();
                 break;
             }
