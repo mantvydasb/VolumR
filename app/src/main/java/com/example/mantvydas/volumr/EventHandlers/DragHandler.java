@@ -48,7 +48,7 @@ public class DragHandler implements View.OnTouchListener {
                 }
 
                 //move view to the new position;
-                if (y2View >= 0) {
+                if (y2View >= 0 && y2View <= screenSize.y - viewToTranslate.getHeight()) {
                     viewToTranslate.setY(y2View);
                     onDragListener.onYChanged(y2View);
                 }
