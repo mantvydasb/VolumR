@@ -2,6 +2,7 @@ package com.example.mantvydas.volumr;
 
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -29,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
         volumeController = (ImageButton) findViewById(R.id.volume_controller);
 
-        dragHandler = new DragHandler(volumeController, new DragHandler.OnDragListener() {
+        dragHandler = new DragHandler(volumeController, this, new DragHandler.OnDragListener() {
             float scaleStart = 0.3f, scaleFinish = 1, scaleGone = 0;
 
             @Override

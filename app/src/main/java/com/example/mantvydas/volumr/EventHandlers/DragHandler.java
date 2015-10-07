@@ -1,5 +1,9 @@
 package com.example.mantvydas.volumr.EventHandlers;
 
+import android.app.Activity;
+import android.content.Context;
+import android.graphics.Point;
+import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -10,10 +14,14 @@ public class DragHandler implements View.OnTouchListener {
     private OnDragListener onDragListener;
     private float y1View, y2View, y1, y2, dy, x1, x2, dx, yCurrent, xCurrent;
     private View viewToTranslate;
+    private Point screenSize = new Point();
+    private Activity activity;
 
-    public DragHandler(View viewToTranslate, OnDragListener onDragListener) {
+    public DragHandler(View viewToTranslate, Activity activity, OnDragListener onDragListener) {
         this.onDragListener = onDragListener;
         this.viewToTranslate = viewToTranslate;
+        this.activity = activity;
+        getScreenInformation();
     }
 
     @Override
@@ -52,6 +60,11 @@ public class DragHandler implements View.OnTouchListener {
         }
 
         return true;
+    }
+
+    private void getScreenInformation() {
+        Display display = activity.getWindowManager().getDefaultDisplay();
+        display.getSize(screenSize);
     }
 
     public interface OnDragListener {
