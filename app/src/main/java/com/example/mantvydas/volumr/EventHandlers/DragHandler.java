@@ -12,7 +12,7 @@ import android.view.View;
  */
 public class DragHandler implements View.OnTouchListener {
     private OnDragListener onDragListener;
-    private float y1View, y2View, y1, y2, dy, x1, x2, dx, yCurrent, xCurrent;
+    private float y1View, y2View, y1, dy, x1, dx, yCurrent, xCurrent;
     private View viewToTranslate;
     private Point screenSize = new Point();
     private Activity activity;
@@ -28,17 +28,19 @@ public class DragHandler implements View.OnTouchListener {
     public boolean onTouch(View view, MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN: {
+
                 //move vol controller to where the finger is touching the screen;
                 y1 = event.getRawY();
                 x1 = event.getRawX();
                 viewToTranslate.setX(x1 - viewToTranslate.getWidth()/2);
                 viewToTranslate.setY(y1 - viewToTranslate.getHeight()/2);
                 y1View = viewToTranslate.getY();
-
                 onDragListener.onOneFingerDown();
+
                 break;
             }
             case MotionEvent.ACTION_MOVE: {
+
                 //calc difference between the coordinates where the view was tapped and where the touch coordinates are when dragging
                 yCurrent = event.getRawY();
                 dy = Math.abs(yCurrent - y1);
@@ -55,6 +57,7 @@ public class DragHandler implements View.OnTouchListener {
                     viewToTranslate.setY(y2View);
                     onDragListener.onYChanged(y2View);
                 }
+
                 break;
             }
             case MotionEvent.ACTION_UP: {

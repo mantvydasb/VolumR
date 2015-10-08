@@ -1,8 +1,8 @@
 package com.example.mantvydas.volumr;
 
 import android.animation.ObjectAnimator;
-import android.animation.ValueAnimator;
 import android.content.Context;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.AttributeSet;
@@ -11,27 +11,32 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.example.mantvydas.volumr.EventHandlers.DragHandler;
 
 public class MainActivity extends AppCompatActivity {
-    ImageButton volumeController;
-    DragHandler dragHandler;
-    ObjectAnimator objectAnimator = new ObjectAnimator();
+    private ImageButton volumeController;
+    private DragHandler dragHandler;
+    private ObjectAnimator objectAnimator = new ObjectAnimator();
     float scaleStart = 0.3f, scaleFinish = 1, scaleGone = 0;
+    private TextView volumeLevel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/tungsten_light.otf");
         volumeController = (ImageButton) findViewById(R.id.volume_controller);
-//        collapseVolumeController();
+        volumeLevel = (TextView) findViewById(R.id.volumeLevel);
+        volumeLevel.setTypeface(typeface);
+        collapseVolumeController();
 
         dragHandler = new DragHandler(volumeController, this, new DragHandler.OnDragListener() {
             @Override
             public void onYChanged(float y) {
-                Log.e("vykst", Float.toString(y));
+                volumeLevel.setText(Integer.toString(Math.round(y)));
             }
 
             @Override

@@ -8,13 +8,22 @@
     android:layout_height="match_parent" android:fitsSystemWindows="true"
     tools:context=".MainActivity">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:id="@+id/volumeLevel"
+        android:textSize="100sp"
+        android:layout_marginStart="20dp"
+        android:layout_height="wrap_content"
+        android:textColor="#93d5cc" />
+
     <ImageButton
         android:layout_width="wrap_content"
         android:id="@+id/volume_controller"
         android:src="@drawable/volume_controller"
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
-        android:layout_alignParentRight="true" />
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>
 
