@@ -20,7 +20,6 @@ public class MainActivity extends AppCompatActivity {
     private ObjectAnimator objectAnimator = new ObjectAnimator();
     float scaleStart = 0.3f, scaleFinish = 1, scaleGone = 0;
     private TextView volumeLevel;
-    Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/tungsten_light.otf");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,18 +28,21 @@ public class MainActivity extends AppCompatActivity {
 
         volumeController = (ImageButton) findViewById(R.id.volume_controller);
         collapseVolumeController();
+        setVolumeLevelFont();
+        setVolumeDragHandler();
+    }
 
+    private void setVolumeLevelFont() {
+        Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/tungsten_light.otf");
         volumeLevel = (TextView) findViewById(R.id.volumeLevel);
         volumeLevel.setTypeface(typeface);
-
-        setVolumeDragHandler();
     }
 
     private void setVolumeDragHandler() {
         dragHandler = new DragHandler(volumeController, this, new DragHandler.OnDragListener() {
             @Override
             public void onYChanged(float y) {
-                setVolumeLevel(y);
+                setVolume(y);
             }
 
             @Override
@@ -58,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.mainActivity).setOnTouchListener(dragHandler);
     }
 
-    private void setVolumeLevel(float y) {
+    private void setVolume(float y) {
         float grade = 100 - (y / (dragHandler.getScreenInformation().y - volumeController.getHeight())) * 100;
         volumeLevel.setText(Integer.toString(Math.round(grade)));
     }
