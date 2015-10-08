@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
     private DragHandler dragHandler;
     private ObjectAnimator objectAnimator = new ObjectAnimator();
     float scaleStart = 0.3f, scaleFinish = 1, scaleGone = 0;
-    private TextView volumeLevel;
+    private TextView volumeLevel, volumeLevel2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,15 +27,17 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         volumeController = (ImageButton) findViewById(R.id.volume_controller);
-        collapseVolumeController();
         setVolumeLevelFont();
         setVolumeDragHandler();
+        collapseVolumeController();
     }
 
     private void setVolumeLevelFont() {
         Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/tungsten_light.otf");
         volumeLevel = (TextView) findViewById(R.id.volumeLevel);
+        volumeLevel2 = (TextView) findViewById(R.id.volumeLevel2);
         volumeLevel.setTypeface(typeface);
+        volumeLevel2.setTypeface(typeface);
     }
 
     private void setVolumeDragHandler() {
@@ -43,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onYChanged(float y) {
                 setVolume(y);
+                volumeLevel.setY(y + volumeLevel.getHeight()/2);
             }
 
             @Override
@@ -54,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
             public void onOneFingerDown() {
                 objectAnimator.ofFloat(volumeController, "scaleX", scaleStart, scaleFinish).start();
                 objectAnimator.ofFloat(volumeController, "scaleY", scaleStart, scaleFinish).start();
+//                volumeLevel.setVisibility(View.VISIBLE);
             }
         });
 
@@ -63,11 +67,13 @@ public class MainActivity extends AppCompatActivity {
     private void setVolume(float y) {
         float grade = 100 - (y / (dragHandler.getScreenInformation().y - volumeController.getHeight())) * 100;
         volumeLevel.setText(Integer.toString(Math.round(grade)));
+        volumeLevel2.setText(Integer.toString(Math.round(grade)));
     }
 
     private void collapseVolumeController() {
         objectAnimator.ofFloat(volumeController, "scaleY", scaleFinish, scaleGone).start();
         objectAnimator.ofFloat(volumeController, "scaleX", scaleFinish, scaleGone).start();
+//        volumeLevel.setVisibility(View.GONE);
     }
 
     @Override
