@@ -23,6 +23,7 @@
         android:textSize="300sp"
         android:layout_marginStart="40dp"
         android:layout_alignParentBottom="true"
+        android:text="100"
         android:alpha=".05"
         android:layout_height="wrap_content"
         android:textColor="#93d5cc" />
@@ -32,6 +33,7 @@
         android:layout_width="wrap_content"
         android:id="@+id/volume_controller"
         android:src="@drawable/volume_controller"
+        android:visibility="invisible"
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
         android:layout_alignParentTop="true"

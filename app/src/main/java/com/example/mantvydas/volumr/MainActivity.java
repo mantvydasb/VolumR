@@ -1,6 +1,7 @@
 package com.example.mantvydas.volumr;
 
 import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.animation.LinearInterpolator;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -18,8 +20,10 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton volumeController;
     private DragHandler dragHandler;
     private ObjectAnimator objectAnimator = new ObjectAnimator();
+    ObjectAnimator rotate = new ObjectAnimator();
     float scaleStart = 0.3f, scaleFinish = 1, scaleGone = 0;
     private TextView volumeLevel, volumeLevel2;
+    private ObjectAnimator animPulsateY, animPulsateX;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
         setVolumeLevelFont();
         setVolumeDragHandler();
         collapseVolumeController();
+        startRotatingVolumeController();
     }
 
     private void setVolumeLevelFont() {
@@ -45,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onYChanged(float y) {
                 setVolume(y);
-                volumeLevel.setY(y + volumeLevel.getHeight()/2);
+                volumeController.setRotation((y/dragHandler.getScreenInformation().y * 360) * -1);
             }
 
             @Override
@@ -55,13 +60,40 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onOneFingerDown() {
-                objectAnimator.ofFloat(volumeController, "scaleX", scaleStart, scaleFinish).start();
-                objectAnimator.ofFloat(volumeController, "scaleY", scaleStart, scaleFinish).start();
-//                volumeLevel.setVisibility(View.VISIBLE);
+                startPulsatingVolumeController();
             }
         });
 
         findViewById(R.id.mainActivity).setOnTouchListener(dragHandler);
+    }
+
+    private void startPulsatingVolumeController() {
+        volumeController.setVisibility(View.VISIBLE);
+        objectAnimator.ofFloat(volumeController, "scaleX", scaleStart, scaleFinish).start();
+        objectAnimator.ofFloat(volumeController, "scaleY", scaleStart, scaleFinish).start();
+
+        float scaleUp = 1.03f;
+        animPulsateX = ObjectAnimator.ofFloat(volumeController, "scaleX", scaleFinish, scaleUp);
+        animPulsateX.setRepeatCount(ValueAnimator.INFINITE);
+        int duration = 900;
+        animPulsateX.setDuration(duration);
+        animPulsateX.setRepeatMode(ValueAnimator.REVERSE);
+        animPulsateX.start();
+
+        animPulsateY = ObjectAnimator.ofFloat(volumeController, "scaleY", scaleFinish, scaleUp);
+        animPulsateY.setRepeatCount(ValueAnimator.INFINITE);
+        animPulsateY.setRepeatMode(ValueAnimator.REVERSE);
+        animPulsateY.setDuration(duration);
+        animPulsateY.start();
+    }
+
+    private void startRotatingVolumeController() {
+        ObjectAnimator anim = ObjectAnimator.ofFloat(volumeController, "rotation", 0, 360);
+        anim.setDuration(15000);
+        anim.setInterpolator(new LinearInterpolator());
+        anim.setRepeatMode(ValueAnimator.RESTART);
+        anim.setRepeatCount(ValueAnimator.INFINITE);
+        anim.start();
     }
 
     private void setVolume(float y) {
@@ -71,9 +103,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void collapseVolumeController() {
-        objectAnimator.ofFloat(volumeController, "scaleY", scaleFinish, scaleGone).start();
-        objectAnimator.ofFloat(volumeController, "scaleX", scaleFinish, scaleGone).start();
-//        volumeLevel.setVisibility(View.GONE);
+        try {
+            objectAnimator.ofFloat(volumeController, "scaleY", scaleFinish, scaleGone).start();
+            objectAnimator.ofFloat(volumeController, "scaleX", scaleFinish, scaleGone).start();
+            stopPulsatingVolumeController();
+//            volumeController.setVisibility(View.GONE);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void stopPulsatingVolumeController() {
+        animPulsateX.cancel();
+        animPulsateY.cancel();
     }
 
     @Override
