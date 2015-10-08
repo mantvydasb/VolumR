@@ -2,6 +2,7 @@ package com.example.mantvydas.volumr;
 
 import android.animation.ObjectAnimator;
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -36,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         dragHandler = new DragHandler(volumeController, this, new DragHandler.OnDragListener() {
             @Override
             public void onYChanged(float y) {
-                volumeLevel.setText(Integer.toString(Math.round(y)));
+                setVolumeLevel(y);
             }
 
             @Override
@@ -56,6 +57,11 @@ public class MainActivity extends AppCompatActivity {
         });
 
         findViewById(R.id.mainActivity).setOnTouchListener(dragHandler);
+    }
+
+    private void setVolumeLevel(float y) {
+        float grade = 100 - (y / (dragHandler.getScreenInformation().y - volumeController.getHeight())) * 100;
+        volumeLevel.setText(Integer.toString(Math.round(grade)));
     }
 
     private void collapseVolumeController() {

@@ -32,8 +32,8 @@ public class DragHandler implements View.OnTouchListener {
                 //move vol controller to where the finger is touching the screen;
                 y1 = event.getRawY();
                 x1 = event.getRawX();
-                viewToTranslate.setX(x1 - viewToTranslate.getWidth()/2);
-                viewToTranslate.setY(y1 - viewToTranslate.getHeight()/2);
+                viewToTranslate.setX(x1 - viewToTranslate.getWidth() / 2);
+                viewToTranslate.setY(y1 - viewToTranslate.getHeight() / 2);
                 y1View = viewToTranslate.getY();
                 onDragListener.onOneFingerDown();
 
@@ -68,9 +68,10 @@ public class DragHandler implements View.OnTouchListener {
         return true;
     }
 
-    private void getScreenInformation() {
+    public Point getScreenInformation() {
         Display display = activity.getWindowManager().getDefaultDisplay();
         display.getSize(screenSize);
+        return screenSize;
     }
 
     public interface OnDragListener {
