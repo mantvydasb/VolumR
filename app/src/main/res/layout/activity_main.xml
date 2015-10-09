@@ -34,10 +34,11 @@
         android:id="@+id/volume_controller"
         android:src="@drawable/volume_controller"
         android:visibility="visible"
-        android:layout_height="wrap_content"
+        android:layout_height="170dp"
         android:background="@android:color/transparent"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:scaleType="fitCenter" />
 
     <ImageView
         android:layout_width="fill_parent"
