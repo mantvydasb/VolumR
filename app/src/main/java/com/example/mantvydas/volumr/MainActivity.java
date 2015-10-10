@@ -116,14 +116,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setVolume(float y) {
-        float volume = 100 - (y / (dragHandler.getScreenInformation().y - volumeController.getHeight())) * 100;
-        volumeLevel.setText(Integer.toString(Math.round(volume)));
+        float volumeFloat = 100 - (y / (dragHandler.getScreenInformation().y - volumeController.getHeight())) * 100;
+        String volumeRounded = Integer.toString(Math.round(volumeFloat));
+        volumeLevel.setText(volumeRounded);
 
         try {
-            byte[] message = new String(String.valueOf(volume)).getBytes();
-            if (socket.isConnected()) {
-                socket.getOutputStream().write(message);
-            }
+            byte[] message = volumeRounded.getBytes();
+             socket.getOutputStream().write(message);
         } catch (IOException e) {
             e.printStackTrace();
         }
