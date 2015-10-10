@@ -26,8 +26,11 @@ class Server:
         print("Server started and listening")
         print('Got connection from', clientAddress)
 
+        self.listenForMessages(clientSocket)
+
+    def listenForMessages(self, clientSocket):
         while True:
-            message = self.receiveMessage(clientSocket)
+            message = self.readMessage(clientSocket)
 
             if message == STOP_SERVER:
                 print("Message: " + STOP_SERVER)
@@ -38,7 +41,7 @@ class Server:
                 self.changeVolume(message)
                 clientSocket.send(bytes(VOLUME_CHANGED, "utf8"))
 
-    def receiveMessage(self, clientSocket):
+    def readMessage(self, clientSocket):
         return str(clientSocket.recv(1024), "utf8")
 
     def changeVolume(self, message):
