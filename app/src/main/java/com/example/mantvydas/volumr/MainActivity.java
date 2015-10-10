@@ -121,7 +121,9 @@ public class MainActivity extends AppCompatActivity {
 
         try {
             byte[] message = new String(String.valueOf(volume)).getBytes();
-            socket.getOutputStream().write(message);
+            if (socket.isConnected()) {
+                socket.getOutputStream().write(message);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
