@@ -1,7 +1,9 @@
 import socket
+import subprocess
 
 PORT = 8506
 IP = "192.168.2.6"
+FULL_VOLUME = 65535
 
 
 class Server:
@@ -28,8 +30,14 @@ class Server:
             self.clientSocket.send(bytes('Thank you for connecting', "utf8"))
 
             # receive client messages
-            print(str(self.clientSocket.recv(4096), "utf8"))
-            self.ServerSocket.close()
+            message = str(self.clientSocket.recv(4096), "utf8")
+            print(message)
+
+            newVolume = (int(message)/100 * FULL_VOLUME)
+            if newVolume/FULL_VOLUME < 1:
+                print("new volume: " + str(newVolume))
+                subprocess.check_output("nircmd.exe setvolume 0 " + str(newVolume) + " " + str(newVolume))
+                self.ServerSocket.close()
 
     def getServerInfo(self):
         self.host = socket.gethostname()
