@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView volumeLevel;
     private ObjectAnimator animPulsateY, animPulsateX, rotationAnimation, scaleYAnimation, scaleXAnimation;
     private Socket socket;
+    private static final String STOP_SERVER = "STOP_SERVER";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,9 +121,13 @@ public class MainActivity extends AppCompatActivity {
         String volumeRounded = Integer.toString(Math.round(volumeFloat));
         volumeLevel.setText(volumeRounded);
 
+        sendMessageToPc(volumeRounded);
+    }
+
+    private void sendMessageToPc(String msg) {
         try {
-            byte[] message = volumeRounded.getBytes();
-             socket.getOutputStream().write(message);
+            byte[] message = msg.getBytes();
+            socket.getOutputStream().write(message);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -185,5 +190,34 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        disconnectFromPc();
+    }
+
+    private void disconnectFromPc() {
+        sendMessageToPc(STOP_SERVER);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        reconnectToPc();
+    }
+
+    private void reconnectToPc() {
+        if (socket != null) {
+            try {
+                if (socket.isConnected()) {
+                    socket.close();
+                    connectToPc();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

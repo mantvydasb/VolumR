@@ -1,10 +1,12 @@
 import socket
 import subprocess
+import sys
 
 PORT = 8506
 IP = "192.168.2.6"
 FULL_VOLUME = 65535
-
+VOLUME_CHANGED = 'VOLUME_CHANGED'
+STOP_SERVER = 'STOP_SERVER'
 
 class Server:
     host = None
@@ -17,27 +19,37 @@ class Server:
         self.startServer()
 
     def startServer(self):
-        print("Starting server..")
         self.ServerSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM, 0)
         self.ServerSocket.bind((IP, PORT))
-        self.ServerSocket.listen()
-        print("Server started")
-        self.clientSocket, clientAddress = self.ServerSocket.accept()
+        self.ServerSocket.listen(9999)
+        clientSocket, clientAddress = self.ServerSocket.accept()
+        print("Server started and listening")
+        print('Got connection from', clientAddress)
 
         while True:
-            # welcome guest
-            print('Got connection from', clientAddress)
-            self.clientSocket.send(bytes('Thank you for connecting', "utf8"))
+            message = self.receiveMessage(clientSocket)
 
-            # receive client messages
-            message = str(self.clientSocket.recv(4096), "utf8")
-            print(message)
+            if message == STOP_SERVER:
+                print("Message: " + STOP_SERVER)
+                self.restartServer(clientSocket)
+                break
+            else:
+                print("Message: volume - " + message)
+                self.changeVolume(message)
+                clientSocket.send(bytes(VOLUME_CHANGED, "utf8"))
 
-            newVolume = (int(message)/100 * FULL_VOLUME)
-            if newVolume/FULL_VOLUME < 1:
-                print("new volume: " + str(newVolume))
-                subprocess.check_output("nircmd.exe setvolume 0 " + str(newVolume) + " " + str(newVolume))
-                self.ServerSocket.close()
+    def receiveMessage(self, clientSocket):
+        return str(clientSocket.recv(1024), "utf8")
+
+    def changeVolume(self, message):
+        newVolume = (int(message) / 100 * FULL_VOLUME)
+        if newVolume / FULL_VOLUME < 1:
+            subprocess.call("nircmd.exe setvolume 0 " + str(newVolume) + " " + str(newVolume))
+
+    def restartServer(self, clientSocket):
+        print("Stopping server")
+        clientSocket.close()
+        self.startServer()
 
     def getServerInfo(self):
         self.host = socket.gethostname()
