@@ -23,9 +23,9 @@ class Server:
         self.ServerSocket.bind((IP, PORT))
         self.ServerSocket.listen(9999)
         clientSocket, clientAddress = self.ServerSocket.accept()
+
         print("Server started and listening")
         print('Got connection from', clientAddress)
-
         self.listenForMessages(clientSocket)
 
     def listenForMessages(self, clientSocket):
@@ -61,4 +61,6 @@ class Server:
         print("IP:   " + IP)
         print("HOST: " + self.host)
         print("PORT: " + str(PORT))
+
+    # def getNetworkInterfaces
 
