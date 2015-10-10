@@ -120,7 +120,6 @@ public class MainActivity extends AppCompatActivity {
         float volumeFloat = 100 - (y / (dragHandler.getScreenInformation().y - volumeController.getHeight())) * 100;
         String volumeRounded = Integer.toString(Math.round(volumeFloat));
         volumeLevel.setText(volumeRounded);
-
         sendMessageToPc(volumeRounded);
     }
 
