@@ -8,6 +8,7 @@ FULL_VOLUME = 65535
 VOLUME_CHANGED = 'VOLUME_CHANGED'
 STOP_SERVER = 'STOP_SERVER'
 
+
 class Server:
     host = None
     ip = None
@@ -16,6 +17,7 @@ class Server:
 
     def __init__(self):
         self.getServerInfo()
+        # self.getNetworkInterfaces()
         self.startServer()
 
     def startServer(self):
@@ -62,5 +64,6 @@ class Server:
         print("HOST: " + self.host)
         print("PORT: " + str(PORT))
 
-    # def getNetworkInterfaces
+    def getNetworkInterfaces(self):
+        print("pienas")
 
