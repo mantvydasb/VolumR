@@ -2,9 +2,12 @@ import socket
 import volumr
 __author__ = 'mantvydas'
 
-print("Connecting to client...")
 
-socket = socket.socket()
-socket.connect((socket.gethostname(), volumr.PORT))
-print(socket.recv(1024))
+def main():
+    print("Connecting to client...")
+    connection = socket.socket()
+    connection.connect((socket.gethostname(), volumr.PORT))
+    print(connection.recv(1024))
+
+main()
 
