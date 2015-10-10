@@ -1,4 +1,4 @@
 import volumr
 
-mantas = volumr.Server()
+volumrServer = volumr.Server()
 
