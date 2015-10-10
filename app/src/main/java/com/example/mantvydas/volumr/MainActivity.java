@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         volumeController = (ImageButton) findViewById(R.id.volume_controller);
         setVolumeLevelFont();
         setVolumeDragHandler();
-        startRotatingVolumeController();
+//        startRotatingVolumeController();
     }
 
     private void setVolumeLevelFont() {
