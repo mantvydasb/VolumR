@@ -17,13 +17,17 @@ import android.widget.TextView;
 
 import com.example.mantvydas.volumr.EventHandlers.DragHandler;
 
+import java.io.IOException;
+import java.net.Socket;
+
 public class MainActivity extends AppCompatActivity {
     private ImageButton volumeController;
     private DragHandler dragHandler;
     private ObjectAnimator objectAnimator = new ObjectAnimator();
     float scaleStart = 0.3f, scaleFinish = 1, scaleGone = 0;
-    private TextView volumeLevel, volumeLevel2;
+    private TextView volumeLevel;
     private ObjectAnimator animPulsateY, animPulsateX, rotationAnimation, scaleYAnimation, scaleXAnimation;
+    private Socket socket;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,15 +37,26 @@ public class MainActivity extends AppCompatActivity {
         volumeController = (ImageButton) findViewById(R.id.volume_controller);
         setVolumeLevelFont();
         setVolumeDragHandler();
-//        startRotatingVolumeController();
+        connectToPc();
+    }
+
+    private void connectToPc() {
+        new Thread() {
+            @Override
+            public void run() {
+                try {
+                    socket = new Socket("192.168.2.6", 8506);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
     }
 
     private void setVolumeLevelFont() {
         Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/tungsten_light.otf");
         volumeLevel = (TextView) findViewById(R.id.volumeLevel);
-        volumeLevel2 = (TextView) findViewById(R.id.volumeLevel2);
         volumeLevel.setTypeface(typeface);
-        volumeLevel2.setTypeface(typeface);
     }
 
     private void setVolumeDragHandler() {
@@ -101,9 +116,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setVolume(float y) {
-        float grade = 100 - (y / (dragHandler.getScreenInformation().y - volumeController.getHeight())) * 100;
-        volumeLevel.setText(Integer.toString(Math.round(grade)));
-        volumeLevel2.setText(Integer.toString(Math.round(grade)));
+        float volume = 100 - (y / (dragHandler.getScreenInformation().y - volumeController.getHeight())) * 100;
+        volumeLevel.setText(Integer.toString(Math.round(volume)));
+
+        try {
+            byte[] message = new String(String.valueOf(volume)).getBytes();
+            socket.getOutputStream().write(message);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void collapseVolumeController() {

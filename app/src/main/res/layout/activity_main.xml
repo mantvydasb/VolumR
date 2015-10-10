@@ -19,7 +19,7 @@
 
     <TextView
         android:layout_width="wrap_content"
-        android:id="@+id/volumeLevel2"
+        android:id="@+id/volumeLevel"
         android:textSize="300sp"
         android:layout_marginStart="20dp"
         android:layout_alignParentBottom="true"
