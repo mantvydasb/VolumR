@@ -5,21 +5,27 @@ import subprocess
 
 START_FROM = 0
 IPv4_INDEXES = []
+SEARCH_STRING = "IPv4 Address. . . . . . . . . . . : "
 
 
 def getLocalIp():
     output = getIpconfigOutput()
     print(output)
-    findipv4Index(output, START_FROM)
+    findipv4Indexes(output, START_FROM)
 
 
-def findipv4Index(output, startFrom):
-    index = output.find("IPv4 Address. . . . . . . . . . . : ".encode("utf8"), startFrom)
+    # split output with IPs
+    ip = output.split(SEARCH_STRING.encode("utf8"), 2)
+    print(ip)
+
+
+def findipv4Indexes(output, startFrom):
+    index = output.find(SEARCH_STRING.encode("utf8"), startFrom)
 
     if index > 0:
         print(index)
         IPv4_INDEXES.append(index)
-        findipv4Index(output, index + 1)
+        findipv4Indexes(output, index + 1)
 
 
 def getIpconfigOutput():
