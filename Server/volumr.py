@@ -12,7 +12,7 @@ STOP_SERVER = 'STOP_SERVER'
 class Server:
     host = None
     ip = None
-    ServerSocket = None
+    serverSocket = None
     clientSocket = None
 
     def __init__(self, ipAddress):
@@ -21,12 +21,12 @@ class Server:
         self.startServer(ipAddress)
 
     def startServer(self, ipAddress):
-        self.ServerSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM, 0)
-        self.ServerSocket.bind((ipAddress, PORT))
-        self.ServerSocket.listen(9999)
+        self.serverSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM, 0)
+        self.serverSocket.bind((ipAddress, PORT))
+        self.serverSocket.listen(9999)
 
-        print("Server started on: " + ipAddress + ":" + str(PORT) + " and listening")
-        clientSocket, clientAddress = self.ServerSocket.accept()
+        print("Server started on " + ipAddress + ":" + str(PORT) + " and listening")
+        clientSocket, clientAddress = self.serverSocket.accept()
 
         print('Got connection from', clientAddress)
         self.listenForMessages(clientSocket)

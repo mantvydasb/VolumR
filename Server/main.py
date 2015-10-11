@@ -38,17 +38,17 @@ def getUserIPInput():
 
     try:
         index = int(input())
+
+        if 0 <= index < IPAddresses.__len__():
+            print("You chose: " + str(index))
+            return index
+        else:
+            print("Dude! From 0 to " + lastIPIndex)
+            return getUserIPInput()
+
     except ValueError:
         print("Dude, numbers please!")
-        getUserIPInput()
-    # index = int(input())
-
-    if 0 <= index < IPAddresses.__len__():
-        print("You chose: " + str(index))
-        return index
-    else:
-        print("Dude! From 0 to " + lastIPIndex)
-        getUserIPInput()
+        return getUserIPInput()
 
 
 IPAddresses = getIPAddresses()
