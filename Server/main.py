@@ -1,39 +1,59 @@
-from os import popen
-import os
 import volumr
 import subprocess
 
-START_FROM = 0
-IPv4_INDEXES = []
 SEARCH_STRING = "IPv4 Address. . . . . . . . . . . : "
 
 
-def getLocalIp():
-    output = getIpconfigOutput()
-    print(output)
-    findipv4Indexes(output, START_FROM)
+def getIPAddresses():
+    output = getIPConfigOutput()
+    return extractIPAdresses(output)
 
 
-    # split output with IPs
-    ip = output.split(SEARCH_STRING.encode("utf8"), 2)
-    print(ip)
+def extractIPAdresses(output):
+    IPAddressesRaw = output.split(SEARCH_STRING.encode("utf8"), 2)
+    ip4Addresses = []
+
+    for item in IPAddressesRaw[1:IPAddressesRaw.__sizeof__()]:
+        IPAddressesRaw = item.split("(".encode("utf8"), 1)[0]
+        ip4Addresses.append(str(IPAddressesRaw, "utf8"))
+    return ip4Addresses
 
 
-def findipv4Indexes(output, startFrom):
-    index = output.find(SEARCH_STRING.encode("utf8"), startFrom)
-
-    if index > 0:
-        print(index)
-        IPv4_INDEXES.append(index)
-        findipv4Indexes(output, index + 1)
+def getIPConfigOutput():
+    return subprocess.check_output("ipconfig /all")
 
 
-def getIpconfigOutput():
-    return subprocess.check_output("ipconfig /all", shell=True)
+def presentIPAddresses():
+    print("We're almost there, hommie! \nBelow are the IP addresses associated with your computer:")
+    i = 0
+    for address in ipAddresses:
+        print("[" + str(i) + "] " + address)
+        i += 1
 
 
-getLocalIp()
+def getUserIPInput():
+    lastIPIndex = str(ipAddresses.__len__() - 1)
+    print("Enter a number from 0 to " + lastIPIndex +
+          " to indicate the IP of a computer you want to control the volume on:")
 
-# volumrServer = volumr.Server()
+    try:
+        index = int(input())
+    except ValueError:
+        print("Dude, numbers please!")
+        getUserIPInput()
+    # index = int(input())
+
+    if 0 <= index < ipAddresses.__len__():
+        print("You chose: " + str(index))
+        return index
+    else:
+        print("Dude! From 0 to " + lastIPIndex)
+        getUserIPInput()
+
+
+ipAddresses = getIPAddresses()
+presentIPAddresses()
+IPIndex = getUserIPInput()
+volumrServer = volumr.Server(ipAddresses[IPIndex])
 
 

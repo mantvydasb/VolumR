@@ -15,18 +15,19 @@ class Server:
     ServerSocket = None
     clientSocket = None
 
-    def __init__(self):
-        self.getServerInfo()
+    def __init__(self, ipAddress):
+        # self.getServerInfo()
         # self.getNetworkInterfaces()
-        self.startServer()
+        self.startServer(ipAddress)
 
-    def startServer(self):
+    def startServer(self, ipAddress):
         self.ServerSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM, 0)
-        self.ServerSocket.bind((IP, PORT))
+        self.ServerSocket.bind((ipAddress, PORT))
         self.ServerSocket.listen(9999)
+
+        print("Server started on: " + ipAddress + ":" + str(PORT) + " and listening")
         clientSocket, clientAddress = self.ServerSocket.accept()
 
-        print("Server started and listening")
         print('Got connection from', clientAddress)
         self.listenForMessages(clientSocket)
 
