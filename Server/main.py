@@ -19,7 +19,7 @@ def findipv4Index(output, startFrom):
     if index > 0:
         print(index)
         IPv4_INDEXES.append(index)
-        findipv4Index(output, index + 10)
+        findipv4Index(output, index + 1)
 
 
 def getIpconfigOutput():
