@@ -10,7 +10,7 @@ def getIPAddresses():
 
 
 def extractIPAdresses(output):
-    IPAddressesRaw = output.split(SEARCH_STRING.encode("utf8"), 2)
+    IPAddressesRaw = output.split(SEARCH_STRING.encode("utf8"), 10)
     ip4Addresses = []
 
     for item in IPAddressesRaw[1:IPAddressesRaw.__sizeof__()]:
