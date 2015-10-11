@@ -11,12 +11,12 @@ def getIPAddresses():
 
 def extractIPAdresses(output):
     IPAddressesRaw = output.split(SEARCH_STRING.encode("utf8"), 10)
-    ip4Addresses = []
+    IPAddresses = []
 
     for item in IPAddressesRaw[1:IPAddressesRaw.__sizeof__()]:
         IPAddressesRaw = item.split("(".encode("utf8"), 1)[0]
-        ip4Addresses.append(str(IPAddressesRaw, "utf8"))
-    return ip4Addresses
+        IPAddresses.append(str(IPAddressesRaw, "utf8"))
+    return IPAddresses
 
 
 def getIPConfigOutput():
@@ -26,13 +26,13 @@ def getIPConfigOutput():
 def presentIPAddresses():
     print("We're almost there, hommie! \nBelow are the IP addresses associated with your computer:")
     i = 0
-    for address in ipAddresses:
+    for address in IPAddresses:
         print("[" + str(i) + "] " + address)
         i += 1
 
 
 def getUserIPInput():
-    lastIPIndex = str(ipAddresses.__len__() - 1)
+    lastIPIndex = str(IPAddresses.__len__() - 1)
     print("Enter a number from 0 to " + lastIPIndex +
           " to indicate the IP of a computer you want to control the volume on:")
 
@@ -43,7 +43,7 @@ def getUserIPInput():
         getUserIPInput()
     # index = int(input())
 
-    if 0 <= index < ipAddresses.__len__():
+    if 0 <= index < IPAddresses.__len__():
         print("You chose: " + str(index))
         return index
     else:
@@ -51,9 +51,9 @@ def getUserIPInput():
         getUserIPInput()
 
 
-ipAddresses = getIPAddresses()
+IPAddresses = getIPAddresses()
 presentIPAddresses()
 IPIndex = getUserIPInput()
-volumrServer = volumr.Server(ipAddresses[IPIndex])
+volumrServer = volumr.Server(IPAddresses[IPIndex])
 
 
