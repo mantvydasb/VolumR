@@ -14,7 +14,7 @@ def getLocalIp():
 
 
 def findipv4Index(output, startFrom):
-    index = output.find("IPv4 Address".encode("utf8"), startFrom)
+    index = output.find("IPv4 Address. . . . . . . . . . . : ".encode("utf8"), startFrom)
 
     if index > 0:
         print(index)
