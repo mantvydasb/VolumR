@@ -1,6 +1,5 @@
 import socket
 import subprocess
-import sys
 
 PORT = 8506
 IP = "192.168.2.6"
@@ -16,8 +15,6 @@ class Server:
     clientSocket = None
 
     def __init__(self, ipAddress):
-        # self.getServerInfo()
-        # self.getNetworkInterfaces()
         self.startServer(ipAddress)
 
     def startServer(self, ipAddress):
@@ -56,15 +53,3 @@ class Server:
         print("Stopping server")
         clientSocket.close()
         self.startServer()
-
-    def getServerInfo(self):
-        self.host = socket.gethostname()
-        self.ip = socket.gethostbyname(self.host)
-        print("*** SERVER INFO ***")
-        print("IP:   " + IP)
-        print("HOST: " + self.host)
-        print("PORT: " + str(PORT))
-
-    def getNetworkInterfaces(self):
-        print("pienas")
-
