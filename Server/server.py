@@ -2,8 +2,7 @@ import socket
 import subprocess
 
 PORT = 8506
-IP = "192.168.2.6"
-FULL_VOLUME = 65535
+MAX_VOLUME = 65535
 VOLUME_CHANGED = 'VOLUME_CHANGED'
 STOP_SERVER = 'STOP_SERVER'
 
@@ -45,8 +44,8 @@ class Server:
         return str(clientSocket.recv(1024), "utf8")
 
     def changeVolume(self, message):
-        newVolume = (int(message) / 100 * FULL_VOLUME)
-        if newVolume / FULL_VOLUME < 1:
+        newVolume = (int(message) / 100 * MAX_VOLUME)
+        if newVolume / MAX_VOLUME < 1:
             subprocess.call("nircmd.exe setvolume 0 " + str(newVolume) + " " + str(newVolume))
 
     def restartServer(self, clientSocket):
