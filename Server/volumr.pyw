@@ -1,8 +1,10 @@
+import os
 import server
 import subprocess
 
 SEARCH_STRING = "IPv4 Address. . . . . . . . . . . : "
-settingsFile = open("settings.ini", mode='r+')
+HOME_DIR = os.path.dirname(os.path.realpath(__file__))
+SETTINGS_FILE = open(HOME_DIR + "\settings.ini", mode='r+')
 
 
 def getIPAddresses():
@@ -53,13 +55,13 @@ def getUserIPInput():
 
 
 def getSavedIP():
-    savedIP = settingsFile.readline()
+    savedIP = SETTINGS_FILE.readline()
     return savedIP if not None else False
 
 
 def saveServerIPtoFile():
-    settingsFile.write(serverIP)
-    settingsFile.close()
+    SETTINGS_FILE.write(serverIP)
+    SETTINGS_FILE.close()
 
 
 serverIP = getSavedIP().strip("\n")
@@ -72,5 +74,4 @@ if serverIP == '':
     saveServerIPtoFile()
 
 volumrServer = server.Server(serverIP)
-
 
