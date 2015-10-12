@@ -1,55 +1,71 @@
-import socket
+import server
 import subprocess
 
-PORT = 8506
-IP = "192.168.2.6"
-FULL_VOLUME = 65535
-VOLUME_CHANGED = 'VOLUME_CHANGED'
-STOP_SERVER = 'STOP_SERVER'
+SEARCH_STRING = "IPv4 Address. . . . . . . . . . . : "
 
 
-class Server:
-    host = None
-    ip = None
-    serverSocket = None
-    clientSocket = None
+def getIPAddresses():
+    output = getIPConfigOutput()
+    return extractIPAdresses(output)
 
-    def __init__(self, ipAddress):
-        self.startServer(ipAddress)
 
-    def startServer(self, ipAddress):
-        self.serverSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM, 0)
-        self.serverSocket.bind((ipAddress, PORT))
-        self.serverSocket.listen(9999)
+def extractIPAdresses(output):
+    IPAddressesRaw = output.split(SEARCH_STRING.encode("utf8"), 10)
+    IPAddresses = []
 
-        print("Server started on " + ipAddress + ":" + str(PORT) + " and listening")
-        clientSocket, clientAddress = self.serverSocket.accept()
+    for item in IPAddressesRaw[1:IPAddressesRaw.__sizeof__()]:
+        IPAddressesRaw = item.split("(".encode("utf8"), 1)[0]
+        IPAddresses.append(str(IPAddressesRaw, "utf8"))
+    return IPAddresses
 
-        print('Got connection from', clientAddress)
-        self.listenForMessages(clientSocket)
 
-    def listenForMessages(self, clientSocket):
-        while True:
-            message = self.readMessage(clientSocket)
+def getIPConfigOutput():
+    return subprocess.check_output("ipconfig /all")
 
-            if message == STOP_SERVER:
-                print("Message: " + STOP_SERVER)
-                self.restartServer(clientSocket)
-                break
-            else:
-                print("Message: volume - " + message)
-                self.changeVolume(message)
-                clientSocket.send(bytes(VOLUME_CHANGED, "utf8"))
 
-    def readMessage(self, clientSocket):
-        return str(clientSocket.recv(1024), "utf8")
+def presentIPAddresses():
+    print("We're almost there, hommie! \nBelow are the IP addresses associated with your computer:")
+    i = 0
+    for address in IPAddresses:
+        print("[" + str(i) + "] " + address)
+        i += 1
 
-    def changeVolume(self, message):
-        newVolume = (int(message) / 100 * FULL_VOLUME)
-        if newVolume / FULL_VOLUME < 1:
-            subprocess.call("nircmd.exe setvolume 0 " + str(newVolume) + " " + str(newVolume))
 
-    def restartServer(self, clientSocket):
-        print("Stopping server")
-        clientSocket.close()
-        self.startServer()
+def getUserIPInput():
+    lastIPIndex = str(IPAddresses.__len__() - 1)
+    print("Enter a number from 0 to " + lastIPIndex +
+          " to indicate the IP of a computer you want to control the volume on:")
+
+    try:
+        index = int(input())
+
+        if 0 <= index < IPAddresses.__len__():
+            print("You chose: " + str(index))
+            return index
+        else:
+            print("Dude! From 0 to " + lastIPIndex)
+            return getUserIPInput()
+
+    except ValueError:
+        print("Dude, numbers please!")
+        return getUserIPInput()
+
+
+def getSavedIP():
+    savedIP = settingsFile.readline()
+    return savedIP if not None else False
+
+settingsFile = open("settings.ini", mode='r+')
+savedIP = getSavedIP().strip("\n")
+
+if not savedIP:
+    IPAddresses = getIPAddresses()
+    presentIPAddresses()
+    IPIndex = getUserIPInput()
+    savedIP = IPAddresses[IPIndex]
+    settingsFile.write(savedIP)
+    settingsFile.close()
+
+volumrServer = server.Server(savedIP)
+
+
