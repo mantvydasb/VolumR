@@ -2,6 +2,7 @@ import server
 import subprocess
 
 SEARCH_STRING = "IPv4 Address. . . . . . . . . . . : "
+settingsFile = open("settings.ini", mode='r+')
 
 
 def getIPAddresses():
@@ -55,17 +56,21 @@ def getSavedIP():
     savedIP = settingsFile.readline()
     return savedIP if not None else False
 
-settingsFile = open("settings.ini", mode='r+')
-savedIP = getSavedIP().strip("\n")
 
-if not savedIP:
-    IPAddresses = getIPAddresses()
-    presentIPAddresses()
-    IPIndex = getUserIPInput()
-    savedIP = IPAddresses[IPIndex]
-    settingsFile.write(savedIP)
+def saveServerIPtoFile():
+    settingsFile.write(serverIP)
     settingsFile.close()
 
-volumrServer = server.Server(savedIP)
+
+serverIP = getSavedIP().strip("\n")
+
+if serverIP == '':
+    IPAddresses = getIPAddresses()
+    presentIPAddresses()
+
+    serverIP = IPAddresses[getUserIPInput()]
+    saveServerIPtoFile()
+
+volumrServer = server.Server(serverIP)
 
 
