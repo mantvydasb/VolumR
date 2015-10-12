@@ -78,6 +78,5 @@ if SERVER_IP == '':
     saveServerIPtoFile()
 
 
-
 volumrServer = server.Server(SERVER_IP)
 
