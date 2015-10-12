@@ -14,14 +14,15 @@ class Server:
     clientSocket = None
 
     def __init__(self, ipAddress):
-        self.startServer(ipAddress)
+        self.ip = str(ipAddress)
+        self.startServer()
 
-    def startServer(self, ipAddress):
+    def startServer(self):
         self.serverSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM, 0)
-        self.serverSocket.bind((ipAddress, PORT))
+        self.serverSocket.bind((self.ip, PORT))
         self.serverSocket.listen(9999)
 
-        print("Server started on " + ipAddress + ":" + str(PORT) + " and listening")
+        print("Server started on " + self.ip + ":" + str(PORT) + " and listening")
         clientSocket, clientAddress = self.serverSocket.accept()
 
         print('Got connection from', clientAddress)
