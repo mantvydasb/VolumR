@@ -55,12 +55,12 @@ def getUserIPInput():
         return getUserIPInput()
 
 
-def getSavedIP():
+def readServerIPfromFile():
     savedIP = SETTINGS_FILE.readline()
     return savedIP if not None else False
 
 
-def saveServerIPtoFile():
+def writeServerIPtoFile():
     SETTINGS_FILE.write(SERVER_IP)
     SETTINGS_FILE.close()
 
@@ -68,14 +68,14 @@ def saveServerIPtoFile():
 def setAutoRunInRegistry():
     print("pienas")
 
-SERVER_IP = getSavedIP().strip("\n")
+SERVER_IP = readServerIPfromFile().strip("\n")
 
 if SERVER_IP == '':
     IPAddresses = getIPAddresses()
     presentIPAddresses()
 
     SERVER_IP = IPAddresses[getUserIPInput()]
-    saveServerIPtoFile()
+    writeServerIPtoFile()
 
 
 volumrServer = server.Server(SERVER_IP)
