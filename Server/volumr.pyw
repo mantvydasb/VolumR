@@ -5,6 +5,7 @@ import subprocess
 SEARCH_STRING = "IPv4 Address. . . . . . . . . . . : "
 HOME_DIR = os.path.dirname(os.path.realpath(__file__))
 SETTINGS_FILE = open(HOME_DIR + "\settings.ini", mode='r+')
+SERVER_IP = ''
 
 
 def getIPAddresses():
@@ -60,18 +61,23 @@ def getSavedIP():
 
 
 def saveServerIPtoFile():
-    SETTINGS_FILE.write(serverIP)
+    SETTINGS_FILE.write(SERVER_IP)
     SETTINGS_FILE.close()
 
 
-serverIP = getSavedIP().strip("\n")
+def setAutoRunInRegistry():
+    print("pienas")
 
-if serverIP == '':
+SERVER_IP = getSavedIP().strip("\n")
+
+if SERVER_IP == '':
     IPAddresses = getIPAddresses()
     presentIPAddresses()
 
-    serverIP = IPAddresses[getUserIPInput()]
+    SERVER_IP = IPAddresses[getUserIPInput()]
     saveServerIPtoFile()
 
-volumrServer = server.Server(serverIP)
+
+
+volumrServer = server.Server(SERVER_IP)
 
