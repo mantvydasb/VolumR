@@ -1,6 +1,7 @@
 import socket
 import subprocess
 
+__author__ = 'mantvydas'
 PORT = 8506
 MAX_VOLUME = 65535
 VOLUME_CHANGED = 'VOLUME_CHANGED'
