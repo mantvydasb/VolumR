@@ -1,5 +1,4 @@
 import winreg
-import os
 import ip_retriever
 
 __author__ = 'mantvydas'
