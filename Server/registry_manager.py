@@ -25,5 +25,6 @@ def isInAutorun():
         pass
 
 
+
 def writeToAutorun():
     winreg.SetValueEx(KEY_AUTORUN, APP_NAME, 0, winreg.REG_SZ, '"' + PATH_FILE + '"')
