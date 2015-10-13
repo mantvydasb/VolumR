@@ -1,11 +1,12 @@
 import winreg
 import os
+import ip_retriever
 
 __author__ = 'mantvydas'
 PATH_AUTORUN = "SOFTWARE\Microsoft\Windows\CurrentVersion\Run"
 KEY_AUTORUN = winreg.CreateKey(winreg.HKEY_CURRENT_USER, PATH_AUTORUN)
 APP_NAME = "volumr"
-HOME_DIR = os.path.dirname(os.path.realpath(__file__))
+HOME_DIR = ip_retriever.HOME_DIR
 PATH_FILE = HOME_DIR + "\\" + APP_NAME + ".py"
 
 
@@ -23,7 +24,6 @@ def isInAutorun():
     except OSError:
         return False
         pass
-
 
 
 def writeToAutorun():
