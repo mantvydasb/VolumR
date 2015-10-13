@@ -15,6 +15,9 @@ class Server:
     clientSocket = None
 
     def __init__(self, ipAddress):
+        """
+        Opens a socket for the specified IP address that listens for volume change messages from the client;
+        """
         self.ip = str(ipAddress)
         self.startServer()
 

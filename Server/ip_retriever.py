@@ -8,6 +8,12 @@ SETTINGS_FILE = open(HOME_DIR + "\settings.ini", mode='r+')
 
 
 def getIPAddress():
+    """
+    Tries retrieving user IP from the file if the user has already chosen the IP previously, else presents user
+    with a list of IPs associated with this PC and asks him to select the one he's planning on running the server on;
+    :returns string IPAddress the server will be running on;
+    """
+
     serverIp = readServerIPfromFile()
     if serverIp == '':
 
