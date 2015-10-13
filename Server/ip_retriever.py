@@ -67,8 +67,8 @@ def getIPIndex(IPAddresses):
 
 
 def readServerIPfromFile():
-    savedIP = SETTINGS_FILE.readline()
-    return savedIP.strip("\n") if not None else False
+    savedIP = SETTINGS_FILE.readline().strip("\n")
+    return savedIP if not None else False
 
 
 def writeServerIPtoFile(serverIP):
