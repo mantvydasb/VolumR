@@ -19,7 +19,7 @@
 
     <TextView
         android:layout_width="wrap_content"
-        android:id="@+id/volumeLevel"
+        android:id="@+id/volumeLevelLabel"
         android:textSize="300sp"
         android:layout_marginStart="20dp"
         android:layout_alignParentBottom="true"
@@ -37,7 +37,7 @@
 
     <ImageButton
         android:layout_width="wrap_content"
-        android:id="@+id/volume_controller"
+        android:id="@+id/volumeControllerBtn"
         android:src="@drawable/volume_controller"
         android:scaleY="0"
         android:scaleX="0"
@@ -45,6 +45,23 @@
         android:background="@android:color/transparent"
         android:layout_alignParentTop="true"
         android:scaleType="fitCenter" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:id="@+id/connectivityLabel"
+        android:visibility="visible"
+        android:textSize="16sp"
+        android:text="@string/connectivityStatus"
+        android:alpha=".8"
+        android:layout_height="40dp"
+        android:textColor="#93d5cc"
+        android:autoText="false"
+        android:gravity="center_vertical"
+        android:editable="false"
+        android:layout_alignParentLeft="false"
+        android:paddingLeft="14dp" />
+
+        <!--android:background="#145c5c66"-->
 
 </RelativeLayout>
 

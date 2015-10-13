@@ -22,6 +22,7 @@ import java.net.Socket;
 
 public class MainActivity extends AppCompatActivity {
     private ImageButton volumeController;
+    private TextView connectivityLabel;
     private DragHandler dragHandler;
     private ObjectAnimator objectAnimator = new ObjectAnimator();
     float scaleStart = 0.3f, scaleFinish = 1, scaleGone = 0;
@@ -29,14 +30,16 @@ public class MainActivity extends AppCompatActivity {
     private ObjectAnimator animPulsateY, animPulsateX, rotationAnimation, scaleYAnimation, scaleXAnimation;
     private Socket socket;
     private static final String STOP_SERVER = "STOP_SERVER";
+    private String previousMessage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        volumeController = (ImageButton) findViewById(R.id.volume_controller);
-        setVolumeLevelFont();
+        volumeController = (ImageButton) findViewById(R.id.volumeControllerBtn);
+        connectivityLabel = (TextView) findViewById(R.id.connectivityLabel);
+        setFonts();
         setVolumeDragHandler();
         connectToPc();
     }
@@ -54,10 +57,11 @@ public class MainActivity extends AppCompatActivity {
         }.start();
     }
 
-    private void setVolumeLevelFont() {
-        Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/tungsten_light.otf");
-        volumeLevel = (TextView) findViewById(R.id.volumeLevel);
-        volumeLevel.setTypeface(typeface);
+    private void setFonts() {
+        Typeface tungsten = Typeface.createFromAsset(getAssets(), "fonts/tungsten_light.otf");
+        volumeLevel = (TextView) findViewById(R.id.volumeLevelLabel);
+        volumeLevel.setTypeface(tungsten);
+        connectivityLabel.setTypeface(tungsten);
     }
 
     private void setVolumeDragHandler() {
@@ -120,15 +124,34 @@ public class MainActivity extends AppCompatActivity {
         float volumeFloat = 100 - (y / (dragHandler.getScreenInformation().y - volumeController.getHeight())) * 100;
         String volumeRounded = Integer.toString(Math.round(volumeFloat));
         volumeLevel.setText(volumeRounded);
-        sendMessageToPc(volumeRounded);
+
+        if (previousMessage != volumeRounded) {
+            sendMessageToPc(volumeRounded);
+        }
+        previousMessage = volumeRounded;
     }
 
     private void sendMessageToPc(String msg) {
         try {
             byte[] message = msg.getBytes();
-            socket.getOutputStream().write(message);
+            if (socket != null) {
+                socket.getOutputStream().write(message);
+                collapseConnectivityLabel();
+            } else {
+                showConnectivityLabel();
+            }
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void showConnectivityLabel() {
+        connectivityLabel.setVisibility(View.VISIBLE);
+    }
+
+    private void collapseConnectivityLabel() {
+        if (connectivityLabel.getVisibility() == View.VISIBLE) {
+            connectivityLabel.setVisibility(View.GONE);
         }
     }
 
