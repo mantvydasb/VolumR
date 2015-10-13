@@ -8,7 +8,6 @@ APP_NAME = "volumr"
 HOME_DIR = ip_retriever.HOME_DIR
 PATH_FILE = HOME_DIR + "\\" + APP_NAME + ".py"
 
-
 def deleteFromAutorun():
     try:
         winreg.DeleteValue(KEY_AUTORUN, APP_NAME)
@@ -26,4 +25,8 @@ def isInAutorun():
 
 
 def writeToAutorun():
+    """
+    Update windows registry to automatically start the VolumR server on boot;
+    :return:
+    """
     winreg.SetValueEx(KEY_AUTORUN, APP_NAME, 0, winreg.REG_SZ, '"' + PATH_FILE + '"')
