@@ -40,7 +40,7 @@ class Server:
                 print("Message: " + STOP_SERVER)
                 self.restartServer(clientSocket)
                 break
-            else:
+            elif message != '':
                 print("Message: volume - " + message)
                 self.changeVolume(message)
                 clientSocket.send(bytes(VOLUME_CHANGED, "utf8"))

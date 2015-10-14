@@ -1,4 +1,4 @@
-package com.example.mantvydas.volumr.EventHandlers;
+package com.example.mantvydas.volumr;
 
 import android.content.Context;
 import android.net.wifi.WifiManager;
