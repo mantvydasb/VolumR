@@ -44,17 +44,6 @@ public class MainActivity extends AppCompatActivity implements ServerConnection.
         connectivityLabel.setTypeface(tungsten);
     }
 
-
-    @Override
-    public void onNoConnection() {
-        showConnectivityLabel();
-    }
-
-    @Override
-    public void onMessageSend() {
-        collapseConnectivityLabel();
-    }
-
     private void setVolumeDragHandler() {
         dragHandler = new DragHandler(volumeController, this, new DragHandler.OnDragListener() {
             @Override
@@ -79,6 +68,43 @@ public class MainActivity extends AppCompatActivity implements ServerConnection.
     private void expandVolumeController() {
         startPulsatingVolumeController();
         startRotatingVolumeController();
+    }
+
+    private void collapseVolumeController() {
+        try {
+            int duration = 80;
+            scaleYAnimation = ObjectAnimator.ofFloat(volumeController, "scaleY", scaleFinish, scaleGone);
+            scaleXAnimation = ObjectAnimator.ofFloat(volumeController, "scaleX", scaleFinish, scaleGone);
+            scaleYAnimation.setDuration(duration);
+            scaleXAnimation.setDuration(duration);
+            scaleYAnimation.start();
+            scaleXAnimation.start();
+
+            scaleYAnimation.addListener(new Animator.AnimatorListener() {
+                @Override
+                public void onAnimationStart(Animator animation) {
+
+                }
+
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    volumeController.setVisibility(View.GONE);
+                }
+
+                @Override
+                public void onAnimationCancel(Animator animation) {
+
+                }
+
+                @Override
+                public void onAnimationRepeat(Animator animation) {
+
+                }
+            });
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void startPulsatingVolumeController() {
@@ -122,7 +148,6 @@ public class MainActivity extends AppCompatActivity implements ServerConnection.
         previousMessage = volumeRounded;
     }
 
-
     public void showConnectivityLabel() {
         connectivityLabel.setVisibility(View.VISIBLE);
     }
@@ -133,41 +158,14 @@ public class MainActivity extends AppCompatActivity implements ServerConnection.
         }
     }
 
-    private void collapseVolumeController() {
-        try {
-            int duration = 80;
-            scaleYAnimation = ObjectAnimator.ofFloat(volumeController, "scaleY", scaleFinish, scaleGone);
-            scaleXAnimation = ObjectAnimator.ofFloat(volumeController, "scaleX", scaleFinish, scaleGone);
-            scaleYAnimation.setDuration(duration);
-            scaleXAnimation.setDuration(duration);
-            scaleYAnimation.start();
-            scaleXAnimation.start();
+    @Override
+    public void onNoConnection() {
+        showConnectivityLabel();
+    }
 
-            scaleYAnimation.addListener(new Animator.AnimatorListener() {
-                @Override
-                public void onAnimationStart(Animator animation) {
-
-                }
-
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    volumeController.setVisibility(View.GONE);
-                }
-
-                @Override
-                public void onAnimationCancel(Animator animation) {
-
-                }
-
-                @Override
-                public void onAnimationRepeat(Animator animation) {
-
-                }
-            });
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    @Override
+    public void onMessageSend() {
+        collapseConnectivityLabel();
     }
 
     @Override
