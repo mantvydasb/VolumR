@@ -6,7 +6,7 @@ PORT = 8506
 MAX_VOLUME = 65535
 VOLUME_CHANGED = 'VOLUME_CHANGED'
 STOP_SERVER = 'STOP_SERVER'
-
+RESTARTING_SERVER = "Client disconnected, restarting server.."
 
 class Server:
     host = None
@@ -54,6 +54,6 @@ class Server:
             subprocess.call("nircmd.exe setvolume 0 " + str(newVolume) + " " + str(newVolume))
 
     def restartServer(self, clientSocket):
-        print("Client disconnected, restarting server..")
+        print(RESTARTING_SERVER)
         clientSocket.close()
         self.startServer()
