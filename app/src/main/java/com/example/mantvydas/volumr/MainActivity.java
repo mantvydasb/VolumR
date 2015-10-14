@@ -12,7 +12,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import com.example.mantvydas.volumr.EventHandlers.DragHandler;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ServerConnection.OnConnectionListener {
     private ImageButton volumeController;
     private TextView connectivityLabel;
     private DragHandler dragHandler;
@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         volumeController = (ImageButton) findViewById(R.id.volumeControllerBtn);
         connectivityLabel = (TextView) findViewById(R.id.connectivityLabel);
         connectivityLabel.setText("VolumR server should be running on " + IPRetriever.getShorterIP(getBaseContext()) + "X");
-        server = new ServerConnection(this);
+        server = new ServerConnection(this, this);
 
         setFonts();
         setVolumeDragHandler();
@@ -42,6 +42,17 @@ public class MainActivity extends AppCompatActivity {
         volumeLevel = (TextView) findViewById(R.id.volumeLevelLabel);
         volumeLevel.setTypeface(tungsten);
         connectivityLabel.setTypeface(tungsten);
+    }
+
+
+    @Override
+    public void onNoConnection() {
+        showConnectivityLabel();
+    }
+
+    @Override
+    public void onMessageSend() {
+        collapseConnectivityLabel();
     }
 
     private void setVolumeDragHandler() {

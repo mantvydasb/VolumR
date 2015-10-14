@@ -15,11 +15,16 @@ public class ServerConnection {
     private String shortIPAddress;
     private String IPAddress = null;
     private Context context;
-    private MainActivity mainActivity;
+    private OnConnectionListener onConnectionListener;
 
-    public ServerConnection(Context context) {
+    /**
+     * Connects to a a server - user's PC which is on the same network as user's Android device
+     * @param onConnectionListener - listener for connection related events
+     * @param context required retrieving device's IP address
+     */
+    public ServerConnection(OnConnectionListener onConnectionListener, Context context) {
+        this.onConnectionListener = onConnectionListener;
         this.context = context;
-        this.mainActivity = (MainActivity) context;
         connectToPc();
     }
 
@@ -78,9 +83,9 @@ public class ServerConnection {
             byte[] message = msg.getBytes();
             if (socket != null) {
                 socket.getOutputStream().write(message);
-                mainActivity.collapseConnectivityLabel();
+                onConnectionListener.onMessageSend();
             } else {
-                mainActivity.showConnectivityLabel();
+                onConnectionListener.onNoConnection();
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -98,6 +103,11 @@ public class ServerConnection {
                 e.printStackTrace();
             }
         }
+    }
+
+    public interface OnConnectionListener {
+        void onMessageSend();
+        void onNoConnection();
     }
 
 }
