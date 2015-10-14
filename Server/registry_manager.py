@@ -27,6 +27,5 @@ def isInAutorun():
 def writeToAutorun():
     """
     Update windows registry to automatically start the VolumR server on boot;
-    :return:
     """
     winreg.SetValueEx(KEY_AUTORUN, APP_NAME, 0, winreg.REG_SZ, '"' + PATH_FILE + '"')
