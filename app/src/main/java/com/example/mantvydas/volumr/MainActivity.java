@@ -27,14 +27,14 @@ public class MainActivity extends AppCompatActivity {
     private TextView connectivityLabel;
     private DragHandler dragHandler;
     private ObjectAnimator objectAnimator = new ObjectAnimator();
-    float scaleStart = 0.3f, scaleFinish = 1, scaleGone = 0;
+    private final float scaleStart = 0.3f, scaleFinish = 1, scaleGone = 0;
     private TextView volumeLevel;
     private ObjectAnimator animPulsateY, animPulsateX, rotationAnimation, scaleYAnimation, scaleXAnimation;
     private Socket socket;
-    private static final String STOP_SERVER = "STOP_SERVER";
+    private final String STOP_SERVER = "STOP_SERVER";
     private String previousMessage;
-    private static String shortIPAddress;
-    private static String IPAddress = null;
+    private String shortIPAddress;
+    private String IPAddress = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
