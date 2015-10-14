@@ -24,7 +24,7 @@ class Server:
     def startServer(self):
         self.serverSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM, 0)
         self.serverSocket.bind((self.ip, PORT))
-        self.serverSocket.listen(9999)
+        self.serverSocket.listen(5)
 
         print("Server started on " + self.ip + ":" + str(PORT) + " and listening")
         clientSocket, clientAddress = self.serverSocket.accept()
