@@ -8,6 +8,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,6 +17,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.mantvydas.volumr.EventHandlers.DragHandler;
+import com.example.mantvydas.volumr.EventHandlers.IPRetriever;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -31,6 +33,8 @@ public class MainActivity extends AppCompatActivity {
     private Socket socket;
     private static final String STOP_SERVER = "STOP_SERVER";
     private String previousMessage;
+    private static String shortIPAddress;
+    private static String IPAddress = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +43,8 @@ public class MainActivity extends AppCompatActivity {
 
         volumeController = (ImageButton) findViewById(R.id.volumeControllerBtn);
         connectivityLabel = (TextView) findViewById(R.id.connectivityLabel);
+        connectivityLabel.setText("Server should be running on " + IPRetriever.getShorterIP(getBaseContext()) + "X");
+
         setFonts();
         setVolumeDragHandler();
         connectToPc();
@@ -48,13 +54,46 @@ public class MainActivity extends AppCompatActivity {
         new Thread() {
             @Override
             public void run() {
-                try {
-                    socket = new Socket("192.168.2.6", 8506);
-                } catch (IOException e) {
-                    e.printStackTrace();
+                if (IPAddress == null) {
+                    connectToOpenSocket();
+                } else {
+                    connectToSocket(IPAddress);
+                }
+            }
+
+            /**
+             Scan the entire LAN and look for an open VolumR socket on port 8506;
+             Only the last octet will be scanned through from 0 to 255;
+             I.e. if the device's IP is 192.168.2.2, then this method cycles IPs from 192.168.2.0/255 to see if there's any socket open and connect to it if so.
+             */
+            private void connectToOpenSocket() {
+                shortIPAddress = IPRetriever.getShorterIP(getBaseContext());
+
+                for (int i = 0; i <= 255; i++) {
+                    final String fullIPAddress = shortIPAddress + i;
+                    Log.e("Connecting to", fullIPAddress);
+
+                    new Thread() {
+                        @Override
+                        public void run() {
+                            super.run();
+                            connectToSocket(fullIPAddress);
+                        }
+                    }.start();
                 }
             }
         }.start();
+    }
+
+    private void connectToSocket(String fullIPAddress) {
+        try {
+            socket = new Socket(fullIPAddress, 8506);
+            if (socket != null) {
+                IPAddress = fullIPAddress;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void setFonts() {
