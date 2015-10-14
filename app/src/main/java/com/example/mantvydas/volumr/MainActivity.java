@@ -3,14 +3,10 @@ package com.example.mantvydas.volumr;
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
-import android.content.Context;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.AttributeSet;
 import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -164,38 +160,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public View onCreateView(View parent, String name, Context context, AttributeSet attrs) {
-        return super.onCreateView(parent, name, context, attrs);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
     protected void onStop() {
         super.onStop();
-//        disconnectFromPc();
         server.disconnectFromPc();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-//        reconnectToPc();
         server.reconnectToPc();
     }
 }
