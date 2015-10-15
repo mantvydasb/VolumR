@@ -13,10 +13,14 @@ import java.nio.ByteOrder;
  * Created by mantvydas on 10/13/2015.
  */
 public class IPRetriever {
+    private static String shorterIP = null;
 
     public static String getShorterIP(Context context) {
-        String IPAddress = getIPAddress(context);
-        return stripLastIPOctet(IPAddress);
+        if (shorterIP == null) {
+            String IPAddress = getIPAddress(context);
+            shorterIP = stripLastIPOctet(IPAddress);
+        }
+        return shorterIP;
     }
 
     @Nullable
@@ -43,7 +47,8 @@ public class IPRetriever {
 
     private static String stripLastIPOctet(String IPAddress) {
         int lastDotIndex = IPAddress.lastIndexOf(".");
-        return IPAddress.substring(0, lastDotIndex) + ".";
+        shorterIP = IPAddress.substring(0, lastDotIndex) + ".";
+        return shorterIP;
     }
 
 }
