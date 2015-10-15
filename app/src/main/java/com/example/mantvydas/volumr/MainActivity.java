@@ -30,8 +30,7 @@ public class MainActivity extends AppCompatActivity implements ServerConnection.
 
         volumeController = (ImageButton) findViewById(R.id.volumeControllerBtn);
         connectivityLabel = (TextView) findViewById(R.id.connectivityLabel);
-        String shorterIP = IPRetriever.getShorterIP(getBaseContext());
-        connectivityLabel.setText("VolumR server should be running on " + shorterIP + "X");
+        connectivityLabel.setText("VolumR server should be running on " + IPRetriever.getShorterIP(getBaseContext()) + "X");
         server = new ServerConnection(this, this);
 
         setFonts();
