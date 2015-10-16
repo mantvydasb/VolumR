@@ -25,29 +25,35 @@ public class IPRetriever {
 
     @Nullable
     public static String getIPAddress(Context context) {
-        WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
-        int ipAddress = wifiManager.getConnectionInfo().getIpAddress();
-
-        if (ByteOrder.nativeOrder().equals(ByteOrder.LITTLE_ENDIAN)) {
-            ipAddress = Integer.reverseBytes(ipAddress);
-        }
-
-        byte[] ipByteArray = BigInteger.valueOf(ipAddress).toByteArray();
-
-        String IPAddress;
+        String IPAddress = "";
         try {
-            IPAddress = InetAddress.getByAddress(ipByteArray).getHostAddress();
-        } catch (UnknownHostException ex) {
-            IPAddress = null;
-        }
+            WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+            int ipAddress = wifiManager.getConnectionInfo().getIpAddress();
 
+            if (ByteOrder.nativeOrder().equals(ByteOrder.LITTLE_ENDIAN)) {
+                ipAddress = Integer.reverseBytes(ipAddress);
+            }
+
+            byte[] ipByteArray = BigInteger.valueOf(ipAddress).toByteArray();
+
+            try {
+                IPAddress = InetAddress.getByAddress(ipByteArray).getHostAddress();
+            } catch (UnknownHostException ex) {
+                IPAddress = null;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return IPAddress;
     }
 
 
     private static String stripLastIPOctet(String IPAddress) {
-        int lastDotIndex = IPAddress.lastIndexOf(".");
-        shorterIP = IPAddress.substring(0, lastDotIndex) + ".";
+        if (IPAddress != null) {
+            int lastDotIndex = IPAddress.lastIndexOf(".");
+            shorterIP = IPAddress.substring(0, lastDotIndex) + ".";
+        }
         return shorterIP;
     }
 
