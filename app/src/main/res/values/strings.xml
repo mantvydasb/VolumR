@@ -2,4 +2,6 @@
     <string name="app_name">VolumR</string>
     <string name="action_settings">Settings</string>
     <string name="connectivityStatus">NOT CONNECTED...</string>
+    <string name="connectivityNoServer">VolumR server not found on your network...</string>
+    <string name="connectivityShouldBeRunningOn">VolumR server should be running on </string>
 </resources>
