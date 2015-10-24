@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements ServerConnection.
         String text = null;
 
         if (shorterIP != null) {
-            text = getResources().getString(R.string.connectivityShouldBeRunningOn) + shorterIP + "X";
+            text = getResources().getString(R.string.connectivityShouldBeRunningOn) + " " + shorterIP + "X";
         } else {
             text = getResources().getString(R.string.connectivityNoServer);
         }
