@@ -29,7 +29,7 @@ public class ServerConnection {
     }
 
     public boolean isConnected() {
-        return socket.isConnected();
+        return (socket != null) ? socket.isConnected() : false;
     }
 
     public void connectToPc() {

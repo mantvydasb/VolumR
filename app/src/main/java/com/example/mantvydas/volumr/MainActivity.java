@@ -60,11 +60,7 @@ public class MainActivity extends AppCompatActivity implements ServerConnection.
         dragHandler = new DragHandler(volumeController, this, new DragHandler.OnDragListener() {
             @Override
             public void onYChanged(float y) {
-                if (server.isConnected()) {
-                    setVolume(y);
-                } else {
-                    setConnectivityLabel();
-                }
+                setVolume(y);
             }
 
             @Override
@@ -154,14 +150,18 @@ public class MainActivity extends AppCompatActivity implements ServerConnection.
     }
 
     private void setVolume(float y) {
-        float volumeFloat = 100 - (y / (dragHandler.getScreenInformation().y - volumeController.getHeight())) * 100;
-        String volumeRounded = Integer.toString(Math.round(volumeFloat));
-        volumeLevel.setText(volumeRounded);
+        if (server.isConnected()) {
+            float volumeFloat = 100 - (y / (dragHandler.getScreenInformation().y - volumeController.getHeight())) * 100;
+            String volumeRounded = Integer.toString(Math.round(volumeFloat));
+            volumeLevel.setText(volumeRounded);
 
-        if (previousMessage != volumeRounded) {
-            server.sendMessageToPc(volumeRounded);
+            if (previousMessage != volumeRounded) {
+                server.sendMessageToPc(volumeRounded);
+            }
+            previousMessage = volumeRounded;
+        } else {
+            setConnectivityLabel();
         }
-        previousMessage = volumeRounded;
     }
 
     public void showConnectivityLabel() {
