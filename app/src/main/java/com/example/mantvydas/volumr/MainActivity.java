@@ -60,7 +60,11 @@ public class MainActivity extends AppCompatActivity implements ServerConnection.
         dragHandler = new DragHandler(volumeController, this, new DragHandler.OnDragListener() {
             @Override
             public void onYChanged(float y) {
-                setVolume(y);
+                if (server.isConnected()) {
+                    setVolume(y);
+                } else {
+                    setConnectivityLabel();
+                }
             }
 
             @Override
