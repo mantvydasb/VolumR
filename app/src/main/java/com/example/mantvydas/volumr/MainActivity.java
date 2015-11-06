@@ -150,11 +150,11 @@ public class MainActivity extends AppCompatActivity implements ServerConnection.
     }
 
     private void setVolume(float y) {
-        if (server.isConnected()) {
-            float volumeFloat = 100 - (y / (dragHandler.getScreenInformation().y - volumeController.getHeight())) * 100;
-            String volumeRounded = Integer.toString(Math.round(volumeFloat));
-            volumeLevel.setText(volumeRounded);
+        float volumeFloat = 100 - (y / (dragHandler.getScreenInformation().y - volumeController.getHeight())) * 100;
+        String volumeRounded = Integer.toString(Math.round(volumeFloat));
+        volumeLevel.setText(volumeRounded);
 
+        if (server.isConnected()) {
             if (previousMessage != volumeRounded) {
                 server.sendMessageToPc(volumeRounded);
             }
