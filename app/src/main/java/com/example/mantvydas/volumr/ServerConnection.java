@@ -28,6 +28,10 @@ public class ServerConnection {
         connectToPc();
     }
 
+    public boolean isConnected() {
+        return (socket != null) ? socket.isConnected() : false;
+    }
+
     public void connectToPc() {
         new Thread() {
             @Override

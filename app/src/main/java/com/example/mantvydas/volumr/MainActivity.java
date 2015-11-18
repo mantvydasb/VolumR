@@ -154,10 +154,14 @@ public class MainActivity extends AppCompatActivity implements ServerConnection.
         String volumeRounded = Integer.toString(Math.round(volumeFloat));
         volumeLevel.setText(volumeRounded);
 
-        if (previousMessage != volumeRounded) {
-            server.sendMessageToPc(volumeRounded);
+        if (server.isConnected()) {
+            if (previousMessage != volumeRounded) {
+                server.sendMessageToPc(volumeRounded);
+            }
+            previousMessage = volumeRounded;
+        } else {
+            setConnectivityLabel();
         }
-        previousMessage = volumeRounded;
     }
 
     public void showConnectivityLabel() {
