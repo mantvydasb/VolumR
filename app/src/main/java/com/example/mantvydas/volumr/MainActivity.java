@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity implements ServerConnection.
     }
 
     private void setConnectivityLabel() {
-        final String shorterIP = IPRetriever.getShorterIP(getBaseContext());
+        final String shorterIP = WifiIPRetriever.getShorterIP(getBaseContext());
         String text = null;
 
         if (shorterIP != null) {

@@ -12,7 +12,7 @@ import java.nio.ByteOrder;
 /**
  * Created by mantvydas on 10/13/2015.
  */
-public class IPRetriever {
+public class WifiIPRetriever {
     private static String shorterIP = null;
 
     public static String getShorterIP(Context context) {

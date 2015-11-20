@@ -49,7 +49,7 @@ public class ServerConnection {
              I.e. if the device's IP is 192.168.2.2, then this method cycles IPs from 192.168.2.0/255 to see if there's any socket open and connect to it if so.
              */
             private void connectToOpenSocket() {
-                shortIPAddress = IPRetriever.getShorterIP(context);
+                shortIPAddress = WifiIPRetriever.getShorterIP(context);
 
                 for (int i = 0; i <= 255; i++) {
                     final String fullIPAddress = shortIPAddress + i;
