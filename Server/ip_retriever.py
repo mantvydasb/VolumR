@@ -3,7 +3,8 @@ import subprocess
 
 __author__ = 'mantvydas'
 SEARCH_STRING = "IPv4 Address. . . . . . . . . . . : "
-HOME_DIR = os.path.dirname(os.path.realpath(__file__))
+PATH_HOME_DIR = os.path.dirname(os.path.realpath(__file__))
+PATH_SETTINGS_FILE = PATH_HOME_DIR + "\settings.ini"
 
 
 def getIPAddress():
@@ -73,18 +74,14 @@ def getIPIndex(IPAddresses):
 
 def readServerIPfromFile():
     try:
-        settingsFile = openSettingsFile()
+        settingsFile = open(PATH_SETTINGS_FILE, mode='r+')
         savedIP = settingsFile.readline().strip("\n")
         return savedIP if not None else False
     except OSError:
         pass
 
 
-def openSettingsFile():
-    return open(HOME_DIR + "\settings.ini", mode='w+')
-
-
 def writeServerIPtoFile(serverIP):
-    settingsFile = openSettingsFile()
+    settingsFile = open(PATH_SETTINGS_FILE, mode='w+')
     settingsFile.write(serverIP)
     settingsFile.close()

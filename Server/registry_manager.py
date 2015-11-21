@@ -5,8 +5,8 @@ __author__ = 'mantvydas'
 PATH_AUTORUN = "SOFTWARE\Microsoft\Windows\CurrentVersion\Run"
 KEY_AUTORUN = winreg.CreateKey(winreg.HKEY_CURRENT_USER, PATH_AUTORUN)
 APP_NAME = "volumr_silent"
-HOME_DIR = ip_retriever.HOME_DIR
-PATH_FILE = HOME_DIR + "\\" + APP_NAME + ".vbs"
+PATH_HOME_DIR = ip_retriever.PATH_HOME_DIR
+PATH_FILE = PATH_HOME_DIR + "\\" + APP_NAME + ".vbs"
 
 def deleteFromAutorun():
     try:
