@@ -74,14 +74,18 @@ def getIPIndex(IPAddresses):
 
 def readServerIPfromFile():
     try:
-        SETTINGS_FILE = open(HOME_DIR + "\settings.ini", mode='r+')
+        SETTINGS_FILE = openSettingsFile()
         savedIP = SETTINGS_FILE.readline().strip("\n")
         return savedIP if not None else False
     except OSError:
         pass
 
 
+def openSettingsFile():
+    return open(HOME_DIR + "\settings.ini", mode='w+')
+
+
 def writeServerIPtoFile(serverIP):
-    SETTINGS_FILE = open(HOME_DIR + "\settings.ini", mode='w+')
+    SETTINGS_FILE = openSettingsFile()
     SETTINGS_FILE.write(serverIP)
     SETTINGS_FILE.close()
