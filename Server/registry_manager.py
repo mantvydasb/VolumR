@@ -4,15 +4,15 @@ import ip_retriever
 __author__ = 'mantvydas'
 PATH_AUTORUN = "SOFTWARE\Microsoft\Windows\CurrentVersion\Run"
 KEY_AUTORUN = winreg.CreateKey(winreg.HKEY_CURRENT_USER, PATH_AUTORUN)
-APP_NAME = "volumr"
+APP_NAME = "volumr_silent"
 HOME_DIR = ip_retriever.HOME_DIR
-PATH_FILE = HOME_DIR + "\\" + APP_NAME + ".pyw"
+PATH_FILE = HOME_DIR + "\\" + APP_NAME + ".vbs"
 
 def deleteFromAutorun():
     try:
         winreg.DeleteValue(KEY_AUTORUN, APP_NAME)
     except OSError:
-        print(APP_NAME + " dones not seem to be in the registry..")
+        print(APP_NAME + " does not seem to be in the registry..")
         pass
 
 

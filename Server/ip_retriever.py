@@ -4,7 +4,7 @@ import subprocess
 __author__ = 'mantvydas'
 SEARCH_STRING = "IPv4 Address. . . . . . . . . . . : "
 HOME_DIR = os.path.dirname(os.path.realpath(__file__))
-SETTINGS_FILE = open(HOME_DIR + "\settings.ini", mode='r+')
+SETTINGS_FILE = ''
 
 
 def getIPAddress():
@@ -15,7 +15,7 @@ def getIPAddress():
     """
 
     serverIp = readServerIPfromFile()
-    if serverIp == '':
+    if not serverIp:
 
         output = getIPConfigOutput()
         IPAddresses = extractIPAdresses(output)
@@ -61,7 +61,7 @@ def getIPIndex(IPAddresses):
         index = int(input())
 
         if 0 <= index < IPAddresses.__len__():
-            print("You chose: " + str(index))
+            print("You chose: " + IPAddresses[index])
             return index
         else:
             print("Dude! From 0 to " + lastIPIndex)
@@ -73,10 +73,15 @@ def getIPIndex(IPAddresses):
 
 
 def readServerIPfromFile():
-    savedIP = SETTINGS_FILE.readline().strip("\n")
-    return savedIP if not None else False
+    try:
+        SETTINGS_FILE = open(HOME_DIR + "\settings.ini", mode='r+')
+        savedIP = SETTINGS_FILE.readline().strip("\n")
+        return savedIP if not None else False
+    except OSError:
+        pass
 
 
 def writeServerIPtoFile(serverIP):
+    SETTINGS_FILE = open(HOME_DIR + "\settings.ini", mode='w+')
     SETTINGS_FILE.write(serverIP)
     SETTINGS_FILE.close()
