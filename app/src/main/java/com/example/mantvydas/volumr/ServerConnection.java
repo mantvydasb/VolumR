@@ -16,6 +16,7 @@ public class ServerConnection {
     private String IPAddress = null;
     private Context context;
     private OnConnectionListener onConnectionListener;
+    static ServerConnection serverConnection;
 
     /**
      * Connects to a a server - user's PC which is on the same network as user's Android device
@@ -26,6 +27,7 @@ public class ServerConnection {
         this.onConnectionListener = onConnectionListener;
         this.context = context;
         connectToPc();
+        this.serverConnection = this;
     }
 
     public boolean isConnected() {

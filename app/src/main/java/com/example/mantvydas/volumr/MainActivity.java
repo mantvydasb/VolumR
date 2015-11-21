@@ -3,6 +3,10 @@ package com.example.mantvydas.volumr;
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -10,6 +14,8 @@ import android.view.View;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageButton;
 import android.widget.TextView;
+
+import com.example.mantvydas.volumr.EventHandlers.BackgroundVolumeChanger;
 import com.example.mantvydas.volumr.EventHandlers.DragHandler;
 
 public class MainActivity extends AppCompatActivity implements ServerConnection.OnConnectionListener {
@@ -35,6 +41,25 @@ public class MainActivity extends AppCompatActivity implements ServerConnection.
 
         setFonts();
         setVolumeDragHandler();
+        addPhysicalVolumeChangeListener();
+        startBackgroundVolumeChangerService();
+    }
+
+    private void startBackgroundVolumeChangerService() {
+        startService(new Intent(this, BackgroundVolumeChanger.class));
+    }
+
+    private void addPhysicalVolumeChangeListener() {
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction("VOLUME_CHANGED");
+
+        registerReceiver(new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                float volume = (float) intent.getExtras().get("VOLUME");
+                setVolumeByPhysicalKeys(Math.round(volume));
+            }
+        }, intentFilter);
     }
 
     private void setConnectivityLabel() {
@@ -149,18 +174,24 @@ public class MainActivity extends AppCompatActivity implements ServerConnection.
         rotationAnimation.start();
     }
 
-    private void setVolume(float y) {
+    public void setVolume(float y) {
         float volumeFloat = 100 - (y / (dragHandler.getScreenInformation().y - volumeController.getHeight())) * 100;
         String volumeRounded = Integer.toString(Math.round(volumeFloat));
         volumeLevel.setText(volumeRounded);
 
-        if (server.isConnected()) {
+        if (ServerConnection.serverConnection.isConnected()) {
             if (previousMessage != volumeRounded) {
-                server.sendMessageToPc(volumeRounded);
+                ServerConnection.serverConnection.sendMessageToPc(volumeRounded);
             }
             previousMessage = volumeRounded;
         } else {
             setConnectivityLabel();
+        }
+    }
+
+    public void setVolumeByPhysicalKeys(int volume) {
+        if (volume <= 100) {
+            ServerConnection.serverConnection.sendMessageToPc(String.valueOf(volume));
         }
     }
 
@@ -187,12 +218,14 @@ public class MainActivity extends AppCompatActivity implements ServerConnection.
     @Override
     protected void onStop() {
         super.onStop();
-        server.disconnectFromPc();
+//        server.disconnectFromPc();
+//        ServerConnection.serverConnection.disconnectFromPc();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        server.reconnectToPc();
+//        server.reconnectToPc();
+//        ServerConnection.serverConnection.reconnectToPc();
     }
 }
