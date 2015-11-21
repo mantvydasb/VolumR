@@ -4,7 +4,6 @@ import subprocess
 __author__ = 'mantvydas'
 SEARCH_STRING = "IPv4 Address. . . . . . . . . . . : "
 HOME_DIR = os.path.dirname(os.path.realpath(__file__))
-SETTINGS_FILE = ''
 
 
 def getIPAddress():
@@ -74,8 +73,8 @@ def getIPIndex(IPAddresses):
 
 def readServerIPfromFile():
     try:
-        SETTINGS_FILE = openSettingsFile()
-        savedIP = SETTINGS_FILE.readline().strip("\n")
+        settingsFile = openSettingsFile()
+        savedIP = settingsFile.readline().strip("\n")
         return savedIP if not None else False
     except OSError:
         pass
@@ -86,6 +85,6 @@ def openSettingsFile():
 
 
 def writeServerIPtoFile(serverIP):
-    SETTINGS_FILE = openSettingsFile()
-    SETTINGS_FILE.write(serverIP)
-    SETTINGS_FILE.close()
+    settingsFile = openSettingsFile()
+    settingsFile.write(serverIP)
+    settingsFile.close()
