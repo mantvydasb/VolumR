@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements ServerConnection.
         setVolumeDragHandler();
         addPhysicalVolumeChangeListener();
         startBackgroundVolumeChangerService();
+        AnalyticsLogger.logActivity("MainActivity", getApplication());
     }
 
     private void startBackgroundVolumeChangerService() {
