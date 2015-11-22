@@ -74,6 +74,7 @@ def readServerIPfromFile():
     try:
         settingsFile = open(PATH_SETTINGS_FILE, mode='r+')
         savedIP = settingsFile.readline().strip("\n")
+        settingsFile.close()
         return savedIP if not None else False
     except OSError:
         pass
