@@ -6,7 +6,7 @@ PATH_AUTORUN = "SOFTWARE\Microsoft\Windows\CurrentVersion\Run"
 KEY_AUTORUN = winreg.CreateKey(winreg.HKEY_CURRENT_USER, PATH_AUTORUN)
 APP_NAME = config.APP_NAME
 PATH_HOME_DIR = config.PATH_HOME_DIR
-PATH_FILE = PATH_HOME_DIR + "\\" + config.APP_SILENT_LAUNCHER
+PATH_SILENT_LAUNCHER = PATH_HOME_DIR + "\\" + config.APP_SILENT_LAUNCHER
 
 def deleteFromAutorun():
     try:
@@ -28,4 +28,4 @@ def writeToAutorun():
     """
     Update windows registry to automatically start the VolumR server on boot;
     """
-    winreg.SetValueEx(KEY_AUTORUN, APP_NAME, 0, winreg.REG_SZ, '"' + PATH_FILE + '"')
+    winreg.SetValueEx(KEY_AUTORUN, APP_NAME, 0, winreg.REG_SZ, '"' + PATH_SILENT_LAUNCHER + '"')
