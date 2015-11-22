@@ -13,7 +13,7 @@ def createScript():
     Generates a VBS script that will launch volumr.exe in a silent mode (no UI will be shown) everytime the user boots up the machine.
     :return:
     """
-    launcherFile = open(APP_NAME + "_silent.vbs", mode="w+");
+    launcherFile = open(config.APP_LAUNCHER, mode="w+");
     launcherFile.write(SCRIPT_BODY)
     launcherFile.close()
 
