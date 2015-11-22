@@ -1,10 +1,9 @@
-import os
 import subprocess
+import config
 
 __author__ = 'mantvydas'
 SEARCH_STRING = "IPv4 Address. . . . . . . . . . . : "
-PATH_HOME_DIR = os.path.dirname(os.path.realpath(__file__))
-PATH_SETTINGS_FILE = PATH_HOME_DIR + "\settings.ini"
+PATH_SETTINGS_FILE = config.PATH_HOME_DIR + "\settings.ini"
 
 
 def getIPAddress():

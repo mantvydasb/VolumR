@@ -1,11 +1,11 @@
 import winreg
-import ip_retriever
+import config
 
 __author__ = 'mantvydas'
 PATH_AUTORUN = "SOFTWARE\Microsoft\Windows\CurrentVersion\Run"
 KEY_AUTORUN = winreg.CreateKey(winreg.HKEY_CURRENT_USER, PATH_AUTORUN)
-APP_NAME = "volumr_silent"
-PATH_HOME_DIR = ip_retriever.PATH_HOME_DIR
+APP_NAME = config.APP_NAME
+PATH_HOME_DIR = config.PATH_HOME_DIR
 PATH_FILE = PATH_HOME_DIR + "\\" + APP_NAME + ".vbs"
 
 def deleteFromAutorun():

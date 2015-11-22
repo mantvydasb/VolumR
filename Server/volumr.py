@@ -8,4 +8,4 @@ __author__ = 'mantvydas'
 registry_manager.writeToAutorun()
 serverIP = ip_retriever.getIPAddress()
 volumrServer = server.Server(serverIP)
-launcher_creator.createLauncherScript()
+launcher_creator.createScript()
