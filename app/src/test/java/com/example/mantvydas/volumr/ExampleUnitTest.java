@@ -1,4 +1,4 @@
-package com.example.mantvydas.volumr;
+package mantvydas.volumr;
 
 import org.junit.Test;
 

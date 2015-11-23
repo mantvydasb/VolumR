@@ -1,4 +1,4 @@
-package mantvydas.volumr;
+package volumr;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;
