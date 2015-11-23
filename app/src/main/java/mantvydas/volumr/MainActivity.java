@@ -1,4 +1,4 @@
-package com.example.mantvydas.volumr;
+package mantvydas.volumr;
 
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
@@ -15,8 +15,8 @@ import android.view.animation.LinearInterpolator;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.example.mantvydas.volumr.EventHandlers.BackgroundVolumeChanger;
-import com.example.mantvydas.volumr.EventHandlers.DragHandler;
+import mantvydas.volumr.EventHandlers.BackgroundVolumeChanger;
+import mantvydas.volumr.EventHandlers.DragHandler;
 
 public class MainActivity extends AppCompatActivity implements ServerConnection.OnConnectionListener {
     private ImageButton volumeController;

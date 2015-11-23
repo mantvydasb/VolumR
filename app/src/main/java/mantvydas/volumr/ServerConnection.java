@@ -1,4 +1,4 @@
-package com.example.mantvydas.volumr;
+package mantvydas.volumr;
 
 import android.content.Context;
 import android.util.Log;

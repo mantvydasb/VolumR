@@ -1,4 +1,4 @@
-package com.example.mantvydas.volumr.EventHandlers;
+package mantvydas.volumr.EventHandlers;
 
 import android.app.Service;
 import android.content.BroadcastReceiver;
@@ -11,7 +11,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
-import com.example.mantvydas.volumr.MainActivity;
+import mantvydas.volumr.MainActivity;
 
 import java.io.FileDescriptor;
 import java.io.PrintWriter;

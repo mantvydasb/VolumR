@@ -1,4 +1,4 @@
-package com.example.mantvydas.volumr.EventHandlers;
+package mantvydas.volumr.EventHandlers;
 
 import android.app.Activity;
 import android.graphics.Point;

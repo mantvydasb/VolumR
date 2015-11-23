@@ -1,7 +1,7 @@
-package com.example.mantvydas.volumr;
+package mantvydas.volumr;
 
 import android.app.Application;
-import com.example.mantvydas.volumr.R;
+import mantvydas.volumr.R;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;

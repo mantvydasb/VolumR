@@ -4,9 +4,8 @@ apply plugin: 'com.google.gms.google-services'
 android {
     compileSdkVersion 22
     buildToolsVersion "22.0.1"
-
     defaultConfig {
-        applicationId "com.example.mantvydas.volumr"
+        applicationId 'mantvydas.volumr'
         minSdkVersion 21
         targetSdkVersion 22
         versionCode 1
@@ -17,6 +16,8 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+    productFlavors {
     }
 }
 
