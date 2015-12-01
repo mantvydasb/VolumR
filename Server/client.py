@@ -13,3 +13,15 @@
 # print("Connected to " + server.IP + ":" + str(server.PORT))
 # increaseVolume()
 # print("Sending volume increase command")
+import threading
+import win32api
+import win32con
+
+
+def moveRight():
+    win32api.keybd_event(win32con.VK_RIGHT, 0, 0, 0)
+    threading.Timer(1.0, moveRight).start()
+
+moveRight()
+
+
