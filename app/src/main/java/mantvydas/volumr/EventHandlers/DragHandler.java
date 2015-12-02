@@ -62,13 +62,14 @@ public class DragHandler implements View.OnTouchListener {
                 break;
             }
             case MotionEvent.ACTION_MOVE: {
+                Log.e("fingers", String.valueOf(fingersCount));
 
                 //calc difference between the coordinates where the view was tapped and where the touch coordinates are when dragging
                 if (fingersCount > 1) {
                     xCurrentPointer = (Math.abs(MotionEventCompat.getX(event, 0) + MotionEventCompat.getX(event, 1))) / 2;
                     yCurrentPointer = (Math.abs(MotionEventCompat.getY(event, 0) + MotionEventCompat.getY(event, 1))) / 2;
                     onDragListener.onMultipleFingersMove();
-                } else if (fingersCount == 0) {
+                } else if (fingersCount == 1) {
                     xCurrentPointer = event.getRawX();
                     yCurrentPointer = event.getRawY();
                 }
