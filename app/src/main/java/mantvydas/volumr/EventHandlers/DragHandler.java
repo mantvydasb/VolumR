@@ -2,6 +2,7 @@ package mantvydas.volumr.EventHandlers;
 
 import android.app.Activity;
 import android.graphics.Point;
+import android.support.v4.view.MotionEventCompat;
 import android.util.Log;
 import android.view.Display;
 import android.view.MotionEvent;
@@ -12,10 +13,11 @@ import android.view.View;
  */
 public class DragHandler implements View.OnTouchListener {
     private OnDragListener onDragListener;
-    private float y1View, y2View, x1View, x2View, yTouched, dy, xTouched, dx, yCurrent, xCurrent;
+    private float y1View, y2View, x1View, x2View, yTouched, dy, xTouched, dx, yCurrent, xCurrent, xCurrentMulti, yCurrentMulti;
     private View viewToTranslate;
     private Point screenSize = new Point();
     private Activity activity;
+    private int xt1 = 0, xt2 = 0, yt1 = 0, yt2 = 0;
 
     public DragHandler(View viewToTranslate, Activity activity, OnDragListener onDragListener) {
         this.onDragListener = onDragListener;
@@ -30,13 +32,19 @@ public class DragHandler implements View.OnTouchListener {
 
         switch (event.getActionMasked()) {
             case MotionEvent.ACTION_POINTER_DOWN: {
-                Log.e("fingers down 1", String.valueOf(fingersCount));
                 onDragListener.onMultipleFingersDown();
+
+                getPointerCoordinates(event);
+                viewToTranslate.setX(xTouched - viewToTranslate.getWidth() / 2);
+                viewToTranslate.setY(yTouched - viewToTranslate.getHeight() / 2);
+
+                y1View = viewToTranslate.getY();
+                x1View = viewToTranslate.getX();
+
                 break;
             }
 
             case MotionEvent.ACTION_POINTER_UP: {
-                Log.e("fingers down 1", String.valueOf(fingersCount));
                 onDragListener.onMultipleFingersUp();
                 break;
             }
@@ -56,9 +64,18 @@ public class DragHandler implements View.OnTouchListener {
             }
             case MotionEvent.ACTION_MOVE: {
                 Log.e("fingers", String.valueOf(fingersCount));
+
                 //calc difference between the coordinates where the view was tapped and where the touch coordinates are when dragging
-                yCurrent = event.getRawY();
-                xCurrent = event.getRawX();
+                if (fingersCount > 1) {
+                    onDragListener.onMultipleFingersMove();
+                    xCurrent = (Math.abs(MotionEventCompat.getX(event, 0) + MotionEventCompat.getX(event, 1))) / 2;
+                    yCurrent = (Math.abs(MotionEventCompat.getY(event, 0) + MotionEventCompat.getY(event, 1))) / 2;
+                } else if (fingersCount == 0) {
+                    xCurrent = event.getRawX();
+                    yCurrent = event.getRawY();
+                }
+
+                //calculate the distance the object should move from its original position + the distance the fingers dragged;
                 dy = Math.abs(yCurrent - yTouched);
                 dx = Math.abs(xCurrent - xTouched);
 
@@ -82,11 +99,6 @@ public class DragHandler implements View.OnTouchListener {
                     onDragListener.onYChanged(y2View);
                 }
                 viewToTranslate.setX(x2View);
-
-                if (fingersCount > 1) {
-                    onDragListener.onMultipleFingersMove();
-                }
-
                 break;
             }
 
@@ -96,6 +108,17 @@ public class DragHandler implements View.OnTouchListener {
         }
 
         return true;
+    }
+
+    private void getPointerCoordinates(MotionEvent event) {
+        xt1 = (int) MotionEventCompat.getX(event, 0);
+        yt1 = (int) MotionEventCompat.getY(event, 0);
+
+        xt2 = (int) MotionEventCompat.getX(event, 1);
+        yt2 = (int) MotionEventCompat.getY(event, 1);
+
+        xTouched = (xt1 + xt2) / 2;
+        yTouched = (yt1 + yt2) / 2;
     }
 
     public Point getScreenInformation() {

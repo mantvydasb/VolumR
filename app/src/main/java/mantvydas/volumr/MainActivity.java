@@ -108,6 +108,7 @@ public class MainActivity extends AppCompatActivity implements ServerConnection.
             @Override
             public void onMultipleFingersMove() {
                 Log.e("Eww fingers move", "pienas");
+
             }
 
             @Override
