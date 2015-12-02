@@ -13,11 +13,10 @@ import android.view.View;
  */
 public class DragHandler implements View.OnTouchListener {
     private OnDragListener onDragListener;
-    private float y1View, y2View, x1View, x2View, yTouched, dy, xTouched, dx, yCurrent, xCurrent, xCurrentMulti, yCurrentMulti;
+    private float y1View, y2View, x1View, x2View, yTouchedPointer, xTouchedPointer, dx, dy, yCurrentPointer, xCurrentPointer;
     private View viewToTranslate;
     private Point screenSize = new Point();
     private Activity activity;
-    private int xt1 = 0, xt2 = 0, yt1 = 0, yt2 = 0;
 
     public DragHandler(View viewToTranslate, Activity activity, OnDragListener onDragListener) {
         this.onDragListener = onDragListener;
@@ -35,8 +34,8 @@ public class DragHandler implements View.OnTouchListener {
                 onDragListener.onMultipleFingersDown();
 
                 getPointerCoordinates(event);
-                viewToTranslate.setX(xTouched - viewToTranslate.getWidth() / 2);
-                viewToTranslate.setY(yTouched - viewToTranslate.getHeight() / 2);
+                viewToTranslate.setX(xTouchedPointer - viewToTranslate.getWidth() / 2);
+                viewToTranslate.setY(yTouchedPointer - viewToTranslate.getHeight() / 2);
 
                 y1View = viewToTranslate.getY();
                 x1View = viewToTranslate.getX();
@@ -51,10 +50,10 @@ public class DragHandler implements View.OnTouchListener {
 
             case MotionEvent.ACTION_DOWN: {
                 //move vol controller to where the finger is touching the screen;
-                yTouched = event.getRawY();
-                xTouched = event.getRawX();
-                viewToTranslate.setX(xTouched - viewToTranslate.getWidth() / 2);
-                viewToTranslate.setY(yTouched - 70 - viewToTranslate.getHeight() / 2);
+                yTouchedPointer = event.getRawY();
+                xTouchedPointer = event.getRawX();
+                viewToTranslate.setX(xTouchedPointer - viewToTranslate.getWidth() / 2);
+                viewToTranslate.setY(yTouchedPointer - 70 - viewToTranslate.getHeight() / 2);
 
                 y1View = viewToTranslate.getY();
                 x1View = viewToTranslate.getX();
@@ -67,27 +66,27 @@ public class DragHandler implements View.OnTouchListener {
 
                 //calc difference between the coordinates where the view was tapped and where the touch coordinates are when dragging
                 if (fingersCount > 1) {
+                    xCurrentPointer = (Math.abs(MotionEventCompat.getX(event, 0) + MotionEventCompat.getX(event, 1))) / 2;
+                    yCurrentPointer = (Math.abs(MotionEventCompat.getY(event, 0) + MotionEventCompat.getY(event, 1))) / 2;
                     onDragListener.onMultipleFingersMove();
-                    xCurrent = (Math.abs(MotionEventCompat.getX(event, 0) + MotionEventCompat.getX(event, 1))) / 2;
-                    yCurrent = (Math.abs(MotionEventCompat.getY(event, 0) + MotionEventCompat.getY(event, 1))) / 2;
                 } else if (fingersCount == 0) {
-                    xCurrent = event.getRawX();
-                    yCurrent = event.getRawY();
+                    xCurrentPointer = event.getRawX();
+                    yCurrentPointer = event.getRawY();
                 }
 
                 //calculate the distance the object should move from its original position + the distance the fingers dragged;
-                dy = Math.abs(yCurrent - yTouched);
-                dx = Math.abs(xCurrent - xTouched);
+                dy = Math.abs(yCurrentPointer - yTouchedPointer);
+                dx = Math.abs(xCurrentPointer - xTouchedPointer);
 
                 //calculate new view's Y
-                if (yCurrent > yTouched) {
+                if (yCurrentPointer > yTouchedPointer) {
                     y2View = y1View + dy;
                 } else {
                     y2View = y1View - dy;
                 }
 
                 //calculate new view's X
-                if (xCurrent > xTouched) {
+                if (xCurrentPointer > xTouchedPointer) {
                     x2View = x1View + dx;
                 } else {
                     x2View = x1View - dx;
@@ -111,14 +110,15 @@ public class DragHandler implements View.OnTouchListener {
     }
 
     private void getPointerCoordinates(MotionEvent event) {
-        xt1 = (int) MotionEventCompat.getX(event, 0);
-        yt1 = (int) MotionEventCompat.getY(event, 0);
+        int x1, x2, y1, y2;
+        x1 = (int) MotionEventCompat.getX(event, 0);
+        y1 = (int) MotionEventCompat.getY(event, 0);
 
-        xt2 = (int) MotionEventCompat.getX(event, 1);
-        yt2 = (int) MotionEventCompat.getY(event, 1);
+        x2 = (int) MotionEventCompat.getX(event, 1);
+        y2 = (int) MotionEventCompat.getY(event, 1);
 
-        xTouched = (xt1 + xt2) / 2;
-        yTouched = (yt1 + yt2) / 2;
+        xTouchedPointer = (x1 + x2) / 2;
+        yTouchedPointer = (y1 + y2) / 2;
     }
 
     public Point getScreenInformation() {
