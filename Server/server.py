@@ -1,6 +1,10 @@
 import socket
 import subprocess
 
+import win32api
+
+import win32con
+
 __author__ = 'mantvydas'
 PORT = 8506
 MAX_VOLUME = 65535
@@ -48,23 +52,35 @@ class Server:
                     print("Message: " + STOP_SERVER)
                     self.restartServer(clientSocket)
                     break
+
                 elif message != '':
                     command, value = message.split(":", 1)
                     values[0] = value
+                    print(values[0])
 
                     try:
                         value = int(value)
                     except:
                         pass
 
-                    if command == "volume" and isinstance(value, int):
-                        print(values[0])
-                        self.changeVolume(values[0])
+                    if isinstance(value, int):
+                        if command == "volume":
+                            self.changeVolume(values[0])
+
+                        if command == "seek":
+                            self.seekRight()
+
 
     def changeVolume(self, message):
         newVolume = (int(message) / 100 * MAX_VOLUME)
         if newVolume / MAX_VOLUME < 1:
             subprocess.call("nircmd.exe setvolume 0 " + str(newVolume) + " " + str(newVolume))
+
+    def seekRight(self):
+        win32api.keybd_event(win32con.VK_RIGHT, 0, 0, 0)
+
+    def seekLeft(self):
+        win32api.keybd_event(win32con.VK_LEFT, 0, 0, 0)
 
     def restartServer(self, clientSocket):
         print(RESTARTING_SERVER)
