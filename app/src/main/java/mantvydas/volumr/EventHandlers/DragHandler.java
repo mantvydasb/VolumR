@@ -13,10 +13,15 @@ import android.view.View;
  */
 public class DragHandler implements View.OnTouchListener {
     private OnDragListener onDragListener;
-    private float y1View, y2View, x1View, x2View, yTouchedPointer, xTouchedPointer, dx, dy, yCurrentPointer, xCurrentPointer;
+    private float y1View, y2View, x1View, x2View, yTouchedPointer, xTouchedPointer, dx, dy, yCurrentPointer, yOldPointer, xCurrentPointer;
     private View viewToTranslate;
     private Point screenSize = new Point();
     private Activity activity;
+
+    public static class Direction {
+        public final static int LEFT = 0;
+        public final static int RIGHT = 1;
+    }
 
     public DragHandler(View viewToTranslate, Activity activity, OnDragListener onDragListener) {
         this.onDragListener = onDragListener;
@@ -68,7 +73,12 @@ public class DragHandler implements View.OnTouchListener {
                 if (fingersCount > 1) {
                     xCurrentPointer = (Math.abs(MotionEventCompat.getX(event, 0) + MotionEventCompat.getX(event, 1))) / 2;
                     yCurrentPointer = (Math.abs(MotionEventCompat.getY(event, 0) + MotionEventCompat.getY(event, 1))) / 2;
-                    onDragListener.onMultipleFingersMove();
+
+                    if (xCurrentPointer > xTouchedPointer) {
+                        onDragListener.onMultipleFingersMove(Direction.RIGHT);
+                    } else {
+                        onDragListener.onMultipleFingersMove(Direction.LEFT);
+                    }
                 } else if (fingersCount == 1) {
                     xCurrentPointer = event.getRawX();
                     yCurrentPointer = event.getRawY();
@@ -133,6 +143,7 @@ public class DragHandler implements View.OnTouchListener {
         void onOneFingerUp();
         void onMultipleFingersDown();
         void onMultipleFingersUp();
-        void onMultipleFingersMove();
+        void onMultipleFingersMove(float x, float y);
+        void onMultipleFingersMove(int direction);
     }
 }

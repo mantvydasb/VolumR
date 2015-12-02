@@ -29,6 +29,9 @@ public class MainActivity extends AppCompatActivity implements ServerConnection.
     private ObjectAnimator animPulsateY, animPulsateX, rotationAnimation, scaleYAnimation, scaleXAnimation;
     private String previousMessage;
     private ServerConnection server;
+    private final String VK_LEFT = "VK_LEFT";
+    private final String VK_RIGHT = "VK_RIGHT";
+    private float yNew, yOld;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,9 +109,20 @@ public class MainActivity extends AppCompatActivity implements ServerConnection.
             }
 
             @Override
-            public void onMultipleFingersMove() {
-                Log.e("Eww fingers move", "pienas");
+            public void onMultipleFingersMove(float x, float y) {}
 
+            @Override
+            public void onMultipleFingersMove(int direction) {
+                switch (direction) {
+                    case DragHandler.Direction.LEFT: {
+                        seekBackward();
+                        break;
+                    }
+                    case DragHandler.Direction.RIGHT: {
+                        seekForward();
+                        break;
+                    }
+                }
             }
 
             @Override
@@ -194,14 +208,27 @@ public class MainActivity extends AppCompatActivity implements ServerConnection.
 
     public void setVolume(float y) {
         float volumeFloat = 100 - (y / (dragHandler.getScreenInformation().y - volumeController.getHeight())) * 100;
+        String message;
         String volumeRounded = Integer.toString(Math.round(volumeFloat));
         volumeLevel.setText(volumeRounded);
+        message = "volume:" + volumeRounded;
+        sendMessageToPc(message);
+    }
 
+    private void seekForward() {
+        sendMessageToPc(VK_RIGHT);
+    }
+
+    private void seekBackward() {
+        sendMessageToPc(VK_LEFT);
+    }
+
+    private void sendMessageToPc(String message) {
         if (ServerConnection.serverConnection.isConnected()) {
-            if (previousMessage != volumeRounded) {
-                ServerConnection.serverConnection.sendMessageToPc(volumeRounded);
+            if (previousMessage != message) {
+                ServerConnection.serverConnection.sendMessageToPc(message);
             }
-            previousMessage = volumeRounded;
+            previousMessage = message;
         } else {
             setConnectivityLabel();
         }
@@ -209,7 +236,7 @@ public class MainActivity extends AppCompatActivity implements ServerConnection.
 
     public void setVolumeByPhysicalKeys(int volume) {
         if (volume <= 100) {
-            ServerConnection.serverConnection.sendMessageToPc(String.valueOf(volume));
+            sendMessageToPc(String.valueOf(volume));
         }
     }
 
