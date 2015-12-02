@@ -2,6 +2,7 @@ package mantvydas.volumr.EventHandlers;
 
 import android.app.Activity;
 import android.graphics.Point;
+import android.util.Log;
 import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
@@ -25,9 +26,22 @@ public class DragHandler implements View.OnTouchListener {
 
     @Override
     public boolean onTouch(View view, MotionEvent event) {
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN: {
+        int fingersCount = event.getPointerCount();
 
+        switch (event.getActionMasked()) {
+            case MotionEvent.ACTION_POINTER_DOWN: {
+                Log.e("fingers down 1", String.valueOf(fingersCount));
+                onDragListener.onMultipleFingersDown();
+                break;
+            }
+
+            case MotionEvent.ACTION_POINTER_UP: {
+                Log.e("fingers down 1", String.valueOf(fingersCount));
+                onDragListener.onMultipleFingersUp();
+                break;
+            }
+
+            case MotionEvent.ACTION_DOWN: {
                 //move vol controller to where the finger is touching the screen;
                 yTouched = event.getRawY();
                 xTouched = event.getRawX();
@@ -41,7 +55,7 @@ public class DragHandler implements View.OnTouchListener {
                 break;
             }
             case MotionEvent.ACTION_MOVE: {
-
+                Log.e("fingers", String.valueOf(fingersCount));
                 //calc difference between the coordinates where the view was tapped and where the touch coordinates are when dragging
                 yCurrent = event.getRawY();
                 xCurrent = event.getRawX();
@@ -69,8 +83,13 @@ public class DragHandler implements View.OnTouchListener {
                 }
                 viewToTranslate.setX(x2View);
 
+                if (fingersCount > 1) {
+                    onDragListener.onMultipleFingersMove();
+                }
+
                 break;
             }
+
             case MotionEvent.ACTION_UP: {
                 onDragListener.onOneFingerUp();
             }
@@ -89,5 +108,8 @@ public class DragHandler implements View.OnTouchListener {
         void onYChanged(float y);
         void onOneFingerDown();
         void onOneFingerUp();
+        void onMultipleFingersDown();
+        void onMultipleFingersUp();
+        void onMultipleFingersMove();
     }
 }

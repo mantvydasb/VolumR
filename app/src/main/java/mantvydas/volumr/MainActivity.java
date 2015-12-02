@@ -10,6 +10,7 @@ import android.content.IntentFilter;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageButton;
@@ -92,6 +93,21 @@ public class MainActivity extends AppCompatActivity implements ServerConnection.
             @Override
             public void onOneFingerUp() {
                 collapseVolumeController();
+            }
+
+            @Override
+            public void onMultipleFingersDown() {
+                volumeController.setImageResource(R.drawable.volume_controller_two_fingers);
+            }
+
+            @Override
+            public void onMultipleFingersUp() {
+                volumeController.setImageResource(R.drawable.volume_controller);
+            }
+
+            @Override
+            public void onMultipleFingersMove() {
+                Log.e("Eww fingers move", "pienas");
             }
 
             @Override
