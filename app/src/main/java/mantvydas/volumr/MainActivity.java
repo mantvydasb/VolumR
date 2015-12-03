@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity implements
         GestureDetector.OnGestureListener,
         GestureDetector.OnDoubleTapListener,
         ServerConnection.OnConnectionListener {
+
     private ImageButton volumeController;
     private TextView connectivityLabel;
     private DragHandler dragHandler;
@@ -33,11 +34,12 @@ public class MainActivity extends AppCompatActivity implements
     private TextView volumeLevel;
     private ObjectAnimator animPulsateY, animPulsateX, rotationAnimation, scaleYAnimation, scaleXAnimation;
     private String previousMessage;
+    private GestureDetectorCompat gestureDetector;
     private ServerConnection server;
+
     private final String VK_LEFT = "seek:0";
     private final String VK_RIGHT = "seek:1";
     private final String VK_SPACE = "space:1";
-    private GestureDetectorCompat gestureDetector;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
