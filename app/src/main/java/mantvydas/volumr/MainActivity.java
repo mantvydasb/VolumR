@@ -9,8 +9,11 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageButton;
@@ -19,7 +22,10 @@ import android.widget.TextView;
 import mantvydas.volumr.EventHandlers.BackgroundVolumeChanger;
 import mantvydas.volumr.EventHandlers.DragHandler;
 
-public class MainActivity extends AppCompatActivity implements ServerConnection.OnConnectionListener {
+public class MainActivity extends AppCompatActivity implements
+        GestureDetector.OnGestureListener,
+        GestureDetector.OnDoubleTapListener,
+        ServerConnection.OnConnectionListener {
     private ImageButton volumeController;
     private TextView connectivityLabel;
     private DragHandler dragHandler;
@@ -29,11 +35,10 @@ public class MainActivity extends AppCompatActivity implements ServerConnection.
     private ObjectAnimator animPulsateY, animPulsateX, rotationAnimation, scaleYAnimation, scaleXAnimation;
     private String previousMessage;
     private ServerConnection server;
-//    private final int VK_LEFT = 0;
-//    private final int VK_RIGHT = 1;
     private final String VK_LEFT = "seek:0";
     private final String VK_RIGHT = "seek:1";
-    private float yNew, yOld;
+    private final String VK_SPACE = "space:1";
+    private GestureDetectorCompat gestureDetector;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +55,8 @@ public class MainActivity extends AppCompatActivity implements ServerConnection.
         addPhysicalVolumeChangeListener();
         startBackgroundVolumeChangerService();
         AnalyticsLogger.logActivity("MainActivity", getApplication());
+        gestureDetector = new GestureDetectorCompat(getApplicationContext(), this);
+        gestureDetector.setOnDoubleTapListener(this);
     }
 
     private void startBackgroundVolumeChangerService() {
@@ -225,6 +232,13 @@ public class MainActivity extends AppCompatActivity implements ServerConnection.
         sendMessageToPc(VK_LEFT);
     }
 
+    private void pressSpace() {
+        /*
+            Used to send a space bar press, which usually pauses/resumes the video player;
+         */
+        sendMessageToPc(VK_SPACE);
+    }
+
     private void sendMessageToPc(String message) {
         if (ServerConnection.serverConnection.isConnected()) {
             if (previousMessage != message) {
@@ -252,6 +266,63 @@ public class MainActivity extends AppCompatActivity implements ServerConnection.
         }
     }
 
+
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        gestureDetector.onTouchEvent(event);
+        return super.onTouchEvent(event);
+    }
+
+    @Override
+    public boolean onDown(MotionEvent e) {
+        return false;
+    }
+
+    @Override
+    public void onShowPress(MotionEvent e) {
+
+    }
+
+    @Override
+    public boolean onSingleTapUp(MotionEvent e) {
+        return false;
+    }
+
+    @Override
+    public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+        return false;
+    }
+
+    @Override
+    public void onLongPress(MotionEvent e) {
+
+    }
+
+    @Override
+    public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+        return false;
+    }
+
+    @Override
+    public boolean onDoubleTapEvent(MotionEvent e) {
+        return false;
+    }
+
+    @Override
+    public boolean onDoubleTap(MotionEvent e) {
+        pressSpace();
+        return true;
+    }
+
+    @Override
+    public boolean onSingleTapConfirmed(MotionEvent e) {
+        return false;
+    }
+
+
+
+
     @Override
     public void onNoConnection() {
         showConnectivityLabel();
@@ -261,6 +332,9 @@ public class MainActivity extends AppCompatActivity implements ServerConnection.
     public void onMessageSend() {
         collapseConnectivityLabel();
     }
+
+
+
 
     @Override
     protected void onStop() {

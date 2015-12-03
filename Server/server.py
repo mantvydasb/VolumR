@@ -88,6 +88,9 @@ class Server:
         for i in range(0, 5):
             win32api.keybd_event(win32con.VK_LEFT, 0, 0, 0)
 
+    def pressSpace(self):
+            win32api.keybd_event(win32con.VK_SPACE, 0, 0, 0)
+
     def restartServer(self, clientSocket):
         print(RESTARTING_SERVER)
         clientSocket.close()

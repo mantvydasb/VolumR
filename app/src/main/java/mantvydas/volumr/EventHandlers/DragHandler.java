@@ -32,6 +32,7 @@ public class DragHandler implements View.OnTouchListener {
 
     @Override
     public boolean onTouch(View view, MotionEvent event) {
+        activity.onTouchEvent(event);
         int fingersCount = event.getPointerCount();
 
         switch (event.getActionMasked()) {
