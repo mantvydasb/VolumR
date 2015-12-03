@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity implements
             @Override
             public void onReceive(Context context, Intent intent) {
                 float volume = (float) intent.getExtras().get("VOLUME");
-                setVolumeByPhysicalKeys(Math.round(volume));
+                changeVolumeWithPhysicalKeys(Math.round(volume));
             }
         }, intentFilter);
     }
@@ -251,7 +251,7 @@ public class MainActivity extends AppCompatActivity implements
         }
     }
 
-    public void setVolumeByPhysicalKeys(int volume) {
+    public void changeVolumeWithPhysicalKeys(int volume) {
         if (volume <= 100) {
             sendMessageToPc(String.valueOf(volume));
         }
