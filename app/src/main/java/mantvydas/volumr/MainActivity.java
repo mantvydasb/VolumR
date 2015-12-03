@@ -29,8 +29,10 @@ public class MainActivity extends AppCompatActivity implements ServerConnection.
     private ObjectAnimator animPulsateY, animPulsateX, rotationAnimation, scaleYAnimation, scaleXAnimation;
     private String previousMessage;
     private ServerConnection server;
-    private final String VK_LEFT = "VK_LEFT";
-    private final String VK_RIGHT = "VK_RIGHT";
+//    private final int VK_LEFT = 0;
+//    private final int VK_RIGHT = 1;
+    private final String VK_LEFT = "seek:0";
+    private final String VK_RIGHT = "seek:1";
     private float yNew, yOld;
 
     @Override

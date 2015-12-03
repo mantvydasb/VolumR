@@ -68,7 +68,10 @@ class Server:
                             self.changeVolume(values[0])
 
                         if command == "seek":
-                            self.seekRight()
+                            if values[0] == "1":
+                                self.seekRight()
+                            else:
+                                self.seekLeft()
 
 
     def changeVolume(self, message):
@@ -77,10 +80,13 @@ class Server:
             subprocess.call("nircmd.exe setvolume 0 " + str(newVolume) + " " + str(newVolume))
 
     def seekRight(self):
-        win32api.keybd_event(win32con.VK_RIGHT, 0, 0, 0)
+        for i in range(0, 5):
+            win32api.keybd_event(win32con.VK_RIGHT, 0, 0, 0)
+            print(str(i))
 
     def seekLeft(self):
-        win32api.keybd_event(win32con.VK_LEFT, 0, 0, 0)
+        for i in range(0, 5):
+            win32api.keybd_event(win32con.VK_LEFT, 0, 0, 0)
 
     def restartServer(self, clientSocket):
         print(RESTARTING_SERVER)
