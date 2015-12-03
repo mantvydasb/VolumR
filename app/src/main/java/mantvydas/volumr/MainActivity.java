@@ -11,7 +11,6 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -99,7 +98,7 @@ public class MainActivity extends AppCompatActivity implements
         dragHandler = new DragHandler(volumeController, this, new DragHandler.OnDragListener() {
             @Override
             public void onYChanged(float y) {
-                setVolume(y);
+                changeVolume(y);
             }
 
             @Override
@@ -215,7 +214,7 @@ public class MainActivity extends AppCompatActivity implements
         rotationAnimation.start();
     }
 
-    public void setVolume(float y) {
+    public void changeVolume(float y) {
         float volumeFloat = 100 - (y / (dragHandler.getScreenInformation().y - volumeController.getHeight())) * 100;
         String message;
         String volumeRounded = Integer.toString(Math.round(volumeFloat));
