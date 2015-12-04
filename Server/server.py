@@ -73,6 +73,8 @@ class Server:
                             else:
                                 self.seekLeft()
 
+                        if command == "space":
+                            self.pressSpace()
 
     def changeVolume(self, message):
         newVolume = (int(message) / 100 * MAX_VOLUME)
