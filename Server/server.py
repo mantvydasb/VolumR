@@ -50,9 +50,7 @@ class Server:
                 break
 
             elif message != '':
-                message = message.split(";", 1)
-                (command, value) = message[0].split(":", 1)
-                value = converters.stringToInt(value)
+                command, value = self.extractCommand(message)
 
                 if command == "volume":
                     self.changeVolume(value)
@@ -66,6 +64,11 @@ class Server:
                 elif command == "space":
                       self.pressSpace()
 
+    def extractCommand(self, message):
+        message = message.split(";", 1)
+        command, value = message[0].split(":", 1)
+        value = converters.stringToInt(value)
+        return command, value
 
     def changeVolume(self, message):
         newVolume = (int(message) / 100 * MAX_VOLUME)
