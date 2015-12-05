@@ -55,14 +55,15 @@ class Server:
                 if command == "volume":
                     self.changeVolume(value)
 
-                elif command == "seek":
-                    if value == 1:
-                        self.seekRight()
-                    else:
-                        self.seekLeft()
+                elif command == "right":
+                    self.pressRight()
+
+                elif command == "left":
+                    self.pressLeft()
 
                 elif command == "space":
                       self.pressSpace()
+
 
     def extractCommand(self, message):
         message = message.split(";", 1)
@@ -75,10 +76,10 @@ class Server:
         if newVolume / MAX_VOLUME < 1:
             subprocess.call("nircmd.exe setvolume 0 " + str(newVolume) + " " + str(newVolume))
 
-    def seekRight(self):
+    def pressRight(self):
         win32api.keybd_event(win32con.VK_RIGHT, 0, 0, 0)
 
-    def seekLeft(self):
+    def pressLeft(self):
         win32api.keybd_event(win32con.VK_LEFT, 0, 0, 0)
 
     def pressSpace(self):
