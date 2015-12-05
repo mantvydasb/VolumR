@@ -19,6 +19,9 @@ import android.view.animation.LinearInterpolator;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import mantvydas.volumr.EventHandlers.BackgroundVolumeChanger;
 import mantvydas.volumr.EventHandlers.DragHandler;
 
@@ -99,9 +102,11 @@ public class MainActivity extends AppCompatActivity implements
 
     private void setVolumeDragHandler() {
         dragHandler = new DragHandler(volumeController, this, new DragHandler.OnDragListener() {
+            boolean canChangeVolume = true;
+
             @Override
             public void onYChanged(float y, int numberOfFingers) {
-                if (numberOfFingers == 1) {
+                if (numberOfFingers == 1 && canChangeVolume == true) {
                     changeVolume(y);
                 }
             }
@@ -114,11 +119,22 @@ public class MainActivity extends AppCompatActivity implements
             @Override
             public void onMultipleFingersDown() {
                 volumeController.setImageResource(R.drawable.volume_controller_two_fingers);
+                setCanChangeVolume(false);
             }
 
             @Override
             public void onMultipleFingersUp() {
                 volumeController.setImageResource(R.drawable.volume_controller);
+                setCanChangeVolume(true);
+            }
+
+            private void setCanChangeVolume(final boolean canChangeOrNot) {
+                new Timer().schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        canChangeVolume = canChangeOrNot;
+                    }
+                }, 500);
             }
 
             @Override
