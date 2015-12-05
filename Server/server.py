@@ -1,5 +1,6 @@
 import socket
 import subprocess
+import converters
 
 import win32api
 
@@ -39,41 +40,32 @@ class Server:
         self.listenForMessages(clientSocket)
 
     def listenForMessages(self, clientSocket):
-        oldMessage = ''
-        values = [0]
         while True:
             message = clientSocket.recv(2048).decode()
+            print(message)
 
-            if message != oldMessage:
-                print(message)
-                oldMessage = message
+            if message == STOP_SERVER:
+                print("Message: " + STOP_SERVER)
+                self.restartServer(clientSocket)
+                break
 
-                if message == STOP_SERVER:
-                    print("Message: " + STOP_SERVER)
-                    self.restartServer(clientSocket)
-                    break
+            elif message != '':
+                message = message.split(";", 1)
+                (command, value) = message[0].split(":", 1)
+                value = converters.stringToInt(value)
 
-                elif message != '':
-                    command, value = message.split(":", 1)
-                    values[0] = value
+                if command == "volume":
+                    self.changeVolume(value)
 
-                    try:
-                        value = int(value)
-                    except:
-                        pass
+                elif command == "seek":
+                    if value == "1":
+                        self.seekRight()
+                    else:
+                        self.seekLeft()
 
-                    if isinstance(value, int):
-                        if command == "volume":
-                            self.changeVolume(values[0])
+                elif command == "space":
+                    self.pressSpace()
 
-                        if command == "seek":
-                            if values[0] == "1":
-                                self.seekRight()
-                            else:
-                                self.seekLeft()
-
-                        if command == "space":
-                            self.pressSpace()
 
     def changeVolume(self, message):
         newVolume = (int(message) / 100 * MAX_VOLUME)
