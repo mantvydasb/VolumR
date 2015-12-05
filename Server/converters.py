@@ -1,4 +1,4 @@
-def stringToInt(self, value):
+def stringToInt(value):
     try:
         value = int(value)
     except:
