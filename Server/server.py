@@ -23,7 +23,7 @@ class Server:
 
     def __init__(self, ipAddress):
         """
-        Opens a socket for the specified IP address that listens for volume change messages from the client;
+        Opens a socket for the specified IP address that listens for commands from the client (volume change, seek, play/pause, etc);
         """
         self.ip = str(ipAddress)
         self.startServer()

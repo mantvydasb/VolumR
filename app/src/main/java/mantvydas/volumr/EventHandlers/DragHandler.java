@@ -36,10 +36,10 @@ public class DragHandler implements View.OnTouchListener {
         int fingersCount = event.getPointerCount();
 
         switch (event.getActionMasked()) {
+
             case MotionEvent.ACTION_POINTER_DOWN: {
                 onDragListener.onMultipleFingersDown();
-
-                getPointerCoordinates(event);
+                getAverageTouchPointerCoordinates(event);
                 viewToTranslate.setX(xTouchedPointer - viewToTranslate.getWidth() / 2);
                 viewToTranslate.setY(yTouchedPointer - viewToTranslate.getHeight() / 2);
 
@@ -72,8 +72,8 @@ public class DragHandler implements View.OnTouchListener {
 
                 //calc difference between the coordinates where the view was tapped and where the touch coordinates are when dragging
                 if (fingersCount > 1) {
-                    xCurrentPointer = (Math.abs(MotionEventCompat.getX(event, 0) + MotionEventCompat.getX(event, 1))) / 2;
-                    yCurrentPointer = (Math.abs(MotionEventCompat.getY(event, 0) + MotionEventCompat.getY(event, 1))) / 2;
+                    xCurrentPointer = (MotionEventCompat.getX(event, 0) + MotionEventCompat.getX(event, 1)) / 2;
+                    yCurrentPointer = (MotionEventCompat.getY(event, 0) + MotionEventCompat.getY(event, 1)) / 2;
 
                     if (xCurrentPointer > xTouchedPointer) {
                         onDragListener.onMultipleFingersMove(Direction.RIGHT);
@@ -120,13 +120,12 @@ public class DragHandler implements View.OnTouchListener {
         return true;
     }
 
-    private void getPointerCoordinates(MotionEvent event) {
-        int x1, x2, y1, y2;
-        x1 = (int) MotionEventCompat.getX(event, 0);
-        y1 = (int) MotionEventCompat.getY(event, 0);
-
-        x2 = (int) MotionEventCompat.getX(event, 1);
-        y2 = (int) MotionEventCompat.getY(event, 1);
+    private void getAverageTouchPointerCoordinates(MotionEvent event) {
+        float x1, x2, y1, y2;
+        x1 = MotionEventCompat.getX(event, 0);
+        y1 = MotionEventCompat.getY(event, 0);
+        x2 = MotionEventCompat.getX(event, 1);
+        y2 = MotionEventCompat.getY(event, 1);
 
         xTouchedPointer = (x1 + x2) / 2;
         yTouchedPointer = (y1 + y2) / 2;

@@ -89,7 +89,7 @@ public class ServerConnection {
             byte[] message = msg.getBytes();
             if (socket != null) {
                 socket.getOutputStream().write(message);
-//                socket.getOutputStream().flush();
+                socket.getOutputStream().flush();
                 onConnectionListener.onMessageSend();
             } else {
                 onConnectionListener.onNoConnection();
