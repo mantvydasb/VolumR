@@ -56,7 +56,6 @@ class Server:
                 elif message != '':
                     command, value = message.split(":", 1)
                     values[0] = value
-                    print(values[0])
 
                     try:
                         value = int(value)

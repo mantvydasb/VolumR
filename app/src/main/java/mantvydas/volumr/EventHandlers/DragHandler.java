@@ -106,7 +106,7 @@ public class DragHandler implements View.OnTouchListener {
                 //move view to the new position;
                 if (y2View >= 0 && y2View <= screenSize.y - viewToTranslate.getHeight()) {
                     viewToTranslate.setY(y2View);
-                    onDragListener.onYChanged(y2View);
+                    onDragListener.onYChanged(y2View, fingersCount);
                 }
                 viewToTranslate.setX(x2View);
                 break;
@@ -139,7 +139,7 @@ public class DragHandler implements View.OnTouchListener {
     }
 
     public interface OnDragListener {
-        void onYChanged(float y);
+        void onYChanged(float y, int numberOfFingers);
         void onOneFingerDown();
         void onOneFingerUp();
         void onMultipleFingersDown();

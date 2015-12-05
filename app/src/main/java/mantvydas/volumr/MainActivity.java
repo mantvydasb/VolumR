@@ -11,6 +11,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -36,6 +37,7 @@ public class MainActivity extends AppCompatActivity implements
     private String previousMessage;
     private GestureDetectorCompat gestureDetector;
     private ServerConnection server;
+    private String oldVolume = "";
 
     private final String VK_LEFT = "seek:0";
     private final String VK_RIGHT = "seek:1";
@@ -99,8 +101,10 @@ public class MainActivity extends AppCompatActivity implements
     private void setVolumeDragHandler() {
         dragHandler = new DragHandler(volumeController, this, new DragHandler.OnDragListener() {
             @Override
-            public void onYChanged(float y) {
-                changeVolume(y);
+            public void onYChanged(float y, int numberOfFingers) {
+                if (numberOfFingers == 1) {
+                    changeVolume(y);
+                }
             }
 
             @Override
@@ -218,11 +222,15 @@ public class MainActivity extends AppCompatActivity implements
 
     public void changeVolume(float y) {
         float volumeFloat = 100 - (y / (dragHandler.getScreenInformation().y - volumeController.getHeight())) * 100;
-        String message;
-        String volumeRounded = Integer.toString(Math.round(volumeFloat));
-        volumeLevel.setText(volumeRounded);
-        message = "volume:" + volumeRounded;
-        sendMessageToPc(message);
+        String volume = Integer.toString(Math.round(volumeFloat));
+        volumeLevel.setText(volume);
+
+        if (volume != oldVolume) {
+            String message = "volume:" + volume;
+            Log.e("changeVolume: ", message);
+            sendMessageToPc(message);
+            oldVolume = volume;
+        }
     }
 
     private void seekForward() {
