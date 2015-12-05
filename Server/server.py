@@ -51,19 +51,20 @@ class Server:
 
             elif message != '':
                 command, value = self.extractCommand(message)
+                self.executeCommand(command, value)
 
-                if command == "volume":
-                    self.changeVolume(value)
+    def executeCommand(self, command, value):
+        if command == "volume":
+            self.changeVolume(value)
 
-                elif command == "right":
-                    self.pressRight()
+        elif command == "right":
+            self.pressRight()
 
-                elif command == "left":
-                    self.pressLeft()
+        elif command == "left":
+            self.pressLeft()
 
-                elif command == "space":
-                      self.pressSpace()
-
+        elif command == "space":
+            self.pressSpace()
 
     def extractCommand(self, message):
         message = message.split(";", 1)
