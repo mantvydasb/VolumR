@@ -58,7 +58,7 @@ class Server:
                     self.changeVolume(value)
 
                 elif command == "seek":
-                    if value == "1":
+                    if value == 1:
                         self.seekRight()
                     else:
                         self.seekLeft()
