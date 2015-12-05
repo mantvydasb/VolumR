@@ -37,7 +37,6 @@ public class MainActivity extends AppCompatActivity implements
     private String previousMessage;
     private GestureDetectorCompat gestureDetector;
     private ServerConnection server;
-    private String oldVolume = "";
 
     private final String VK_LEFT = "seek:0";
     private final String VK_RIGHT = "seek:1";
@@ -224,13 +223,10 @@ public class MainActivity extends AppCompatActivity implements
         float volumeFloat = 100 - (y / (dragHandler.getScreenInformation().y - volumeController.getHeight())) * 100;
         String volume = Integer.toString(Math.round(volumeFloat));
         volumeLevel.setText(volume);
+        String message = "volume:" + volume + ";";
 
-        if (volume != oldVolume) {
-            String message = "volume:" + volume + ";";
-            Log.e("changeVolume: ", message);
-            sendMessageToPc(message);
-            oldVolume = volume;
-        }
+        Log.e("changeVolume: ", message);
+        sendMessageToPc(message);
     }
 
     private void seekForward() {
