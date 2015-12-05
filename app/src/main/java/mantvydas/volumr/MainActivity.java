@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements
 
         setFonts();
         setVolumeDragHandler();
-        addPhysicalVolumeChangeListener();
+//        addPhysicalVolumeChangeListener();
         startBackgroundVolumeChangerService();
         AnalyticsLogger.logActivity("MainActivity", getApplication());
         gestureDetector = new GestureDetectorCompat(getApplicationContext(), this);
