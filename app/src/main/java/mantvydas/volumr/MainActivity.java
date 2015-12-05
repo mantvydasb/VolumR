@@ -37,8 +37,9 @@ public class MainActivity extends AppCompatActivity implements
     private GestureDetectorCompat gestureDetector;
     private ServerConnection server;
 
-    private final String VK_LEFT = "seek:0;";
-    private final String VK_RIGHT = "seek:1;";
+    //commands that can be sent to the server;
+    private final String VK_LEFT = "left:1;";
+    private final String VK_RIGHT = "right:1;";
     private final String VK_SPACE = "space:1;";
 
     @Override
