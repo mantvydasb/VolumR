@@ -226,7 +226,7 @@ public class MainActivity extends AppCompatActivity implements
         volumeLevel.setText(volume);
 
         if (volume != oldVolume) {
-            String message = "volume:" + volume;
+            String message = "volume:" + volume + ";";
             Log.e("changeVolume: ", message);
             sendMessageToPc(message);
             oldVolume = volume;

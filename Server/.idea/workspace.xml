@@ -373,7 +373,13 @@
       <option name="project" value="LOCAL" />
       <updated>1449325132484</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="fixed method signature">
+      <created>1449325199420</created>
+      <option name="number" value="00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1449325199420</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -417,7 +423,8 @@
     <MESSAGE value="implemented new commands for changing volume" />
     <MESSAGE value="implemented &quot;play/pause&quot;" />
     <MESSAGE value="- added logic to parse out the received commands&#10;- cleaned up the command processing&#10;- moved out value converter to a separate file" />
-    <option name="LAST_COMMIT_MESSAGE" value="- added logic to parse out the received commands&#10;- cleaned up the command processing&#10;- moved out value converter to a separate file" />
+    <MESSAGE value="fixed method signature" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed method signature" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
