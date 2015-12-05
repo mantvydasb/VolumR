@@ -103,6 +103,7 @@ public class MainActivity extends AppCompatActivity implements
     private void setVolumeDragHandler() {
         dragHandler = new DragHandler(volumeController, this, new DragHandler.OnDragListener() {
             boolean canChangeVolume = true;
+            int eventCounter = 0;
 
             @Override
             public void onYChanged(float y, int numberOfFingers) {
@@ -142,16 +143,20 @@ public class MainActivity extends AppCompatActivity implements
 
             @Override
             public void onMultipleFingersMove(int direction) {
-                switch (direction) {
-                    case DragHandler.Direction.LEFT: {
-                        seekBackward();
-                        break;
+                if (eventCounter > 20) {
+                    switch (direction) {
+                        case DragHandler.Direction.LEFT: {
+                            seekBackward();
+                            break;
+                        }
+                        case DragHandler.Direction.RIGHT: {
+                            seekForward();
+                            break;
+                        }
                     }
-                    case DragHandler.Direction.RIGHT: {
-                        seekForward();
-                        break;
-                    }
+                    eventCounter = 0;
                 }
+                eventCounter++;
             }
 
             @Override
