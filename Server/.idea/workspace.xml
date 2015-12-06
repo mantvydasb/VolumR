@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="0cd6b306-6057-41c5-9f39-f264444a5bdd" name="Default" comment="housekeeping">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/script_creator.py" afterPath="$PROJECT_DIR$/script_creator.py" />
     </list>
     <ignored path="Server.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -70,8 +71,8 @@
       <file leaf-file-name="script_creator.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/script_creator.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.4692429">
-              <caret line="39" column="19" selection-start-line="39" selection-start-column="19" selection-end-line="39" selection-end-column="19" />
+            <state vertical-scroll-proportion="0.32176656">
+              <caret line="28" column="20" selection-start-line="28" selection-start-column="20" selection-end-line="28" selection-end-column="20" />
               <folding />
             </state>
           </provider>
@@ -454,7 +455,13 @@
       <option name="project" value="LOCAL" />
       <updated>1449423862379</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="housekeeping">
+      <created>1449424063750</created>
+      <option name="number" value="00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1449424063750</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -949,8 +956,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/script_creator.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.4692429">
-          <caret line="39" column="19" selection-start-line="39" selection-start-column="19" selection-end-line="39" selection-end-column="19" />
+        <state vertical-scroll-proportion="0.32176656">
+          <caret line="28" column="20" selection-start-line="28" selection-start-column="20" selection-end-line="28" selection-end-column="20" />
           <folding />
         </state>
       </provider>
