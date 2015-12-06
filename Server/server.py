@@ -42,7 +42,6 @@ class Server:
     def listenForMessages(self, clientSocket):
         while True:
             message = clientSocket.recv(2048).decode()
-            print(message)
 
             if message == STOP_SERVER:
                 print("Message: " + STOP_SERVER)
@@ -51,6 +50,7 @@ class Server:
 
             elif message != '':
                 command, value = self.extractCommand(message)
+                print(command, value)
                 self.executeCommand(command, value)
 
     def executeCommand(self, command, value):
