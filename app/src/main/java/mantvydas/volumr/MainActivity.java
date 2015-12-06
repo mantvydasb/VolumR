@@ -103,6 +103,8 @@ public class MainActivity extends AppCompatActivity implements
     private void setVolumeDragHandler() {
         dragHandler = new DragHandler(volumeController, this, new DragHandler.OnDragListener() {
             boolean canChangeVolume = true;
+
+            //used to decrease sensitivity of the left/right commands;
             int eventCounter = 0;
 
             @Override
@@ -143,7 +145,7 @@ public class MainActivity extends AppCompatActivity implements
 
             @Override
             public void onMultipleFingersMove(int direction) {
-                if (eventCounter > 20) {
+                if (eventCounter > 10) {
                     switch (direction) {
                         case DragHandler.Direction.LEFT: {
                             seekBackward();
