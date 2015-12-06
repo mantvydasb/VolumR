@@ -9,7 +9,7 @@ HOME_PATH = os.path.curdir
 VOLUMR_PATH = os.path.abspath(APP_NAME + ".exe")
 WIN_DIR_PATH = win32api.GetWindowsDirectory()
 NIRCMD_EXE_PATH = "nircmd.exe"
-NIRCMD_INSTALL_BAT_PATH = "install.bat"
+NIRCMD_INSTALL_SCRIPT_PATH = "install.bat"
 
 def createSilentLauncherScript():
     """
@@ -24,10 +24,10 @@ def createSilentLauncherScript():
 
 def createNircmdInstallerScript():
     script = "copy " + NIRCMD_EXE_PATH + " " + WIN_DIR_PATH + "\\" + NIRCMD_EXE_PATH
-    createScriptFile(NIRCMD_INSTALL_BAT_PATH, script)
+    createScriptFile(NIRCMD_INSTALL_SCRIPT_PATH, script)
 
 def installNircmd():
-    subprocess.call(NIRCMD_INSTALL_BAT_PATH);
+    subprocess.call(NIRCMD_INSTALL_SCRIPT_PATH);
 
 def createScriptFile(fileName, script):
     launcherFile = open(fileName, mode="w+");
