@@ -9,3 +9,5 @@ registry_manager.writeToAutorun()
 serverIP = ip_retriever.getIPAddress()
 script_creator.install()
 volumrServer = server.Server(serverIP)
+
+# todo restart the server when the android client goes to the background
