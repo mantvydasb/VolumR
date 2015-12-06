@@ -23,7 +23,9 @@ def createSilentLauncherScript():
     createScriptFile(config.APP_SILENT_LAUNCHER, script)
 
 def createNircmdInstallerScript():
-    script = "copy " + NIRCMD_EXE_PATH + " " + WIN_DIR_PATH + "\\" + NIRCMD_EXE_PATH
+    script = \
+        "@echo Copying nircmd.exe to Windows... \n" \
+        "copy " + NIRCMD_EXE_PATH + " " + WIN_DIR_PATH + "\\" + NIRCMD_EXE_PATH + "\n"
     createScriptFile(NIRCMD_INSTALL_SCRIPT_PATH, script)
 
 def installNircmd():
