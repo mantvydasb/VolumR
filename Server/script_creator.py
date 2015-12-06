@@ -11,7 +11,7 @@ WIN_DIR_PATH = win32api.GetWindowsDirectory()
 NIRCMD_EXE_PATH = "nircmd.exe"
 NIRCMD_INSTALL_BAT_PATH = "install.bat"
 
-def createLauncherScript():
+def createSilentLauncherScript():
     """
     Generates a VBS script that will launch volumr.exe in a silent mode (no UI will be shown) everytime the user boots up the machine.
     :return:
@@ -22,7 +22,7 @@ def createLauncherScript():
         "Set WshShell = Nothing"
     createScriptFile(config.APP_SILENT_LAUNCHER, script)
 
-def createNircmdInstallationScript():
+def createNircmdInstallerScript():
     script = "copy " + NIRCMD_EXE_PATH + " " + WIN_DIR_PATH + "\\" + NIRCMD_EXE_PATH
     createScriptFile(NIRCMD_INSTALL_BAT_PATH, script)
 
@@ -35,6 +35,6 @@ def createScriptFile(fileName, script):
     launcherFile.close()
 
 def install():
-    createLauncherScript()
-    createNircmdInstallationScript()
+    createSilentLauncherScript()
+    createNircmdInstallerScript()
     installNircmd()
