@@ -1,0 +1,1 @@
+pyinstaller volumr.py -F

@@ -3,8 +3,8 @@ import subprocess
 import converters
 
 import win32api
-
 import win32con
+import os
 
 __author__ = 'mantvydas'
 PORT = 8506
@@ -74,8 +74,10 @@ class Server:
 
     def changeVolume(self, message):
         newVolume = (int(message) / 100 * MAX_VOLUME)
+
         if newVolume / MAX_VOLUME < 1:
-            subprocess.call("nircmd.exe setvolume 0 " + str(newVolume) + " " + str(newVolume))
+            command = "nircmd.exe setvolume 0 " + str(newVolume) + " " + str(newVolume)
+            subprocess.call(command)
 
     def pressRight(self):
         win32api.keybd_event(win32con.VK_RIGHT, 0, 0, 0)
