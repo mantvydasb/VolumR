@@ -243,7 +243,7 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     public void changeVolume(float y) {
-        float volumeFloat = 100 - (y / (dragHandler.getScreenInformation().y - volumeController.getHeight())) * 100;
+        float volumeFloat = 100 - (y / (dragHandler.getScreenSize().y - volumeController.getHeight())) * 100;
         String volume = Integer.toString(Math.round(volumeFloat));
         volumeLevel.setText(volume);
         String message = "volume:" + volume + ";";

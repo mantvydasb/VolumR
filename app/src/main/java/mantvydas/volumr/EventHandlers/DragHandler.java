@@ -27,7 +27,7 @@ public class DragHandler implements View.OnTouchListener {
         this.onDragListener = onDragListener;
         this.viewToTranslate = viewToTranslate;
         this.activity = activity;
-        getScreenInformation();
+        getScreenSize();
     }
 
     @Override
@@ -131,7 +131,7 @@ public class DragHandler implements View.OnTouchListener {
         yTouchedPointer = (y1 + y2) / 2;
     }
 
-    public Point getScreenInformation() {
+    public Point getScreenSize() {
         Display display = activity.getWindowManager().getDefaultDisplay();
         display.getSize(screenSize);
         return screenSize;
