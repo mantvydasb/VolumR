@@ -31,8 +31,6 @@ class Server:
 
     def startServer(self):
         self.serverSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM, 0)
-        sslSocket = ssl.wrap_socket(self.serverSocket,)
-
         self.serverSocket.bind((self.ip, PORT))
         self.serverSocket.listen(5)
 
@@ -45,6 +43,9 @@ class Server:
     def listenForMessages(self, clientSocket):
         while True:
             message = clientSocket.recv(2048).decode()
+            sslMessage = ssl.wrap_socket(clientSocket, certfile="volumr.crt", keyfile="volumr.key", server_side=True)
+            print("ssl message: " + sslMessage.decode())
+            # message = clientSocket.recv(2048).decode()
 
             if message == STOP_SERVER:
                 print("Message: " + STOP_SERVER)
