@@ -62,7 +62,7 @@ public class DragHandler implements View.OnTouchListener {
                 yTouchedPointer = event.getRawY();
                 xTouchedPointer = event.getRawX();
                 viewToTranslate.setX(xTouchedPointer - translatableViewWidth / 2);
-                viewToTranslate.setY(yTouchedPointer - 70 - translatableViewHeight / 2);
+                viewToTranslate.setY(yTouchedPointer - 80 - translatableViewHeight / 2);
 
                 y1View = viewToTranslate.getY();
                 x1View = viewToTranslate.getX();
