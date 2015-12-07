@@ -22,6 +22,7 @@ import android.widget.TextView;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import mantvydas.volumr.Animators.VolumeControllerAnimator;
 import mantvydas.volumr.EventHandlers.BackgroundVolumeChanger;
 import mantvydas.volumr.EventHandlers.DragHandler;
 
@@ -29,14 +30,10 @@ public class MainActivity extends AppCompatActivity implements
         GestureDetector.OnGestureListener,
         GestureDetector.OnDoubleTapListener,
         ServerConnection.OnConnectionListener {
-
     private ImageButton volumeController;
     private TextView connectivityLabel;
     private DragHandler dragHandler;
-    private ObjectAnimator objectAnimator = new ObjectAnimator();
-    private final float scaleStart = 0.3f, scaleFinish = 1, scaleGone = 0;
     private TextView volumeLevel;
-    private ObjectAnimator animPulsateY, animPulsateX, rotationAnimation, scaleYAnimation, scaleXAnimation;
     private GestureDetectorCompat gestureDetector;
     private ServerConnection server;
 
@@ -171,77 +168,15 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     private void expandVolumeController() {
-        startPulsatingVolumeController();
-        startRotatingVolumeController();
+        VolumeControllerAnimator.expandVolumeController(volumeController);
     }
 
     private void collapseVolumeController() {
-        try {
-            int duration = 80;
-            scaleYAnimation = ObjectAnimator.ofFloat(volumeController, "scaleY", scaleFinish, scaleGone);
-            scaleXAnimation = ObjectAnimator.ofFloat(volumeController, "scaleX", scaleFinish, scaleGone);
-            scaleYAnimation.setDuration(duration);
-            scaleXAnimation.setDuration(duration);
-            scaleYAnimation.start();
-            scaleXAnimation.start();
-
-            scaleYAnimation.addListener(new Animator.AnimatorListener() {
-                @Override
-                public void onAnimationStart(Animator animation) {
-
-                }
-
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    volumeController.setVisibility(View.GONE);
-                }
-
-                @Override
-                public void onAnimationCancel(Animator animation) {
-
-                }
-
-                @Override
-                public void onAnimationRepeat(Animator animation) {
-
-                }
-            });
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        VolumeControllerAnimator.collapseVolumeController();
     }
 
-    private void startPulsatingVolumeController() {
-        float scaleUp = 1.03f;
-        int duration = 900;
 
-        objectAnimator.ofFloat(volumeController, "scaleX", scaleStart, scaleFinish).setDuration(150).start();
-        objectAnimator.ofFloat(volumeController, "scaleY", scaleStart, scaleFinish).setDuration(150).start();
-
-        animPulsateX = ObjectAnimator.ofFloat(volumeController, "scaleX", scaleFinish, scaleUp);
-        animPulsateX.setRepeatCount(ValueAnimator.INFINITE);
-        animPulsateX.setDuration(duration);
-        animPulsateX.setRepeatMode(ValueAnimator.REVERSE);
-        animPulsateX.start();
-
-        animPulsateY = ObjectAnimator.ofFloat(volumeController, "scaleY", scaleFinish, scaleUp);
-        animPulsateY.setRepeatCount(ValueAnimator.INFINITE);
-        animPulsateY.setRepeatMode(ValueAnimator.REVERSE);
-        animPulsateY.setDuration(duration);
-        animPulsateY.start();
-    }
-
-    private void startRotatingVolumeController() {
-        volumeController.setVisibility(View.VISIBLE);
-        rotationAnimation = ObjectAnimator.ofFloat(volumeController, "rotation", 0, 360);
-        rotationAnimation.setDuration(15000);
-        rotationAnimation.setInterpolator(new LinearInterpolator());
-        rotationAnimation.setRepeatMode(ValueAnimator.RESTART);
-        rotationAnimation.setRepeatCount(ValueAnimator.INFINITE);
-        rotationAnimation.start();
-    }
-
+    //SERVER COMMANDS
     public void changeVolume(float y) {
         float volumeFloat = 100 - (y / (dragHandler.getScreenSize().y - volumeController.getHeight())) * 100;
         String volume = Integer.toString(Math.round(volumeFloat));
@@ -280,6 +215,8 @@ public class MainActivity extends AppCompatActivity implements
             sendMessageToPc(String.valueOf(volume));
         }
     }
+
+
 
     public void showConnectivityLabel() {
         connectivityLabel.setVisibility(View.VISIBLE);
