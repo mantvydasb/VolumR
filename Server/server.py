@@ -1,6 +1,7 @@
 import socket
 import subprocess
 import converters
+import ssl
 
 import win32api
 import win32con
@@ -30,6 +31,8 @@ class Server:
 
     def startServer(self):
         self.serverSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM, 0)
+        sslSocket = ssl.wrap_socket(self.serverSocket,)
+
         self.serverSocket.bind((self.ip, PORT))
         self.serverSocket.listen(5)
 
