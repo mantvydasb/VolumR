@@ -53,7 +53,7 @@ public class DragHandler implements View.OnTouchListener {
             }
 
             case MotionEvent.ACTION_POINTER_UP: {
-                onDragListener.onMultipleFingersUp();
+                 onDragListener.onMultipleFingersUp();
                 break;
             }
 

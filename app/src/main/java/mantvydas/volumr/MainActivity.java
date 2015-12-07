@@ -302,14 +302,12 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     protected void onStop() {
         super.onStop();
-//        server.disconnectFromPc();
-//        ServerConnection.serverConnection.disconnectFromPc();
+        server.disconnectFromPc();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-//        server.reconnectToPc();
-//        ServerConnection.serverConnection.reconnectToPc();
+        server.reconnectToPc();
     }
 }
