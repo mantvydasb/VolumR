@@ -145,7 +145,7 @@ public class MainActivity extends AppCompatActivity implements
 
             @Override
             public void onMultipleFingersMove(int direction) {
-                if (eventCounter > 10) {
+                if (eventCounter > 7) {
                     switch (direction) {
                         case DragHandler.Direction.LEFT: {
                             seekBackward();
