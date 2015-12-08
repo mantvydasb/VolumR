@@ -88,5 +88,4 @@ public class VolumeControllerAnimator {
         rotationAnimation.setRepeatCount(ValueAnimator.INFINITE);
         rotationAnimation.start();
     }
-
 }
