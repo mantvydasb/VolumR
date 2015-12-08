@@ -80,12 +80,16 @@ public class ServerConnection {
     private void connectToSocket(String fullIPAddress) {
         try {
             int dstPort = 8506;
-            socket = new Socket(fullIPAddress, dstPort);
+//            socket = new Socket(fullIPAddress, dstPort);
 //            SSLSocket = SSLSocket(fullIPAddress, dstPort);
+            Log.e("pries socket factory", "1");
             SSLSocketFactory sslSocketFactory = (SSLSocketFactory) SSLSocketFactory.getDefault();
+            Log.e("po socket factory", "2");
             SSLSocket sslSocket = (SSLSocket) sslSocketFactory.createSocket(fullIPAddress, dstPort);
+            Log.e("po ssl socket", "3");
             printSocketInfo(sslSocket);
             sslSocket.startHandshake();
+            Log.e("po handshake", "4");
 
             if (socket != null) {
                 IPAddress = fullIPAddress;
