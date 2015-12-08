@@ -6,6 +6,10 @@ import android.util.Log;
 import java.io.IOException;
 import java.net.Socket;
 
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.SSLSocket;
+import javax.net.ssl.SSLSocketFactory;
+
 /**
  * Created by mantvydas on 10/13/2015.
  */
@@ -75,7 +79,14 @@ public class ServerConnection {
 
     private void connectToSocket(String fullIPAddress) {
         try {
-            socket = new Socket(fullIPAddress, 8506);
+            int dstPort = 8506;
+            socket = new Socket(fullIPAddress, dstPort);
+//            SSLSocket = SSLSocket(fullIPAddress, dstPort);
+            SSLSocketFactory sslSocketFactory = (SSLSocketFactory) SSLSocketFactory.getDefault();
+            SSLSocket sslSocket = (SSLSocket) sslSocketFactory.createSocket(fullIPAddress, dstPort);
+            printSocketInfo(sslSocket);
+            sslSocket.startHandshake();
+
             if (socket != null) {
                 IPAddress = fullIPAddress;
             }
@@ -110,6 +121,23 @@ public class ServerConnection {
                 e.printStackTrace();
             }
         }
+    }
+
+    private static void printSocketInfo(SSLSocket s) {
+        System.out.println("Socket class: "+s.getClass());
+        System.out.println("   Remote address = "
+                +s.getInetAddress().toString());
+        System.out.println("   Remote port = "+s.getPort());
+        System.out.println("   Local socket address = "
+                +s.getLocalSocketAddress().toString());
+        System.out.println("   Local address = "
+                +s.getLocalAddress().toString());
+        System.out.println("   Local port = "+s.getLocalPort());
+        System.out.println("   Need client authentication = "
+                +s.getNeedClientAuth());
+        SSLSession ss = s.getSession();
+        System.out.println("   Cipher suite = "+ss.getCipherSuite());
+        System.out.println("   Protocol = "+ss.getProtocol());
     }
 
     public interface OnConnectionListener {
