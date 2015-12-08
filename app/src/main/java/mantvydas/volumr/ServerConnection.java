@@ -6,6 +6,7 @@ import android.util.Log;
 import java.io.IOException;
 import java.net.Socket;
 
+import javax.net.SocketFactory;
 import javax.net.ssl.SSLSession;
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
@@ -15,7 +16,8 @@ import javax.net.ssl.SSLSocketFactory;
  */
 public class ServerConnection {
     private final String STOP_SERVER = "STOP_SERVER";
-    private Socket socket;
+//    private Socket socket;
+    private SSLSocket socket;
     private String shortIPAddress;
     private String IPAddress = null;
     private Context context;
@@ -80,8 +82,9 @@ public class ServerConnection {
     private void connectToSocket(String fullIPAddress) {
         try {
             int dstPort = 8506;
-            socket = new Socket(fullIPAddress, dstPort);
-
+//            socket = new Socket(fullIPAddress, dstPort);
+            SocketFactory socketFactory = SSLSocketFactory.getDefault();
+            socket = (SSLSocket) socketFactory.createSocket(fullIPAddress, dstPort);
 
             if (socket != null) {
                 IPAddress = fullIPAddress;
