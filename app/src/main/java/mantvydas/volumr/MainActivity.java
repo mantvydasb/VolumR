@@ -181,10 +181,19 @@ public class MainActivity extends AppCompatActivity implements
         float volumeFloat = 100 - (y / (dragHandler.getScreenSize().y - volumeController.getHeight())) * 100;
         String volume = Integer.toString(Math.round(volumeFloat));
         volumeLevel.setText(volume);
-        String message = "volume:" + volume + ";";
+        final String message = "volume:" + volume + ";";
 
         Log.e("changeVolume: ", message);
-        sendMessageToPc(message);
+
+
+        new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                sendMessageToPc(message);
+            }
+        }.run();
+
     }
 
     private void seekForward() {
@@ -202,12 +211,18 @@ public class MainActivity extends AppCompatActivity implements
         sendMessageToPc(VK_SPACE);
     }
 
-    private void sendMessageToPc(String message) {
-        if (ServerConnection.serverConnection.isConnected()) {
-            ServerConnection.serverConnection.sendMessageToPc(message);
-        } else {
-            setConnectivityLabel();
-        }
+    private void sendMessageToPc(final String message) {
+        new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                if (ServerConnection.serverConnection.isConnected()) {
+                    ServerConnection.serverConnection.sendMessageToPc(message);
+                } else {
+                    setConnectivityLabel();
+                }
+            }
+        }.run();
     }
 
     public void changeVolumeWithPhysicalKeys(int volume) {

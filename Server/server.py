@@ -42,7 +42,8 @@ class Server:
 
     def listenForMessages(self, clientSocket):
         while True:
-            message = clientSocket.recv(2048).decode()
+            # message = clientSocket.recv(2048).decode()
+            message = ssl.wrap_socket(clientSocket, keyfile="volumr.key", server_side=True, certfile="volumr.crt", do_handshake_on_connect=True)
 
             if message == STOP_SERVER:
                 print("Message: " + STOP_SERVER)

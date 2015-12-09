@@ -19,7 +19,7 @@ public class ServerConnection {
 //    private Socket socket;
     private SSLSocket socket;
     private String shortIPAddress;
-    private String IPAddress = null;
+    private String IPAddress = "192.168.2.3";
     private Context context;
     private OnConnectionListener onConnectionListener;
     static ServerConnection serverConnection;
@@ -79,34 +79,50 @@ public class ServerConnection {
         sendMessageToPc(STOP_SERVER);
     }
 
-    private void connectToSocket(String fullIPAddress) {
-        try {
-            int dstPort = 8506;
-//            socket = new Socket(fullIPAddress, dstPort);
-            SocketFactory socketFactory = SSLSocketFactory.getDefault();
-            socket = (SSLSocket) socketFactory.createSocket(fullIPAddress, dstPort);
-
-            if (socket != null) {
-                IPAddress = fullIPAddress;
+    private void connectToSocket(final String fullIPAddress) {
+        final int dstPort = 8506;
+//            new Socket(fullIPAddress, dstPort);
+        new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                try {
+                    SocketFactory socketFactory = SSLSocketFactory.getDefault();
+                    socket = (SSLSocket) socketFactory.createSocket(fullIPAddress, dstPort);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+        }.run();
+
+
+        if (socket != null) {
+            IPAddress = fullIPAddress;
         }
+
     }
 
-    public void sendMessageToPc(String msg) {
-        try {
-            byte[] message = msg.getBytes();
-            if (socket != null) {
-                socket.getOutputStream().write(message);
-                socket.getOutputStream().flush();
-                onConnectionListener.onMessageSend();
-            } else {
-                onConnectionListener.onNoConnection();
+    public void sendMessageToPc(final String msg) {
+        new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                try {
+                    byte[] message = msg.getBytes();
+                    if (socket != null) {
+                        socket.getOutputStream().write(message);
+                        socket.getOutputStream().flush();
+                        onConnectionListener.onMessageSend();
+                    } else {
+                        onConnectionListener.onNoConnection();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        }.run();
+
+
     }
 
     public void reconnectToPc() {
