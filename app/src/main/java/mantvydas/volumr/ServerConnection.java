@@ -3,13 +3,29 @@ package mantvydas.volumr;
 import android.content.Context;
 import android.util.Log;
 
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.Socket;
+import java.net.URL;
+import java.security.KeyManagementException;
+import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.cert.Certificate;
+import java.security.cert.CertificateFactory;
 
 import javax.net.SocketFactory;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSession;
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
+import javax.net.ssl.TrustManagerFactory;
+import javax.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
 
 /**
  * Created by mantvydas on 10/13/2015.
@@ -19,10 +35,16 @@ public class ServerConnection {
 //    private Socket socket;
     private SSLSocket socket;
     private String shortIPAddress;
-    private String IPAddress = "192.168.2.3";
+    private String IPAddress = "10.53.12.78";
     private Context context;
     private OnConnectionListener onConnectionListener;
     static ServerConnection serverConnection;
+
+    InputStream caInput = null;
+    Certificate ca = null;
+    CertificateFactory cf = null;
+    KeyStore keyStore = null;
+
 
     /**
      * Connects to a a server - user's PC which is on the same network as user's Android device
@@ -87,19 +109,20 @@ public class ServerConnection {
             public void run() {
                 super.run();
                 try {
+                    test();
                     SocketFactory socketFactory = SSLSocketFactory.getDefault();
                     socket = (SSLSocket) socketFactory.createSocket(fullIPAddress, dstPort);
+                    sendMessageToPc("SSL message testing");
+
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
         }.run();
 
-
         if (socket != null) {
             IPAddress = fullIPAddress;
         }
-
     }
 
     public void sendMessageToPc(final String msg) {
@@ -137,6 +160,70 @@ public class ServerConnection {
             }
         }
     }
+
+    private void test() {
+        // Load CAs from an InputStream
+        // (could be from a resource or ByteArrayInputStream or ...)
+        try {
+            cf = CertificateFactory.getInstance("X.509");
+        } catch (java.security.cert.CertificateException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            InputStream open = context.getAssets().open("volumr.crt");
+            caInput = new BufferedInputStream(open);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+
+        }
+
+        try {
+            ca = cf.generateCertificate(caInput);
+            System.out.println("ca=" + ((X509Certificate) ca).getSubjectDN());
+        } catch (java.security.cert.CertificateException e) {
+            e.printStackTrace();
+//            caInput.close();
+        }
+
+
+        try {
+            // Create a KeyStore containing our trusted CAs
+            String keyStoreType = KeyStore.getDefaultType();
+            keyStore = KeyStore.getInstance(keyStoreType);
+            keyStore.load(null, null);
+            keyStore.setCertificateEntry("ca", ca);
+        } catch (KeyStoreException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (java.security.cert.CertificateException e) {
+            e.printStackTrace();
+        }
+
+        SSLContext context = null;
+
+        try {
+            // Create a TrustManager that trusts the CAs in our KeyStore
+            String tmfAlgorithm = TrustManagerFactory.getDefaultAlgorithm();
+            TrustManagerFactory tmf = TrustManagerFactory.getInstance(tmfAlgorithm);
+            tmf.init(keyStore);
+
+            // Create an SSLContext that uses our TrustManager
+            context = SSLContext.getInstance("TLS");
+            context.init(null, tmf.getTrustManagers(), null);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (KeyStoreException e) {
+            e.printStackTrace();
+        } catch (KeyManagementException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     public interface OnConnectionListener {
         void onMessageSend();
