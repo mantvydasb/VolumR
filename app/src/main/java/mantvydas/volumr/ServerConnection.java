@@ -112,6 +112,8 @@ public class ServerConnection {
                     test();
                     SocketFactory socketFactory = SSLSocketFactory.getDefault();
                     socket = (SSLSocket) socketFactory.createSocket(fullIPAddress, dstPort);
+                    SSLSession sslSession = socket.getSession();
+                    Certificate[] certificates = sslSession.getLocalCertificates();
                     sendMessageToPc("SSL message testing");
 
                 } catch (IOException e) {
