@@ -1,6 +1,7 @@
 package mantvydas.volumr;
 
 import android.content.Context;
+import android.net.SSLCertificateSocketFactory;
 import android.util.Log;
 
 import java.io.BufferedInputStream;
@@ -23,6 +24,7 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSession;
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
+import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactory;
 import javax.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
@@ -44,6 +46,7 @@ public class ServerConnection {
     Certificate ca = null;
     CertificateFactory cf = null;
     KeyStore keyStore = null;
+    TrustManager trustManager[];
 
 
     /**
@@ -110,10 +113,19 @@ public class ServerConnection {
                 super.run();
                 try {
                     test();
-                    SocketFactory socketFactory = SSLSocketFactory.getDefault();
+//                    SocketFactory socketFactory = SSLSocketFactory.getDefault();
+//                    SocketFactory socketFactory;
+
+                    SSLSocketFactory socketFactory = (SSLSocketFactory) SSLCertificateSocketFactory.getDefault();
+
+
+//                    socketFactory.setTrustManagers(trustManager);
+
                     socket = (SSLSocket) socketFactory.createSocket(fullIPAddress, dstPort);
+                    socket.setUseClientMode(true);
                     SSLSession sslSession = socket.getSession();
                     Certificate[] certificates = sslSession.getLocalCertificates();
+
                     sendMessageToPc("SSL message testing");
 
                 } catch (IOException e) {
@@ -217,6 +229,8 @@ public class ServerConnection {
             // Create an SSLContext that uses our TrustManager
             context = SSLContext.getInstance("TLS");
             context.init(null, tmf.getTrustManagers(), null);
+            trustManager = tmf.getTrustManagers();
+
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         } catch (KeyStoreException e) {
