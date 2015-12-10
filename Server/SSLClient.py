@@ -8,7 +8,7 @@ s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 ssl_sock = ssl.wrap_socket(s,
                            ca_certs="volumr.crt",
-                           cert_reqs=ssl.CERT_NONE)
+                           cert_reqs=ssl.CERT_REQUIRED)
 
 ssl_sock.connect(("10.53.12.78", 8506))
 

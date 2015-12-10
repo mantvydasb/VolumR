@@ -134,7 +134,7 @@ public class ServerConnection {
                     socket.setUseClientMode(true);
                     SSLSession sslSession = socket.getSession();
                     Certificate[] certificates = sslSession.getPeerCertificates();
-                    sendMessageToPc("mantvydas epinis zmogus");
+                    sendMessageToPc("pienas ir SSL");
 
                 } catch (IOException e) {
                     e.printStackTrace();
