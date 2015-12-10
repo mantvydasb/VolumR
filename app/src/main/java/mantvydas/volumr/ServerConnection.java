@@ -118,15 +118,23 @@ public class ServerConnection {
 
                     SSLSocketFactory socketFactory = (SSLSocketFactory) SSLCertificateSocketFactory.getDefault();
 
-
 //                    socketFactory.setTrustManagers(trustManager);
+
+                    try {
+                        SSLContext sslcontext = SSLContext.getInstance("TLSv1.1");
+                        sslcontext.init(null, trustManager, null);
+                        socketFactory = sslcontext.getSocketFactory();
+                    } catch (NoSuchAlgorithmException e) {
+                        e.printStackTrace();
+                    } catch (KeyManagementException e) {
+                        Log.e("run: §", e.toString());
+                    }
 
                     socket = (SSLSocket) socketFactory.createSocket(fullIPAddress, dstPort);
                     socket.setUseClientMode(true);
                     SSLSession sslSession = socket.getSession();
-                    Certificate[] certificates = sslSession.getLocalCertificates();
-
-                    sendMessageToPc("SSL message testing");
+                    Certificate[] certificates = sslSession.getPeerCertificates();
+                    sendMessageToPc("mantvydas epinis zmogus");
 
                 } catch (IOException e) {
                     e.printStackTrace();

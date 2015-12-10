@@ -4,16 +4,18 @@ bindsocket = socket.socket()
 bindsocket.bind(("10.53.12.78", 8506))
 bindsocket.listen(5)
 
-def do_something(connstream, data):
-    print("do_something:", data)
+def do_something(data):
+    print(data)
     return False
 
 def deal_with_client(connstream):
-    data = connstream.read()
-    while data:
-        if not do_something(connstream, data):
-            break
-        data = connstream.read()
+    while True:
+        data = connstream.recv(1024).decode()
+        if data:
+            do_something(data)
+        # if not do_something(connstream, data):
+        #     break
+        # data = connstream.read()
 
 while True:
     newsocket, fromaddr = bindsocket.accept()
