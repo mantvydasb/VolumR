@@ -5,12 +5,9 @@ import android.net.SSLCertificateSocketFactory;
 import android.util.Log;
 
 import java.io.BufferedInputStream;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.Socket;
-import java.net.URL;
 import java.security.KeyManagementException;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
@@ -18,15 +15,13 @@ import java.security.NoSuchAlgorithmException;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateFactory;
 
-import javax.net.SocketFactory;
-import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSession;
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactory;
-import javax.security.cert.CertificateException;
+
 import java.security.cert.X509Certificate;
 
 /**
@@ -34,10 +29,11 @@ import java.security.cert.X509Certificate;
  */
 public class ServerConnection {
     private final String STOP_SERVER = "STOP_SERVER";
-//    private Socket socket;
     private SSLSocket socket;
     private String shortIPAddress;
-    private String IPAddress = "10.53.12.78";
+//    private String IPAddress = null;
+    private String IPAddress = "192.168.2.3";
+    final int PORT = 8506;
     private Context context;
     private OnConnectionListener onConnectionListener;
     static ServerConnection serverConnection;
@@ -105,8 +101,7 @@ public class ServerConnection {
     }
 
     private void connectToSocket(final String fullIPAddress) {
-        final int dstPort = 8506;
-//            new Socket(fullIPAddress, dstPort);
+//            new Socket(fullIPAddress, PORT);
         new Thread() {
             @Override
             public void run() {
@@ -121,7 +116,7 @@ public class ServerConnection {
 //                    socketFactory.setTrustManagers(trustManager);
 
                     try {
-                        SSLContext sslcontext = SSLContext.getInstance("TLSv1.1");
+                        SSLContext sslcontext = SSLContext.getInstance("TLSv1.2");
                         sslcontext.init(null, trustManager, null);
                         socketFactory = sslcontext.getSocketFactory();
                     } catch (NoSuchAlgorithmException e) {
@@ -130,7 +125,7 @@ public class ServerConnection {
                         Log.e("run: §", e.toString());
                     }
 
-                    socket = (SSLSocket) socketFactory.createSocket(fullIPAddress, dstPort);
+                    socket = (SSLSocket) socketFactory.createSocket(fullIPAddress, PORT);
                     socket.setUseClientMode(true);
                     SSLSession sslSession = socket.getSession();
                     Certificate[] certificates = sslSession.getPeerCertificates();
@@ -193,7 +188,7 @@ public class ServerConnection {
         }
 
         try {
-            InputStream open = context.getAssets().open("volumr.crt");
+            InputStream open = context.getAssets().open("server.crt");
             caInput = new BufferedInputStream(open);
         } catch (FileNotFoundException e) {
             e.printStackTrace();

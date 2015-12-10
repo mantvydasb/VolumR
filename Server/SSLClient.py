@@ -10,7 +10,7 @@ ssl_sock = ssl.wrap_socket(s,
                            ca_certs="volumr.crt",
                            cert_reqs=ssl.CERT_REQUIRED)
 
-ssl_sock.connect(("10.53.12.78", 8506))
+ssl_sock.connect(("192.168.2.3", 8506))
 
 print(repr(ssl_sock.getpeername()))
 print(ssl_sock.cipher())
@@ -18,15 +18,15 @@ print(pprint.pformat(ssl_sock.getpeercert()))
 
 ssl_sock.write("Siunciamas sertifikatas".encode("utf8"))
 
-if False:
-    # from the Python 2.7.3 docs
-    # Set a simple HTTP request -- use httplib in actual code.
-    ssl_sock.write("""GET / HTTP/1.0\r
-    Host: www.verisign.com\n\n""")
-
-    # Read a chunk of data.  Will not necessarily
-    # read all the data returned by the server.
-    data = ssl_sock.read()
-
-    # note that closing the SSLSocket will also close the underlying socket
-    ssl_sock.close()
+# if False:
+#     # from the Python 2.7.3 docs
+#     # Set a simple HTTP request -- use httplib in actual code.
+#     ssl_sock.write("""GET / HTTP/1.0\r
+#     Host: www.verisign.com\n\n""")
+#
+#     # Read a chunk of data.  Will not necessarily
+#     # read all the data returned by the server.
+#     data = ssl_sock.read()
+#
+#     # note that closing the SSLSocket will also close the underlying socket
+#     ssl_sock.close()
