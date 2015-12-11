@@ -21,20 +21,13 @@ public class ServerConnection {
     private final String STOP_SERVER = "STOP_SERVER";
     private SSLSocket socket;
     private String shortIPAddress;
-//    private String IPAddress = null;
-    private String IPAddress = "10.53.12.29";
+    private String IPAddress = null;
+//    private String IPAddress = "10.53.12.29";
     final int PORT = 8506;
     final String CERTIFICATE = "server.crt";
     private Context context;
     private OnConnectionListener onConnectionListener;
     static ServerConnection serverConnection;
-
-    InputStream caInput = null;
-    Certificate ca = null;
-    CertificateFactory cf = null;
-    KeyStore keyStore = null;
-    TrustManager trustManager[];
-
 
     /**
      * Connects to a a server - user's PC which is on the same network as user's Android device
