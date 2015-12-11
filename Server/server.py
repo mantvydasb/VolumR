@@ -14,6 +14,8 @@ VOLUME_CHANGED = 'VOLUME_CHANGED'
 STOP_SERVER = 'STOP_SERVER'
 RESTARTING_SERVER = "Client disconnected, restarting server.."
 MESSAGE_LENGHT = 10
+KEY = "server.key"
+CERTIFICATE = "server.crt"
 
 class Server:
     host = None
@@ -42,8 +44,8 @@ class Server:
 
     def listenForMessages(self, clientSocket):
         while True:
-            # message = clientSocket.recv(2048).decode()
-            message = ssl.wrap_socket(clientSocket, keyfile="volumr.key", server_side=True, certfile="volumr.crt", do_handshake_on_connect=True)
+            secureConnection = ssl.wrap_socket(clientSocket, keyfile=KEY, server_side=True, certfile=CERTIFICATE, do_handshake_on_connect=True)
+            message = secureConnection.recv(2048).decode()
 
             if message == STOP_SERVER:
                 print("Message: " + STOP_SERVER)
@@ -88,7 +90,7 @@ class Server:
         win32api.keybd_event(win32con.VK_LEFT, 0, 0, 0)
 
     def pressSpace(self):
-            win32api.keybd_event(win32con.VK_SPACE, 0, 0, 0)
+        win32api.keybd_event(win32con.VK_SPACE, 0, 0, 0)
 
     def restartServer(self, clientSocket):
         print(RESTARTING_SERVER)

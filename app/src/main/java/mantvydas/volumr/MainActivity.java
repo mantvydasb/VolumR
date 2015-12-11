@@ -302,7 +302,7 @@ public class MainActivity extends AppCompatActivity implements
 
 
     @Override
-    public void onNoConnection() {
+    public void onConnectionLost() {
         showConnectivityLabel();
     }
 

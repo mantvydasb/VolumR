@@ -1,28 +1,18 @@
 package mantvydas.volumr;
 
 import android.content.Context;
-import android.net.SSLCertificateSocketFactory;
 import android.util.Log;
 
-import java.io.BufferedInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.security.KeyManagementException;
 import java.security.KeyStore;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateFactory;
 
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSession;
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
-import javax.net.ssl.TrustManagerFactory;
 
-import java.security.cert.X509Certificate;
 
 /**
  * Created by mantvydas on 10/13/2015.
@@ -32,8 +22,9 @@ public class ServerConnection {
     private SSLSocket socket;
     private String shortIPAddress;
 //    private String IPAddress = null;
-    private String IPAddress = "192.168.2.3";
+    private String IPAddress = "10.53.12.29";
     final int PORT = 8506;
+    final String CERTIFICATE = "server.crt";
     private Context context;
     private OnConnectionListener onConnectionListener;
     static ServerConnection serverConnection;
@@ -101,36 +92,15 @@ public class ServerConnection {
     }
 
     private void connectToSocket(final String fullIPAddress) {
-//            new Socket(fullIPAddress, PORT);
         new Thread() {
             @Override
             public void run() {
                 super.run();
                 try {
-                    test();
-//                    SocketFactory socketFactory = SSLSocketFactory.getDefault();
-//                    SocketFactory socketFactory;
-
-                    SSLSocketFactory socketFactory = (SSLSocketFactory) SSLCertificateSocketFactory.getDefault();
-
-//                    socketFactory.setTrustManagers(trustManager);
-
-                    try {
-                        SSLContext sslcontext = SSLContext.getInstance("TLSv1.2");
-                        sslcontext.init(null, trustManager, null);
-                        socketFactory = sslcontext.getSocketFactory();
-                    } catch (NoSuchAlgorithmException e) {
-                        e.printStackTrace();
-                    } catch (KeyManagementException e) {
-                        Log.e("run: §", e.toString());
-                    }
-
+                    SSLSocketFactory socketFactory = new TLSSocketFactory().createSSLSocketFactory(context, CERTIFICATE);
                     socket = (SSLSocket) socketFactory.createSocket(fullIPAddress, PORT);
                     socket.setUseClientMode(true);
-                    SSLSession sslSession = socket.getSession();
-                    Certificate[] certificates = sslSession.getPeerCertificates();
-                    sendMessageToPc("pienas ir SSL");
-
+                    sendMessageToPc("volume:40;");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -154,15 +124,13 @@ public class ServerConnection {
                         socket.getOutputStream().flush();
                         onConnectionListener.onMessageSend();
                     } else {
-                        onConnectionListener.onNoConnection();
+                        onConnectionListener.onConnectionLost();
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
         }.run();
-
-
     }
 
     public void reconnectToPc() {
@@ -178,75 +146,10 @@ public class ServerConnection {
         }
     }
 
-    private void test() {
-        // Load CAs from an InputStream
-        // (could be from a resource or ByteArrayInputStream or ...)
-        try {
-            cf = CertificateFactory.getInstance("X.509");
-        } catch (java.security.cert.CertificateException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            InputStream open = context.getAssets().open("server.crt");
-            caInput = new BufferedInputStream(open);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-
-        }
-
-        try {
-            ca = cf.generateCertificate(caInput);
-            System.out.println("ca=" + ((X509Certificate) ca).getSubjectDN());
-        } catch (java.security.cert.CertificateException e) {
-            e.printStackTrace();
-//            caInput.close();
-        }
-
-
-        try {
-            // Create a KeyStore containing our trusted CAs
-            String keyStoreType = KeyStore.getDefaultType();
-            keyStore = KeyStore.getInstance(keyStoreType);
-            keyStore.load(null, null);
-            keyStore.setCertificateEntry("ca", ca);
-        } catch (KeyStoreException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (java.security.cert.CertificateException e) {
-            e.printStackTrace();
-        }
-
-        SSLContext context = null;
-
-        try {
-            // Create a TrustManager that trusts the CAs in our KeyStore
-            String tmfAlgorithm = TrustManagerFactory.getDefaultAlgorithm();
-            TrustManagerFactory tmf = TrustManagerFactory.getInstance(tmfAlgorithm);
-            tmf.init(keyStore);
-
-            // Create an SSLContext that uses our TrustManager
-            context = SSLContext.getInstance("TLS");
-            context.init(null, tmf.getTrustManagers(), null);
-            trustManager = tmf.getTrustManagers();
-
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (KeyStoreException e) {
-            e.printStackTrace();
-        } catch (KeyManagementException e) {
-            e.printStackTrace();
-        }
-    }
-
 
     public interface OnConnectionListener {
         void onMessageSend();
-        void onNoConnection();
+        void onConnectionLost();
     }
 
 }

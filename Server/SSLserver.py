@@ -1,7 +1,7 @@
 import socket, ssl
 
 bindsocket = socket.socket()
-bindsocket.bind(("192.168.2.3", 8506))
+bindsocket.bind(("10.53.12.29", 8506))
 bindsocket.listen(5)
 
 def do_something(data):
@@ -21,7 +21,6 @@ while True:
     connstream = ssl.wrap_socket(newsocket,
                                  server_side=True,
                                  certfile="server.crt",
-                                 ssl_version=ssl.PROTOCOL_TLSv1_2,
                                  keyfile="server.key"
                                  )
     print("Will deal with connection")
