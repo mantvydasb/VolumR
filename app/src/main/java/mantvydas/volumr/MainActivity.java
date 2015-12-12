@@ -184,16 +184,7 @@ public class MainActivity extends AppCompatActivity implements
         final String message = "volume:" + volume + ";";
 
         Log.e("changeVolume: ", message);
-
-
-        new Thread() {
-            @Override
-            public void run() {
-                super.run();
-                sendMessageToPc(message);
-            }
-        }.run();
-
+        sendMessageToPc(message);
     }
 
     private void seekForward() {
@@ -212,17 +203,11 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     private void sendMessageToPc(final String message) {
-        new Thread() {
-            @Override
-            public void run() {
-                super.run();
-                if (ServerConnection.serverConnection.isConnected()) {
-                    ServerConnection.serverConnection.sendMessageToPc(message);
-                } else {
-                    setConnectivityLabel();
-                }
-            }
-        }.run();
+        if (ServerConnection.serverConnection.isConnected()) {
+            ServerConnection.serverConnection.sendMessageToPc(message);
+        } else {
+            setConnectivityLabel();
+        }
     }
 
     public void changeVolumeWithPhysicalKeys(int volume) {

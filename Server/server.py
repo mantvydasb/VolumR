@@ -23,7 +23,6 @@ class Server:
     serverSocket = None
     clientSocket = None
 
-
     def __init__(self, ipAddress):
         """
         Opens a socket for the specified IP address that listens for commands from the client (volume change, seek, play/pause, etc);
@@ -37,19 +36,20 @@ class Server:
         self.serverSocket.listen(5)
 
         print("Server started on " + self.ip + ":" + str(PORT) + " and listening")
+
         clientSocket, clientAddress = self.serverSocket.accept()
+        secureClientSocket = ssl.wrap_socket(clientSocket, keyfile=KEY, server_side=True, certfile=CERTIFICATE, do_handshake_on_connect=True)
+        print('Connection from', clientAddress)
 
-        print('Got connection from', clientAddress)
-        self.listenForMessages(clientSocket)
+        self.listenForMessages(secureClientSocket)
 
-    def listenForMessages(self, clientSocket):
+    def listenForMessages(self, secureClientSocket):
         while True:
-            secureConnection = ssl.wrap_socket(clientSocket, keyfile=KEY, server_side=True, certfile=CERTIFICATE, do_handshake_on_connect=True)
-            message = secureConnection.recv(2048).decode()
+            message = secureClientSocket.recv(2048).decode()
 
             if message == STOP_SERVER:
                 print("Message: " + STOP_SERVER)
-                self.restartServer(clientSocket)
+                self.restartServer(secureClientSocket)
                 break
 
             elif message != '':
@@ -92,7 +92,7 @@ class Server:
     def pressSpace(self):
         win32api.keybd_event(win32con.VK_SPACE, 0, 0, 0)
 
-    def restartServer(self, clientSocket):
+    def restartServer(self, secureClientSocket):
         print(RESTARTING_SERVER)
-        clientSocket.close()
+        secureClientSocket.close()
         self.startServer()
