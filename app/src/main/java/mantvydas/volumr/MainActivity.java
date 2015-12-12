@@ -296,18 +296,27 @@ public class MainActivity extends AppCompatActivity implements
         collapseConnectivityLabel();
     }
 
-
-
-
     @Override
     protected void onStop() {
         super.onStop();
-//        server.disconnectFromPc();
+        new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                server.disconnectFromPc();
+            }
+        }.run();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-//        server.reconnectToPc();
+        new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                server.reconnectToPc();
+            }
+        }.run();
     }
 }

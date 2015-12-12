@@ -47,12 +47,9 @@ public class TLSSocketFactory {
         return sslContext.getSocketFactory();
     }
 
-
-
-
     private class CertificateTrustManager {
 
-        public KeyStore addCertificateToKeyStore(Certificate certificate) {
+        private KeyStore addCertificateToKeyStore(Certificate certificate) {
             KeyStore keyStore = null;
 
             try {
@@ -72,7 +69,7 @@ public class TLSSocketFactory {
             return keyStore;
         }
 
-        public TrustManager[] addTrustedKeyStore(KeyStore keyStore) {
+        private TrustManager[] addTrustedKeyStore(KeyStore keyStore) {
             String algorithm = TrustManagerFactory.getDefaultAlgorithm();
             TrustManagerFactory trustManagerFactory = null;
 
@@ -94,9 +91,7 @@ public class TLSSocketFactory {
         }
     }
 
-
-
-    public class CertificateGenerator {
+    private class CertificateGenerator {
 
         private CertificateFactory getCertificateFactory(String instanceName) {
             CertificateFactory certificateFactory = null;
@@ -138,7 +133,7 @@ public class TLSSocketFactory {
             return certificate;
         }
 
-        public Certificate generateCertificateFromFile(String pathToCertificate) {
+        private Certificate generateCertificateFromFile(String pathToCertificate) {
             CertificateFactory certificateFactory = getCertificateFactory(null);
             BufferedInputStream certificateStream = readCertificateFile(pathToCertificate);
             Certificate certificate = generateCertificateFromStream(certificateFactory, certificateStream);
