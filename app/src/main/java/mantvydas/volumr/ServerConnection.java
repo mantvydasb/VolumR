@@ -1,23 +1,23 @@
 package mantvydas.volumr;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.util.Log;
-
 import java.io.IOException;
-import java.net.Socket;
-
-import javax.net.ssl.SSLSession;
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
+
 
 /**
  * Created by mantvydas on 10/13/2015.
  */
 public class ServerConnection {
     private final String STOP_SERVER = "STOP_SERVER";
-    private Socket socket;
+    private SSLSocket socket;
     private String shortIPAddress;
     private String IPAddress = null;
+    final int PORT = 8506;
+    final String CERTIFICATE = "server.crt";
     private Context context;
     private OnConnectionListener onConnectionListener;
     static ServerConnection serverConnection;
@@ -48,80 +48,100 @@ public class ServerConnection {
                     connectToSocket(IPAddress);
                 }
             }
-
-            /**
-             Scan the entire LAN and look for an open VolumR socket on port 8506;
-             Only the last octet will be scanned through from 0 to 255;
-             I.e. if the device's IP is 192.168.2.2, then this method cycles IPs from 192.168.2.0/255 to see if there's any socket open and connect to it if so.
-             */
-            private void connectToOpenSocket() {
-                shortIPAddress = WifiIPRetriever.getShorterIP(context);
-
-                for (int i = 0; i <= 255; i++) {
-                    final String fullIPAddress = shortIPAddress + i;
-                    Log.e("Connecting to", fullIPAddress);
-
-                    new Thread() {
-                        @Override
-                        public void run() {
-                            super.run();
-                            connectToSocket(fullIPAddress);
-                        }
-                    }.start();
-                }
-            }
         }.start();
+    }
+
+    /**
+     Scan the entire LAN and look for an open VolumR socket on port 8506;
+     Only the last octet will be scanned through from 0 to 255;
+     I.e. if the device's IP is 192.168.2.2, then this method cycles IPs from 192.168.2.1-255 to see if there's any socket open and connect to it if so.
+     */
+    private void connectToOpenSocket() {
+        shortIPAddress = WifiIPRetriever.getShorterIP(context);
+
+        for (int i = 1; i <= 255; i++) {
+            final String fullIPAddress = shortIPAddress + i;
+            Log.e("Connecting to", fullIPAddress);
+            connectToSocket(fullIPAddress);
+        }
     }
 
     public void disconnectFromPc() {
         sendMessageToPc(STOP_SERVER);
     }
 
-    private void connectToSocket(String fullIPAddress) {
+    private void connectToSocket(final String fullIPAddress) {
         try {
-            int dstPort = 8506;
-            socket = new Socket(fullIPAddress, dstPort);
-
-
-            if (socket != null) {
-                IPAddress = fullIPAddress;
-            }
+            SSLSocketFactory socketFactory = new TLSSocketFactory().createSSLSocketFactory(context, CERTIFICATE);
+            socket = (SSLSocket) socketFactory.createSocket(fullIPAddress, PORT);
+            socket.setUseClientMode(true);
         } catch (IOException e) {
             e.printStackTrace();
+        }
+
+        if (socket != null) {
+            IPAddress = fullIPAddress;
         }
     }
 
-    public void sendMessageToPc(String msg) {
-        try {
-            byte[] message = msg.getBytes();
-            if (socket != null) {
-                socket.getOutputStream().write(message);
-                socket.getOutputStream().flush();
-                onConnectionListener.onMessageSend();
-            } else {
-                onConnectionListener.onNoConnection();
+    public void sendMessageToPc(final String msg) {
+        new AsyncTask<Void, Void, Boolean>() {
+            @Override
+            protected Boolean doInBackground(Void... params) {
+                boolean isSocketAlive = true;
+                try {
+                    byte[] message = msg.getBytes();
+                    if (socket != null) {
+                        socket.getOutputStream().write(message);
+                        socket.getOutputStream().flush();
+                        isSocketAlive = true;
+                    } else {
+                        isSocketAlive = false;
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return isSocketAlive;
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
+            @Override
+            protected void onPostExecute(Boolean isSocketAlive) {
+                super.onPostExecute(isSocketAlive);
+
+                if (isSocketAlive) {
+                    onConnectionListener.onMessageSend();
+                } else {
+                    onConnectionListener.onConnectionLost();
+                }
+            }
+        }.execute();
     }
 
     public void reconnectToPc() {
-        if (socket != null) {
-            try {
-                if (socket.isConnected()) {
-                    socket.close();
-                    connectToPc();
+
+        new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                if (socket != null) {
+                    try {
+                        if (socket.isConnected()) {
+                            socket.close();
+                            connectToPc();
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
             }
-        }
+        }.run();
+
+
     }
+
 
     public interface OnConnectionListener {
         void onMessageSend();
-        void onNoConnection();
+        void onConnectionLost();
     }
-
 }

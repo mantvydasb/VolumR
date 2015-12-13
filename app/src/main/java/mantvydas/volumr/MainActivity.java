@@ -181,7 +181,7 @@ public class MainActivity extends AppCompatActivity implements
         float volumeFloat = 100 - (y / (dragHandler.getScreenSize().y - volumeController.getHeight())) * 100;
         String volume = Integer.toString(Math.round(volumeFloat));
         volumeLevel.setText(volume);
-        String message = "volume:" + volume + ";";
+        final String message = "volume:" + volume + ";";
 
         Log.e("changeVolume: ", message);
         sendMessageToPc(message);
@@ -202,7 +202,7 @@ public class MainActivity extends AppCompatActivity implements
         sendMessageToPc(VK_SPACE);
     }
 
-    private void sendMessageToPc(String message) {
+    private void sendMessageToPc(final String message) {
         if (ServerConnection.serverConnection.isConnected()) {
             ServerConnection.serverConnection.sendMessageToPc(message);
         } else {
@@ -287,7 +287,7 @@ public class MainActivity extends AppCompatActivity implements
 
 
     @Override
-    public void onNoConnection() {
+    public void onConnectionLost() {
         showConnectivityLabel();
     }
 
@@ -296,18 +296,27 @@ public class MainActivity extends AppCompatActivity implements
         collapseConnectivityLabel();
     }
 
-
-
-
     @Override
     protected void onStop() {
         super.onStop();
-        server.disconnectFromPc();
+        new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                server.disconnectFromPc();
+            }
+        }.run();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        server.reconnectToPc();
+        new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                server.reconnectToPc();
+            }
+        }.run();
     }
 }
