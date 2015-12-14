@@ -37,11 +37,11 @@ class Server:
 
         print("Server started on " + self.ip + ":" + str(PORT) + " and listening")
 
-        clientSocket, clientAddress = self.serverSocket.accept()
-        secureClientSocket = ssl.wrap_socket(clientSocket, keyfile=KEY, server_side=True, certfile=CERTIFICATE, do_handshake_on_connect=True)
-        print('Connection from', clientAddress)
-
-        self.listenForMessages(secureClientSocket)
+        while True:
+            clientSocket, clientAddress = self.serverSocket.accept()
+            print('Connection from', clientAddress)
+            secureClientSocket = ssl.wrap_socket(clientSocket, keyfile=KEY, server_side=True, certfile=CERTIFICATE, do_handshake_on_connect=True)
+            self.listenForMessages(secureClientSocket)
 
     def listenForMessages(self, secureClientSocket):
         while True:

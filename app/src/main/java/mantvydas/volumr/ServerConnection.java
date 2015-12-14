@@ -32,6 +32,14 @@ public class ServerConnection {
         this.context = context;
         connectToPc();
         this.serverConnection = this;
+//
+//        while (true) {
+//            try {
+//                int pienas = socket.getInputStream().read();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
     }
 
     public boolean isConnected() {
@@ -88,20 +96,25 @@ public class ServerConnection {
         new AsyncTask<Void, Void, Boolean>() {
             @Override
             protected Boolean doInBackground(Void... params) {
-                boolean isSocketAlive = true;
                 try {
                     byte[] message = msg.getBytes();
                     if (socket != null) {
                         socket.getOutputStream().write(message);
                         socket.getOutputStream().flush();
-                        isSocketAlive = true;
-                    } else {
-                        isSocketAlive = false;
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                return isSocketAlive;
+
+                 return discardSocketIfRequired();
+            }
+
+            private boolean discardSocketIfRequired() {
+                if (msg == STOP_SERVER) {
+                    socket = null;
+                    IPAddress = null;
+                }
+                return true;
             }
 
             @Override
@@ -118,25 +131,15 @@ public class ServerConnection {
     }
 
     public void reconnectToPc() {
-
-        new Thread() {
+        new AsyncTask<Void, Void, Void>() {
             @Override
-            public void run() {
-                super.run();
-                if (socket != null) {
-                    try {
-                        if (socket.isConnected()) {
-                            socket.close();
-                            connectToPc();
-                        }
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+            protected Void doInBackground(Void... params) {
+                if (socket == null) {
+                    connectToPc();
                 }
+                return null;
             }
-        }.run();
-
-
+        }.execute();
     }
 
 

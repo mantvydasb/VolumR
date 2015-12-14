@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Typeface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -299,24 +300,24 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     protected void onStop() {
         super.onStop();
-        new Thread() {
+        new AsyncTask<Void, Void, Void>() {
             @Override
-            public void run() {
-                super.run();
+            protected Void doInBackground(Void... params) {
                 server.disconnectFromPc();
+                return null;
             }
-        }.run();
+        }.execute();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        new Thread() {
+        new AsyncTask<Void, Void, Void>() {
             @Override
-            public void run() {
-                super.run();
+            protected Void doInBackground(Void... params) {
                 server.reconnectToPc();
+                return null;
             }
-        }.run();
+        }.execute();
     }
 }
