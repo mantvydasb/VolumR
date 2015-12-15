@@ -28,30 +28,34 @@ class Server:
         Opens a socket for the specified IP address that listens for commands from the client (volume change, seek, play/pause, etc);
         """
         self.ip = str(ipAddress)
+
         self.startServer()
+        secureClientSocket = self.acceptConnections()
+        self.receiveMessages(secureClientSocket)
 
     def startServer(self):
         self.serverSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM, 0)
         self.serverSocket.bind((self.ip, PORT))
         self.serverSocket.listen(5)
-
         print("Server started on " + self.ip + ":" + str(PORT) + " and listening")
 
+    def acceptConnections(self):
         while True:
             clientSocket, clientAddress = self.serverSocket.accept()
             print('Connection from', clientAddress)
-            secureClientSocket = ssl.wrap_socket(clientSocket, keyfile=KEY, server_side=True, certfile=CERTIFICATE, do_handshake_on_connect=True)
-            self.listenForMessages(secureClientSocket)
+            return ssl.wrap_socket(clientSocket,
+                                                 keyfile=KEY,
+                                                 server_side=True,
+                                                 certfile=CERTIFICATE,
+                                                 do_handshake_on_connect=True)
 
-    def listenForMessages(self, secureClientSocket):
+    def receiveMessages(self, secureClientSocket):
         while True:
             message = secureClientSocket.recv(2048).decode()
 
             if message == STOP_SERVER:
-                print("Message: " + STOP_SERVER)
                 self.restartServer(secureClientSocket)
                 break
-
             elif message != '':
                 command, value = self.extractCommand(message)
                 print(command, value)
@@ -95,4 +99,4 @@ class Server:
     def restartServer(self, secureClientSocket):
         print(RESTARTING_SERVER)
         secureClientSocket.close()
-        self.startServer()
+        self.__init__(self.ip)
