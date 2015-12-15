@@ -30,23 +30,15 @@ public class ServerConnection {
     public ServerConnection(OnConnectionListener onConnectionListener, Context context) {
         this.onConnectionListener = onConnectionListener;
         this.context = context;
-        connectToPc();
+        attemptToConnect();
         this.serverConnection = this;
-//
-//        while (true) {
-//            try {
-//                int pienas = socket.getInputStream().read();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        }
     }
 
     public boolean isConnected() {
         return (socket != null) ? socket.isConnected() : false;
     }
 
-    public void connectToPc() {
+    public void attemptToConnect() {
         new Thread() {
             @Override
             public void run() {
@@ -135,7 +127,7 @@ public class ServerConnection {
             @Override
             protected Void doInBackground(Void... params) {
                 if (socket == null) {
-                    connectToPc();
+                    attemptToConnect();
                 }
                 return null;
             }
