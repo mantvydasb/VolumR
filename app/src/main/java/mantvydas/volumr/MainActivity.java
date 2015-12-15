@@ -108,8 +108,8 @@ public class MainActivity extends AppCompatActivity implements
             public void onYChanged(float y, int numberOfFingers) {
                 if (numberOfFingers == 1 && canChangeVolume == true) {
                     changeVolume(y);
+                    updateBookmarkPosition(y);
                 }
-                updateBookmarkPosition(y);
             }
 
             private void updateBookmarkPosition(float y) {
