@@ -4,6 +4,7 @@ import converters
 import ssl
 import win32api
 import win32con
+import config
 
 __author__ = 'mantvydas'
 PORT = 8506
@@ -12,6 +13,7 @@ STOP_SERVER = 'STOP_SERVER'
 RESTARTING_SERVER = "Client disconnected, restarting server.."
 KEY = "server.key"
 CERTIFICATE = "server.crt"
+NIRCMD_EXE_PATH = config.NIRCMD_EXE_PATH
 
 class Server:
     host = None
@@ -79,7 +81,7 @@ class Server:
         newVolume = (int(message) / 100 * MAX_VOLUME)
 
         if newVolume / MAX_VOLUME < 1:
-            command = "nircmd.exe setvolume 0 " + str(newVolume) + " " + str(newVolume)
+            command = NIRCMD_EXE_PATH + " setvolume 0 " + str(newVolume) + " " + str(newVolume)
             subprocess.call(command)
 
     def pressRight(self):
