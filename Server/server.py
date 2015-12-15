@@ -2,10 +2,8 @@ import socket
 import subprocess
 import converters
 import ssl
-
 import win32api
 import win32con
-import os
 
 __author__ = 'mantvydas'
 PORT = 8506
