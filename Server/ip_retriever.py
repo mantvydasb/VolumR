@@ -52,22 +52,22 @@ def presentIPAddresses(IPAddresses):
 
 def getIPIndex(IPAddresses):
     lastIPIndex = str(IPAddresses.__len__() - 1)
-    print("Enter a number from 0 to " + lastIPIndex +
-          " to indicate the IP of a computer you want to control the volume on:")
+    print("Enter a number to indicate the IP of a computer you want to control the volume on:")
 
     try:
         index = int(input())
 
-        if 0 <= index < IPAddresses.__len__():
-            print("You chose: " + IPAddresses[index])
-            return index
-        else:
-            print("Dude! From 0 to " + lastIPIndex)
-            return getIPIndex()
+        if index:
+            if 0 <= index < IPAddresses.__len__():
+                print("You chose: " + IPAddresses[index])
+                return index
+            else:
+                print("Dude! From 0 to " + lastIPIndex)
+                return getIPIndex()
+    except:
+        pass
 
-    except ValueError:
-        print("Dude, numbers please!")
-        return getIPIndex()
+    return getIPIndex(IPAddresses)
 
 
 def readServerIPfromFile():
