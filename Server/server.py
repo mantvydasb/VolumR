@@ -10,10 +10,8 @@ import os
 __author__ = 'mantvydas'
 PORT = 8506
 MAX_VOLUME = 65535
-VOLUME_CHANGED = 'VOLUME_CHANGED'
 STOP_SERVER = 'STOP_SERVER'
 RESTARTING_SERVER = "Client disconnected, restarting server.."
-MESSAGE_LENGHT = 10
 KEY = "server.key"
 CERTIFICATE = "server.crt"
 
@@ -46,8 +44,7 @@ class Server:
             return ssl.wrap_socket(clientSocket,
                                                  keyfile=KEY,
                                                  server_side=True,
-                                                 certfile=CERTIFICATE,
-                                                 do_handshake_on_connect=True)
+                                                 certfile=CERTIFICATE)
 
     def receiveMessages(self, secureClientSocket):
         while True:
