@@ -61,7 +61,15 @@
         android:layout_alignParentLeft="false"
         android:paddingLeft="14dp" />
 
-        <!--android:background="#145c5c66"-->
+    <ImageView
+        android:layout_width="10dp"
+        android:src="@drawable/indicator"
+        android:layout_height="10dp"
+        android:id="@+id/indicator"
+        android:layout_marginLeft="-5dp"
+        android:alpha=".1" />
+
+    <!--android:background="#145c5c66"-->
 
 </RelativeLayout>
 

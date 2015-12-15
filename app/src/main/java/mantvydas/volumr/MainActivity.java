@@ -1,8 +1,5 @@
 package mantvydas.volumr;
 
-import android.animation.Animator;
-import android.animation.ObjectAnimator;
-import android.animation.ValueAnimator;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -16,8 +13,8 @@ import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.animation.LinearInterpolator;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.Timer;
@@ -32,6 +29,7 @@ public class MainActivity extends AppCompatActivity implements
         GestureDetector.OnDoubleTapListener,
         ServerConnection.OnConnectionListener {
     private ImageButton volumeController;
+    private ImageView volumeBookmark;
     private TextView connectivityLabel;
     private DragHandler dragHandler;
     private TextView volumeLevel;
@@ -49,6 +47,7 @@ public class MainActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_main);
 
         volumeController = (ImageButton) findViewById(R.id.volumeControllerBtn);
+        volumeBookmark = (ImageView) findViewById(R.id.indicator);
         connectivityLabel = (TextView) findViewById(R.id.connectivityLabel);
         setConnectivityLabel();
         server = new ServerConnection(this, this);
@@ -110,6 +109,11 @@ public class MainActivity extends AppCompatActivity implements
                 if (numberOfFingers == 1 && canChangeVolume == true) {
                     changeVolume(y);
                 }
+                updateBookmarkPosition(y);
+            }
+
+            private void updateBookmarkPosition(float y) {
+                volumeBookmark.setY(y + volumeController.getHeight() / 2);
             }
 
             @Override
