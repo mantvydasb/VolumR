@@ -36,7 +36,7 @@ def createScriptFile(fileName, script):
     launcherFile.write(script)
     launcherFile.close()
 
-def install():
+def finaliseInstallation():
     createSilentLauncherScript()
     createNircmdInstallerScript()
     installNircmd()

@@ -7,5 +7,5 @@ __author__ = 'mantvydas'
 
 registry_manager.writeToAutorun()
 serverIP = ip_retriever.getIPAddress()
-script_creator.install()
+script_creator.finaliseInstallation()
 volumrServer = server.Server(serverIP)
