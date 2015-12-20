@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageButton;
 
+import mantvydas.volumr.R;
+
 /**
  * Created by baranauskasm on 07/12/2015.
  */
@@ -16,7 +18,8 @@ public class VolumeControllerAnimator {
     private static final float scaleStart = 0.3f, scaleFinish = 1, scaleGone = 0;
     private static ImageButton volumeController;
 
-    public static void expandVolumeController(ImageButton volumeCtrl) {
+    public static void
+    expandVolumeController(ImageButton volumeCtrl) {
         volumeController = volumeCtrl;
         startPulsatingVolumeController();
         startRotatingVolumeController();
@@ -41,6 +44,7 @@ public class VolumeControllerAnimator {
                 @Override
                 public void onAnimationEnd(Animator animation) {
                     volumeController.setVisibility(View.GONE);
+                    volumeController.setImageResource(R.drawable.volume_controller);
                 }
 
                 @Override

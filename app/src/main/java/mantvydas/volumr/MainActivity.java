@@ -129,7 +129,6 @@ public class MainActivity extends AppCompatActivity implements
 
             @Override
             public void onMultipleFingersUp() {
-                volumeController.setImageResource(R.drawable.volume_controller);
                 setCanChangeVolume(true);
             }
 
@@ -201,9 +200,6 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     private void pressSpace() {
-        /*
-            Used to send a space bar press, which usually pauses/resumes the video player;
-         */
         sendMessageToPc(VK_SPACE);
     }
 
@@ -279,6 +275,7 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public boolean onDoubleTap(MotionEvent e) {
+        volumeController.setImageResource(R.drawable.volume_controller_double_tap);
         pressSpace();
         return true;
     }
