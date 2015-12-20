@@ -57,13 +57,12 @@ def getIPIndex(IPAddresses):
     try:
         index = int(input())
 
-        if index:
-            if 0 <= index < IPAddresses.__len__():
-                print("You chose: " + IPAddresses[index])
-                return index
-            else:
-                print("Dude! From 0 to " + lastIPIndex)
-                return getIPIndex()
+        if index >= 0 and index <= IPAddresses.__len__():
+            print("You chose: " + IPAddresses[index])
+            return index
+        else:
+            print("Dude! From 0 to " + lastIPIndex)
+            return getIPIndex()
     except:
         pass
 
