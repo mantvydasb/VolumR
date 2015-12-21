@@ -1,8 +1,9 @@
 import win32api
 import config
-import os.path
+import os
 import subprocess
 import shutil
+import getpass
 
 APP_NAME = config.APP_NAME
 HOME_PATH = os.path.curdir
@@ -44,6 +45,13 @@ def finaliseInstallation():
     importScheduledTaskToSystem()
 
 def createScheduledTaskXML():
+
+    # $user = New-Object System.Security.Principal.NTAccount("system")
+    # $sid = $user.Translate([System.Security.Principal.SecurityIdentifier])
+    # $sid.Value
+
+    # wmic sysaccount where name='system' get sid
+
     silentLauncherPath = os.path.abspath(config.APP_SILENT_LAUNCHER)
     arguments = "Start-Process " + silentLauncherPath
     workingDirectory = os.path.dirname(silentLauncherPath)
@@ -63,7 +71,7 @@ def createScheduledTaskXML():
           '</Triggers>\n'\
           '<Principals>\n'\
             '<Principal id="Author">\n'\
-              '<UserId>S-1-5-18</UserId>\n'\
+              '<UserId>S-1-5-21-4205859621-2656558253-3334258306-1001</UserId>\n'\
               '<RunLevel>HighestAvailable</RunLevel>\n'\
             '</Principal>\n'\
           '</Principals>\n'\
