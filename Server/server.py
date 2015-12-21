@@ -5,7 +5,7 @@ import ssl
 import win32api
 import win32con
 import config
-import script_creator
+import installation
 
 __author__ = 'mantvydas'
 PORT = 8506
@@ -40,7 +40,7 @@ class Server:
             print("Server started on " + self.ip + ":" + str(PORT) + " and listening")
         except socket.error as e:
             exceptionMessage = format(str(e))
-            script_creator.createScriptFile("crash.txt", exceptionMessage)
+            installation.createScriptFile("crash.txt", exceptionMessage)
             raise "Socket problems"
 
 
