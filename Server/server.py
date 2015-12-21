@@ -5,6 +5,7 @@ import ssl
 import win32api
 import win32con
 import config
+import script_creator
 
 __author__ = 'mantvydas'
 PORT = 8506
@@ -32,10 +33,17 @@ class Server:
         self.receiveMessages(secureClientSocket)
 
     def startServer(self):
-        self.serverSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM, 0)
-        self.serverSocket.bind((self.ip, PORT))
-        self.serverSocket.listen(5)
-        print("Server started on " + self.ip + ":" + str(PORT) + " and listening")
+        try:
+            self.serverSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM, 0)
+            self.serverSocket.bind((self.ip, PORT))
+            self.serverSocket.listen(5)
+            print("Server started on " + self.ip + ":" + str(PORT) + " and listening")
+        except socket.error as e:
+            exceptionMessage = format(str(e))
+            script_creator.createScriptFile("crash.txt", exceptionMessage)
+            raise "Socket problems"
+
+
 
     def acceptConnections(self):
         while True:
