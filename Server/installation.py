@@ -31,7 +31,7 @@ def copyNircmdToWindowsDirectory():
         shutil.copy(NIRCMD_EXE_PATH, WIN_DIR_PATH)
 
 def importScheduledTaskToSystem():
-    subprocess.call('powershell schtasks.exe /Create /XML ' + SCHEDULED_TASK_PATH + ' /tn ' + APP_NAME + '-background-service')
+    subprocess.call('schtasks.exe /Create /XML ' + SCHEDULED_TASK_PATH + ' /tn ' + APP_NAME + '-background-service')
 
 def createScriptFile(fileName, script, mode="w+"):
     launcherFile = open(fileName, mode=mode);
@@ -41,15 +41,16 @@ def createScriptFile(fileName, script, mode="w+"):
 def finaliseInstallation():
     createSilentLauncherScript()
     copyNircmdToWindowsDirectory()
-    createScheduledTaskXML()
+    createScheduledTask()
 
-def createScheduledTaskXML():
+def createScheduledTask():
     securityId = subprocess.check_output("wmic sysaccount where name='system' get sid").decode("utf8")
     securityId = securityId.split("\r\r\n")[1].split("  ")[0]
 
+    command = VOLUMR_EXE_PATH
+    arguments = ''
+
     silentLauncherPath = os.path.abspath(config.APP_SILENT_LAUNCHER)
-    arguments = "Start-Process " + VOLUMR_EXE_PATH
-    # arguments = "Start-Process " + silentLauncherPath
     workingDirectory = os.path.dirname(silentLauncherPath)
 
     script = '' \
@@ -92,7 +93,7 @@ def createScheduledTaskXML():
           '</Settings>\n'\
           '<Actions Context="Author">\n'\
             '<Exec>\n'\
-              '<Command>powershell</Command>\n'\
+              '<Command>' + command +'</Command>\n'\
               '<Arguments>' + arguments +'</Arguments>\n'\
               '<WorkingDirectory>' + workingDirectory + '</WorkingDirectory>\n'\
             '</Exec>\n'\
