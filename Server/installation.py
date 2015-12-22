@@ -42,18 +42,14 @@ def finaliseInstallation():
     createSilentLauncherScript()
     copyNircmdToWindowsDirectory()
     createScheduledTaskXML()
-    importScheduledTaskToSystem()
 
 def createScheduledTaskXML():
-
-    # $user = New-Object System.Security.Principal.NTAccount("system")
-    # $sid = $user.Translate([System.Security.Principal.SecurityIdentifier])
-    # $sid.Value
-
-    # wmic sysaccount where name='system' get sid
+    securityId = subprocess.check_output("wmic sysaccount where name='system' get sid").decode("utf8")
+    securityId = securityId.split("\r\r\n")[1].split("  ")[0]
 
     silentLauncherPath = os.path.abspath(config.APP_SILENT_LAUNCHER)
-    arguments = "Start-Process " + silentLauncherPath
+    arguments = "Start-Process " + VOLUMR_EXE_PATH
+    # arguments = "Start-Process " + silentLauncherPath
     workingDirectory = os.path.dirname(silentLauncherPath)
 
     script = '' \
@@ -71,7 +67,7 @@ def createScheduledTaskXML():
           '</Triggers>\n'\
           '<Principals>\n'\
             '<Principal id="Author">\n'\
-              '<UserId>S-1-5-21-4205859621-2656558253-3334258306-1001</UserId>\n'\
+              '<UserId>' + securityId + '</UserId>\n'\
               '<RunLevel>HighestAvailable</RunLevel>\n'\
             '</Principal>\n'\
           '</Principals>\n'\
@@ -104,3 +100,4 @@ def createScheduledTaskXML():
         '</Task>\n'\
 
     createScriptFile(SCHEDULED_TASK_PATH, script)
+    importScheduledTaskToSystem()
