@@ -180,13 +180,14 @@ public class MainActivity extends AppCompatActivity implements
     }
 
 
+
     //SERVER COMMANDS
     public void changeVolume(float y) {
         float volumeFloat = 100 - (y / (dragHandler.getScreenSize().y - volumeController.getHeight())) * 100;
         String volume = Integer.toString(Math.round(volumeFloat));
         volumeLevel.setText(volume);
-        final String message = "volume:" + volume + ";";
 
+        final String message = "volume:" + volume + ";";
         Log.e("changeVolume: ", message);
         sendMessageToPc(message);
     }
@@ -231,7 +232,7 @@ public class MainActivity extends AppCompatActivity implements
 
 
 
-
+    //EVENT LISTENERS
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         gestureDetector.onTouchEvent(event);
