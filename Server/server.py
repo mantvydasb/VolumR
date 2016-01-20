@@ -1,6 +1,6 @@
 import socket
 import subprocess
-import converters
+import utils
 import ssl
 import win32api
 import win32con
@@ -82,7 +82,7 @@ class Server:
     def extractCommand(self, message):
         message = message.split(";", 1)
         command, value = message[0].split(":", 1)
-        value = converters.stringToInt(value)
+        value = utils.stringToInt(value)
         return command, value
 
     def changeVolume(self, message):
