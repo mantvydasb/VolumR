@@ -2,10 +2,10 @@ import socket
 import subprocess
 import utils
 import ssl
-import win32api
-import win32con
+# import win32api
+# import win32con
 import config
-import installation
+# import installation
 
 __author__ = 'mantvydas'
 PORT = 8506
@@ -21,29 +21,29 @@ class Server:
     ip = None
     serverSocket = None
     clientSocket = None
+    isThisLinux = None
 
-    def __init__(self, ipAddress):
+    def __init__(self, ipAddress, isThisLinux):
         """
         Opens a socket for the specified IP address that listens for commands from the client (volume change, seek, play/pause, etc);
         """
         self.ip = str(ipAddress)
-
+        self.isThisLinux = isThisLinux
         self.startServer()
         secureClientSocket = self.acceptConnections()
         self.receiveMessages(secureClientSocket)
 
     def startServer(self):
-        try:
-            self.serverSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM, 0)
-            self.serverSocket.bind((self.ip, PORT))
-            self.serverSocket.listen(5)
-            print("Server started on " + self.ip + ":" + str(PORT) + " and listening")
-        except socket.error as e:
-            exceptionMessage = format(str(e))
-            installation.createScriptFile("crash.txt", exceptionMessage)
-            raise "Socket problems"
+        # try:
+        self.serverSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM, 0)
+        self.serverSocket.bind((self.ip, PORT))
+        self.serverSocket.listen(5)
+        print("Server started on " + self.ip + ":" + str(PORT) + " and listening")
+        # except socket.error as e:
+        #     exceptionMessage = format(str(e))
 
-
+            # installation.createScriptFile("crash.txt", exceptionMessage)
+            # raise "Socket problems"
 
     def acceptConnections(self):
         while True:
@@ -89,19 +89,36 @@ class Server:
         newVolume = (int(message) / 100 * MAX_VOLUME)
 
         if newVolume / MAX_VOLUME < 1:
-            command = NIRCMD_EXE_PATH + " setvolume 0 " + str(newVolume) + " " + str(newVolume)
-            subprocess.call(command)
+            if self.isThisLinux:
+                newVolume = int(newVolume)
+                command = "amixer sset 'Master' " + str(message) + "%"
+            else:
+                command = NIRCMD_EXE_PATH + " setvolume 0 " + str(newVolume) + " " + str(newVolume)
+            subprocess.Popen(command, shell=True)
+
+    def importWin32Libraries(self):
+        win32api, win32con = utils.importWin32libraries()
 
     def pressRight(self):
-        win32api.keybd_event(win32con.VK_RIGHT, 0, 0, 0)
+        if self.isThisLinux:
+            # do linux equivalent of press right;
+            self.pressVirtualKey(win32con.VK_RIGHT)
+        # win32api.keybd_event(win32con.VK_RIGHT, 0, 0, 0)
 
     def pressLeft(self):
-        win32api.keybd_event(win32con.VK_LEFT, 0, 0, 0)
+        self.pressVirtualKey(win32con.VK_LEFT)
+        # win32api.keybd_event(win32con.VK_LEFT, 0, 0, 0)
 
     def pressSpace(self):
-        win32api.keybd_event(win32con.VK_SPACE, 0, 0, 0)
+        self.pressVirtualKey(win32con.VK_SPACE)
+        # win32api.keybd_event(win32con.VK_SPACE, 0, 0, 0)
 
     def restartServer(self, secureClientSocket):
         print(RESTARTING_SERVER)
         secureClientSocket.close()
-        self.__init__(self.ip)
+        if not secureClientSocket._closed:
+            self.__init__(self.ip, self.isThisLinux)
+
+    def pressVirtualKey(self, VirtualKey):
+        win32api.keybd_event(VirtualKey, 0, 0, 0)
+
