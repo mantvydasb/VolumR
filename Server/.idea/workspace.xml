@@ -4,8 +4,6 @@
     <list default="true" id="0cd6b306-6057-41c5-9f39-f264444a5bdd" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server.py" afterPath="$PROJECT_DIR$/server.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/utils.py" afterPath="$PROJECT_DIR$/utils.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/volumr.py" afterPath="$PROJECT_DIR$/volumr.py" />
     </list>
     <ignored path="Server.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -41,8 +39,8 @@
       <file leaf-file-name="server.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/server.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.3938585">
-              <caret line="90" column="38" selection-start-line="90" selection-start-column="38" selection-end-line="90" selection-end-column="38" />
+            <state vertical-scroll-proportion="0.4552737">
+              <caret line="92" column="41" selection-start-line="92" selection-start-column="41" selection-end-line="92" selection-end-column="41" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
               </folding>
@@ -673,7 +671,13 @@
       <option name="project" value="LOCAL" />
       <updated>1453330463591</updated>
     </task>
-    <option name="localTasksCounter" value="39" />
+    <task id="LOCAL-00039" summary="- started rerouting commands based on the OS&#10;- implemented dynamic library injection for Win32&#10;- disabled win32 based features">
+      <created>1453335144005</created>
+      <option name="number" value="00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1453335144005</updated>
+    </task>
+    <option name="localTasksCounter" value="40" />
     <servers />
   </component>
   <component name="TodoView">
@@ -768,7 +772,8 @@
     <MESSAGE value="- updated scheduledTask script to be run with system permissions" />
     <MESSAGE value="cleaned up scheduled task script creation" />
     <MESSAGE value="- cleaned up scheduled task script creation&#10;- renamed converter file to utils&#10;- implemented isThisLinux function" />
-    <option name="LAST_COMMIT_MESSAGE" value="- cleaned up scheduled task script creation&#10;- renamed converter file to utils&#10;- implemented isThisLinux function" />
+    <MESSAGE value="- started rerouting commands based on the OS&#10;- implemented dynamic library injection for Win32&#10;- disabled win32 based features" />
+    <option name="LAST_COMMIT_MESSAGE" value="- started rerouting commands based on the OS&#10;- implemented dynamic library injection for Win32&#10;- disabled win32 based features" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -955,12 +960,12 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="python-line">
           <url>file://$PROJECT_DIR$/server.py</url>
-          <line>118</line>
+          <line>120</line>
           <option name="timeStamp" value="288" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="python-line">
           <url>file://$PROJECT_DIR$/server.py</url>
-          <line>119</line>
+          <line>121</line>
           <option name="timeStamp" value="289" />
         </line-breakpoint>
       </breakpoints>
@@ -1364,8 +1369,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/server.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3938585">
-          <caret line="90" column="38" selection-start-line="90" selection-start-column="38" selection-end-line="90" selection-end-column="38" />
+        <state vertical-scroll-proportion="0.4552737">
+          <caret line="92" column="41" selection-start-line="92" selection-start-column="41" selection-end-line="92" selection-end-column="41" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
           </folding>

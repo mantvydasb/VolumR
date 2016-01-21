@@ -90,9 +90,11 @@ class Server:
 
         if newVolume / MAX_VOLUME < 1:
             if self.isThisLinux:
+                # change volume in linux;
                 newVolume = int(newVolume)
                 command = "amixer sset 'Master' " + str(message) + "%"
             else:
+                # change volume in windows;
                 command = NIRCMD_EXE_PATH + " setvolume 0 " + str(newVolume) + " " + str(newVolume)
             subprocess.Popen(command, shell=True)
 
