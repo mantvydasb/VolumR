@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="0cd6b306-6057-41c5-9f39-f264444a5bdd" name="Default" comment="housekeping">
+    <list default="true" id="0cd6b306-6057-41c5-9f39-f264444a5bdd" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ip_retriever.py" afterPath="$PROJECT_DIR$/ip_retriever.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server.py" afterPath="$PROJECT_DIR$/server.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/volumr.py" afterPath="$PROJECT_DIR$/volumr.py" />
     </list>
     <ignored path="Server.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -38,11 +36,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="server.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="server.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/server.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="98" column="35" selection-start-line="98" selection-start-column="35" selection-end-line="98" selection-end-column="35" />
+            <state vertical-scroll-proportion="0.71865445">
+              <caret line="130" column="35" selection-start-line="130" selection-start-column="35" selection-end-line="130" selection-end-column="35" />
               <folding />
             </state>
           </provider>
@@ -68,11 +66,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="volumr.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="volumr.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/volumr.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.21100917">
-              <caret line="9" column="37" selection-start-line="9" selection-start-column="37" selection-end-line="9" selection-end-column="37" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="10" column="51" selection-start-line="10" selection-start-column="51" selection-end-line="10" selection-end-column="51" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
               </folding>
@@ -129,10 +127,10 @@
         <option value="$PROJECT_DIR$/dist/scheduled-task" />
         <option value="$PROJECT_DIR$/installation.py" />
         <option value="$PROJECT_DIR$/utils.py" />
-        <option value="$PROJECT_DIR$/server.py" />
         <option value="$PROJECT_DIR$/settings.ini" />
         <option value="$PROJECT_DIR$/ip_retriever.py" />
         <option value="$PROJECT_DIR$/volumr.py" />
+        <option value="$PROJECT_DIR$/server.py" />
       </list>
     </option>
   </component>
@@ -706,7 +704,13 @@
       <option name="project" value="LOCAL" />
       <updated>1453335212408</updated>
     </task>
-    <option name="localTasksCounter" value="41" />
+    <task id="LOCAL-00041" summary="added getIPAddress for Linux">
+      <created>1453417571119</created>
+      <option name="number" value="00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1453417571119</updated>
+    </task>
+    <option name="localTasksCounter" value="42" />
     <servers />
   </component>
   <component name="TodoView">
@@ -722,8 +726,10 @@
     <frame x="0" y="27" width="2560" height="1413" extended-state="6" />
     <editor active="true" />
     <layout>
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32320872" sideWeight="0.4969419" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32893717" sideWeight="0.4885321" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32866043" sideWeight="0.4885321" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32533973" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.31823552" sideWeight="0.4777563" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3504673" sideWeight="0.4915902" order="3" side_tool="false" content_ui="tabs" />
@@ -734,9 +740,7 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3277378" sideWeight="0.4946483" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32533973" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -777,7 +781,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="implemented new commands for changing volume" />
     <MESSAGE value="implemented &quot;play/pause&quot;" />
     <MESSAGE value="- added logic to parse out the received commands&#10;- cleaned up the command processing&#10;- moved out value converter to a separate file" />
     <MESSAGE value="fixed method signature" />
@@ -802,7 +805,8 @@
     <MESSAGE value="- cleaned up scheduled task script creation&#10;- renamed converter file to utils&#10;- implemented isThisLinux function" />
     <MESSAGE value="- started rerouting commands based on the OS&#10;- implemented dynamic library injection for Win32&#10;- disabled win32 based features" />
     <MESSAGE value="housekeping" />
-    <option name="LAST_COMMIT_MESSAGE" value="housekeping" />
+    <MESSAGE value="added getIPAddress for Linux" />
+    <option name="LAST_COMMIT_MESSAGE" value="added getIPAddress for Linux" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -988,16 +992,6 @@
           <option name="timeStamp" value="285" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="python-line">
-          <url>file://$PROJECT_DIR$/server.py</url>
-          <line>120</line>
-          <option name="timeStamp" value="288" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="python-line">
-          <url>file://$PROJECT_DIR$/server.py</url>
-          <line>121</line>
-          <option name="timeStamp" value="289" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="python-line">
           <url>file://$PROJECT_DIR$/ip_retriever.py</url>
           <line>16</line>
           <option name="timeStamp" value="291" />
@@ -1022,6 +1016,11 @@
           <line>36</line>
           <option name="timeStamp" value="295" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="python-line">
+          <url>file://$PROJECT_DIR$/server.py</url>
+          <line>76</line>
+          <option name="timeStamp" value="297" />
+        </line-breakpoint>
       </breakpoints>
       <default-breakpoints>
         <breakpoint type="python-exception">
@@ -1030,7 +1029,7 @@
           </properties>
         </breakpoint>
       </default-breakpoints>
-      <option name="time" value="297" />
+      <option name="time" value="303" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -1364,7 +1363,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/uninstall.py">
+    <entry file="file://$PROJECT_DIR$/settings.ini">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -1372,7 +1371,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/settings.ini">
+    <entry file="file://$PROJECT_DIR$/volumr.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="10" column="51" selection-start-line="10" selection-start-column="51" selection-end-line="10" selection-end-column="51" />
+          <folding>
+            <element signature="e#0#13#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/uninstall.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -1392,19 +1401,9 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/server.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="98" column="35" selection-start-line="98" selection-start-column="35" selection-end-line="98" selection-end-column="35" />
+        <state vertical-scroll-proportion="0.71865445">
+          <caret line="130" column="35" selection-start-line="130" selection-start-column="35" selection-end-line="130" selection-end-column="35" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/volumr.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.21100917">
-          <caret line="9" column="37" selection-start-line="9" selection-start-column="37" selection-end-line="9" selection-end-column="37" />
-          <folding>
-            <element signature="e#0#13#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>

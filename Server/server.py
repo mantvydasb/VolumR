@@ -15,6 +15,9 @@ RESTARTING_SERVER = "Client disconnected, restarting server.."
 KEY = "server.key"
 CERTIFICATE = "server.crt"
 NIRCMD_EXE_PATH = config.NIRCMD_EXE_PATH
+RIGHT = "Right"
+LEFT = "Left"
+
 
 class Server:
     host = None
@@ -102,14 +105,10 @@ class Server:
         win32api, win32con = utils.importWin32libraries()
 
     def pressRight(self):
-        if self.isThisLinux:
-            # do linux equivalent of press right;
-            self.pressVirtualKey(win32con.VK_RIGHT)
-        # win32api.keybd_event(win32con.VK_RIGHT, 0, 0, 0)
+        self.pressVirtualKey(RIGHT)
 
     def pressLeft(self):
-        self.pressVirtualKey(win32con.VK_LEFT)
-        # win32api.keybd_event(win32con.VK_LEFT, 0, 0, 0)
+        self.pressVirtualKey(LEFT)
 
     def pressSpace(self):
         self.pressVirtualKey(win32con.VK_SPACE)
@@ -121,8 +120,17 @@ class Server:
         if not secureClientSocket._closed:
             self.__init__(self.ip, self.isThisLinux)
 
-    def pressVirtualKey(self, VirtualKey):
-        win32api.keybd_event(VirtualKey, 0, 0, 0)
-
+    def pressVirtualKey(self, virtualKey):
+        if self.isThisLinux:
+            command = 'xdotool key '
+            if virtualKey == RIGHT:
+                subprocess.call(command + RIGHT, shell=True)
+            if virtualKey == LEFT:
+                subprocess.call(command + LEFT, shell=True)
+        else:
+            if virtualKey == RIGHT:
+                win32api.keybd_event(win32con.VK_RIGHT, 0, 0, 0)
+            if virtualKey == LEFT:
+                win32api.keybd_event(win32con.VK_LEFT, 0, 0, 0)
 
 # todo move out commands to a separate file
