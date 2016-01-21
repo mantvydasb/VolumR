@@ -124,3 +124,5 @@ class Server:
     def pressVirtualKey(self, VirtualKey):
         win32api.keybd_event(VirtualKey, 0, 0, 0)
 
+
+# todo move out commands to a separate file

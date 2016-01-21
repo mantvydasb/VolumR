@@ -6,9 +6,6 @@ import utils
 __author__ = 'mantvydas'
 
 isThisLinux = utils.isThisLinux()
-# serverIP = ip_retriever.getIPAddress()
-serverIP = "192.168.2.2"
+serverIP = ip_retriever.getIPAddress()
 # installation.finaliseInstallation()
 volumrServer = server.Server(serverIP, isThisLinux)
-
-#

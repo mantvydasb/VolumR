@@ -1,9 +1,9 @@
 import subprocess
+import utils
 
 __author__ = 'mantvydas'
 SEARCH_STRING = "IPv4 Address. . . . . . . . . . . : "
 PATH_SETTINGS_FILE = "settings.ini"
-
 
 def getIPAddress():
     """
@@ -11,10 +11,8 @@ def getIPAddress():
     with a list of IPs associated with this PC and asks him to select the one he's planning on running the server on;
     :returns string IPAddress the server will be running on;
     """
-
     serverIp = readServerIPfromFile()
     if not serverIp:
-
         output = getIPConfigOutput()
         IPAddresses = extractIPAdresses(output)
         presentIPAddresses(IPAddresses)
@@ -28,17 +26,24 @@ def getIPAddress():
 
 
 def getIPConfigOutput():
-    return subprocess.check_output("ipconfig /all")
+    try:
+        return subprocess.check_output("ipconfig /all")
+    except:
+        pass
 
 
 def extractIPAdresses(output):
-    IPAddressesRaw = output.split(SEARCH_STRING.encode("utf8"), 10)
-    IPAddresses = []
+    if utils.isThisLinux():
+        IPAddresses = subprocess.check_output("ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1'", shell=True)
+        IPAddresses = IPAddresses.decode('utf8').split()
+    else:
+        # assuming this is windows machine then
+        IPAddressesRaw = output.split(SEARCH_STRING.encode("utf8"), 10)
+        IPAddresses = []
 
-    for item in IPAddressesRaw[1:IPAddressesRaw.__sizeof__()]:
-        IPAddressesRaw = item.split("(".encode("utf8"), 1)[0]
-        IPAddresses.append(str(IPAddressesRaw, "utf8"))
-
+        for item in IPAddressesRaw[1:IPAddressesRaw.__sizeof__()]:
+            IPAddressesRaw = item.split("(".encode("utf8"), 1)[0]
+            IPAddresses.append(str(IPAddressesRaw, "utf8"))
     return IPAddresses
 
 
@@ -56,7 +61,6 @@ def getIPIndex(IPAddresses):
 
     try:
         index = int(input())
-
         if index >= 0 and index <= IPAddresses.__len__():
             print("You chose: " + IPAddresses[index])
             return index
