@@ -1,0 +1,7 @@
+[Desktop Entry]
+Name=VolumR server
+Exec=/mnt/HDD1.2/Dev/Android/VolumR/Server/autorun.bash
+StartupNotify=true
+Terminal=true
+Type=Application
+Icon=/mnt/HDD1.2/Installs/Dev/Android/android-studio-lnx/android-studio/bin/studio.ico
