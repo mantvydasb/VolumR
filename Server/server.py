@@ -40,6 +40,7 @@ class Server:
     def startServer(self):
         # try:
         self.serverSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM, 0)
+        self.serverSocket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         self.serverSocket.bind((self.ip, PORT))
         self.serverSocket.listen(5)
         print("Server started on " + self.ip + ":" + str(PORT) + " and listening")
@@ -73,13 +74,10 @@ class Server:
     def executeCommand(self, command, value):
         if command == "volume":
             self.changeVolume(value)
-
         elif command == "right":
             self.pressRight()
-
         elif command == "left":
             self.pressLeft()
-
         elif command == "space":
             self.pressSpace()
 
@@ -117,7 +115,7 @@ class Server:
     def restartServer(self, secureClientSocket):
         print(RESTARTING_SERVER)
         secureClientSocket.close()
-        if not secureClientSocket._closed:
+        if secureClientSocket._closed:
             self.__init__(self.ip, self.isThisLinux)
 
     def pressVirtualKey(self, virtualKey):
