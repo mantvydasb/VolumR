@@ -17,6 +17,7 @@ CERTIFICATE = "server.crt"
 NIRCMD_EXE_PATH = config.NIRCMD_EXE_PATH
 RIGHT = "Right"
 LEFT = "Left"
+SPACE = "space"
 
 
 class Server:
@@ -111,8 +112,7 @@ class Server:
         self.pressVirtualKey(LEFT)
 
     def pressSpace(self):
-        self.pressVirtualKey(win32con.VK_SPACE)
-        # win32api.keybd_event(win32con.VK_SPACE, 0, 0, 0)
+        self.pressVirtualKey(SPACE)
 
     def restartServer(self, secureClientSocket):
         print(RESTARTING_SERVER)
@@ -127,10 +127,14 @@ class Server:
                 subprocess.call(command + RIGHT, shell=True)
             if virtualKey == LEFT:
                 subprocess.call(command + LEFT, shell=True)
+            if virtualKey == SPACE:
+                subprocess.call(command + SPACE, shell=True)
         else:
             if virtualKey == RIGHT:
                 win32api.keybd_event(win32con.VK_RIGHT, 0, 0, 0)
             if virtualKey == LEFT:
                 win32api.keybd_event(win32con.VK_LEFT, 0, 0, 0)
+            if virtualKey == SPACE:
+                win32api.keybd_event(win32con.VK_SPACE, 0, 0, 0)
 
 # todo move out commands to a separate file
