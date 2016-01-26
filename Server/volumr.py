@@ -1,6 +1,6 @@
 import server
 import ip_retriever
-# import installation
+# import installation_win
 import utils
 
 __author__ = 'mantvydas'
