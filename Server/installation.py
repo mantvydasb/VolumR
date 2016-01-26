@@ -1,16 +1,25 @@
-import win32api
 import config
 import os
 import subprocess
 import shutil
-import getpass
+
+def getWindowsRectory():
+    winApi = __import__("win32api");
+    return winApi.GetWindowsDirectory()
 
 APP_NAME = config.APP_NAME
 HOME_PATH = os.path.curdir
 VOLUMR_EXE_PATH = os.path.abspath(APP_NAME + ".exe")
-WIN_DIR_PATH = win32api.GetWindowsDirectory()
+WIN_DIR_PATH = ''
 NIRCMD_EXE_PATH = config.NIRCMD_EXE_PATH
 SCHEDULED_TASK_PATH = "scheduled-task"
+
+def finaliseInstallation(isThisLinux):
+    if not isThisLinux:
+        getWindowsRectory()
+        createSilentLauncherScript()
+        copyNircmdToWindowsDirectory()
+        createScheduledTask()
 
 def createSilentLauncherScript():
     """
@@ -37,11 +46,6 @@ def createScriptFile(fileName, script, mode="w+"):
     launcherFile = open(fileName, mode=mode);
     launcherFile.write(script)
     launcherFile.close()
-
-def finaliseInstallation():
-    createSilentLauncherScript()
-    copyNircmdToWindowsDirectory()
-    createScheduledTask()
 
 def createScheduledTask():
     securityId = subprocess.check_output("wmic sysaccount where name='system' get sid").decode("utf8")
