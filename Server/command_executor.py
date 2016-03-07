@@ -3,7 +3,6 @@ import config
 import subprocess
 
 MAX_VOLUME = 65535
-
 NIRCMD_EXE_PATH = config.NIRCMD_EXE_PATH
 RIGHT = "Right"
 LEFT = "Left"
@@ -71,4 +70,3 @@ class CommandExecutor():
                 win32api.keybd_event(win32con.VK_LEFT, 0, 0, 0)
             if virtualKey == SPACE:
                 win32api.keybd_event(win32con.VK_SPACE, 0, 0, 0)
-
